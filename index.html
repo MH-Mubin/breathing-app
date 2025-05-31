@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Breathing Practice</title>
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="icon" href="favicon.ico" />
+  </head>
+  <body>
+    <header>
+      <h1>Breathing Practice</h1>
+      <p>Select a session time and follow the rhythm.</p>
+    </header>
+
+    <!-- Timer Selection Buttons -->
+    <section id="timer-buttons">
+      <button data-minutes="2">2 Min</button>
+      <button data-minutes="5">5 Min</button>
+      <button data-minutes="10">10 Min</button>
+    </section>
+
+    <!-- Breathing Animation -->
+    <section id="breathing-visual">
+      <div id="circle"></div>
+      <p id="breath-phase">Ready?</p>
+    </section>
+
+    <!-- Progress and Controls -->
+    <section id="session-controls">
+      <progress id="progress-bar" value="0" max="100"></progress>
+      <div class="buttons">
+        <button id="pause-btn">Pause</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+      <p id="session-status">No session running</p>
+    </section>
+
+    <!-- Streak Display -->
+    <section id="streak-info">
+      <p><strong>Daily Streak:</strong> <span id="streak-count">0</span> 🔥</p>
+    </section>
+
+    <!-- Brain Benefits Feedback -->
+    <section id="brain-effects">
+      <h2>Today's Benefit</h2>
+      <p id="benefit-text">
+        Complete a session to see how your brain improves!
+      </p>
+      <img id="brain-image" src="assets/images/brain.png" alt="Brain" />
+    </section>
+
+    <script src="script/main.js"></script>
+  </body>
+</html>
