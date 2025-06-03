@@ -1,0 +1,25 @@
+@keyframes gradient {
+  /* Define keyframe animation for gradient background */
+  0% {
+    background-position: 0% 50%;
+  } /* Start position of gradient */
+  50% {
+    background-position: 100% 50%;
+  } /* Middle position for smooth transition */
+  100% {
+    background-position: 0% 50%;
+  } /* End position, looping back */
+}
+
+.animate-gradient {
+  /* Class for animated gradient background */
+  background: linear-gradient(
+    45deg,
+    #bfdbfe,
+    #e9d5ff,
+    #a5b4fc,
+    #c3e8ff
+  ); /* Gradient colors for calming effect */
+  background-size: 400% 400%; /* Large background size for smooth animation */
+  animation: gradient 15s ease infinite; /* Apply gradient animation, 15s duration, infinite loop */
+}

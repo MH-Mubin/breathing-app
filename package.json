@@ -1,0 +1,13 @@
+{
+  "name": "breathing-app",
+  "version": "1.0.0",
+  "description": "A single-page website for practicing rhythmic breathing with animations and sound effects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server public -p 8080"
+  },
+  "keywords": [],
+  "author": "Mahmud Hasan Mubin",
+  "license": "ISC"
+}
