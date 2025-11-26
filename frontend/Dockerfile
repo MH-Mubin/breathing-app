@@ -11,6 +11,12 @@ RUN npm install
 # Copy application files
 COPY . .
 
+# Set proper permissions
+RUN chown -R node:node /app
+
+# Switch to node user
+USER node
+
 # Expose Vite dev server port
 EXPOSE 5174
 
