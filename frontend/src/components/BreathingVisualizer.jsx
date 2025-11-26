@@ -8,6 +8,7 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 	const [cycle, setCycle] = useState(0);
 	const [remaining, setRemaining] = useState(0);
 	const requestRef = useRef();
+	const pausedStateRef = useRef({ phase: 'idle', progress: 0, phaseIdx: 0, cycleNum: 1 }); // Store paused state
 
 	useEffect(() => {
 		let mounted = true;
@@ -20,18 +21,16 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 
 		function runVisualizer() {
 			if (!running) {
-				setPhase('idle');
-				setProgress(0);
-				setCycle(0);
-				setRemaining(totalCycles * (pattern.inhale + pattern.hold + pattern.exhale));
-				if (onCycle) onCycle(0);
-				if (onRemaining) onRemaining(totalCycles * (pattern.inhale + pattern.hold + pattern.exhale));
+				// Don't reset - keep current position when paused
 				return;
 			}
-			let phaseIdx = 0;
-			let cycleNum = 1;
+			
+			// Resume from paused state
+			let phaseIdx = pausedStateRef.current.phaseIdx || 0;
+			let cycleNum = pausedStateRef.current.cycleNum || 1;
+			let resumeProgress = pausedStateRef.current.progress || 0;
 
-			function nextPhase() {
+			function nextPhase(skipToResume = false) {
 				if (!mounted) return;
 				if (cycleNum > totalCycles) {
 					setPhase('done');
@@ -44,15 +43,18 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 				}
 				let p = phaseOrder[phaseIdx];
 				setPhase(p.name);
-				let phaseStart = Date.now();
+				
+				// Calculate start time considering resume progress
 				let phaseDuration = p.time * 1000;
-				let phaseProgress = 0;
+				let phaseStart = Date.now() - (skipToResume ? resumeProgress * phaseDuration : 0);
+				let phaseProgress = skipToResume ? resumeProgress : 0;
 
 				function animate() {
-					if (!mounted) return;
+					if (!mounted || !running) return; // Stop animating when paused
 					let elapsed = Date.now() - phaseStart;
 					phaseProgress = Math.min(1, elapsed / phaseDuration);
 					setProgress(phaseProgress);
+					pausedStateRef.current = { phase: p.name, progress: phaseProgress, phaseIdx, cycleNum }; // Save state
 					setCycle(cycleNum);
 					let rem = (totalCycles - cycleNum) * (pattern.inhale + pattern.hold + pattern.exhale) + (p.time - elapsed/1000);
 					setRemaining(Math.max(0, Math.round(rem)));
@@ -71,7 +73,7 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 				}
 				animate();
 			}
-			nextPhase();
+			nextPhase(true); // Start with resume flag
 		}
 
 		runVisualizer();
@@ -82,65 +84,97 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 	}, [running, pattern, onCycle, onRemaining]);
 
 	// Ball position logic for segmented path
-	// Path: start at left, go up at 60deg (inhale), straight (hold), down at -60deg (exhale)
-	// SVG coordinates: left (x0,y0), up (x1,y1), straight (x2,y2), down (x3,y3)
-	const width = 440, height = 160;
-	const x0 = 60, y0 = 120;
-	const segment = 120;
-	// 60deg up: dx=segment*cos(60deg)=50, dy=-segment*sin(60deg)= -86.6
-	const x1 = x0 + segment * Math.cos(Math.PI/3), y1 = y0 - segment * Math.sin(Math.PI/3);
-	// straight: dx=segment, dy=0
-	const x2 = x1 + segment, y2 = y1;
-	// 60deg down: dx=segment*cos(60deg)=50, dy=segment*sin(60deg)=86.6
-	const x3 = x2 + segment * Math.cos(Math.PI/3), y3 = y2 + segment * Math.sin(Math.PI/3);
+	// Path: left leg up, top straight line (hold), right leg down
+	// SVG coordinates: centered shape with flat top - tight viewBox
+	const viewWidth = 500, viewHeight = 250;
+	const centerX = viewWidth / 2; // Center horizontally
+	const bottomY = 235; // Bottom position (near edge)
+	const topY = 15; // Top position (near edge)
+	const legWidth = 240; // Width of each leg from center
+	const topWidth = 170; // Width of flat top section
+	
+	// Left leg bottom, left top, right top, right leg bottom
+	const x0 = centerX - legWidth, y0 = bottomY; // Left bottom
+	const x1 = centerX - topWidth/2, y1 = topY; // Left top
+	const x2 = centerX + topWidth/2, y2 = topY; // Right top
+	const x3 = centerX + legWidth, y3 = bottomY; // Right bottom
 
-	// Ball position by phase (centered on the line)
-	const ballRadius = 22;
-	let ballX = x0, ballY = y0;
-	let totalProgress = 0;
-	// Calculate total progress (0 to 1) through the whole path
+	// Calculate animation offset based on phase and progress
+	// The shape moves left continuously with seamless looping
+	const totalCycleWidth = viewWidth; // One complete cycle moves exactly one viewWidth
+	
+	// Calculate total progress through one complete breathing cycle (0 to 1)
+	const totalPhaseDuration = pattern.inhale + pattern.hold + pattern.exhale;
+	let cycleProgress = 0;
+	
 	if (phase === 'inhale') {
-		totalProgress = (cycle-1 + progress) / (8);
-		ballX = x0 + (x1-x0)*progress;
-		ballY = y0 + (y1-y0)*progress;
+		cycleProgress = (progress * pattern.inhale) / totalPhaseDuration;
 	} else if (phase === 'hold') {
-		totalProgress = (cycle-1 + 1 + progress) / (8);
-		ballX = x1 + (x2-x1)*progress;
-		ballY = y1;
+		cycleProgress = (pattern.inhale + progress * pattern.hold) / totalPhaseDuration;
 	} else if (phase === 'exhale') {
-		totalProgress = (cycle-1 + 2 + progress) / (8);
-		ballX = x2 + (x3-x2)*progress;
-		ballY = y2 + (y3-y2)*progress;
-	} else {
-		totalProgress = 0;
+		cycleProgress = (pattern.inhale + pattern.hold + progress * pattern.exhale) / totalPhaseDuration;
 	}
+	
+	// Move one full viewWidth per cycle for seamless loop
+	// This keeps the position even when paused (doesn't reset to 0)
+	const animationOffset = cycleProgress * totalCycleWidth;
 
-	const getPhaseColor = () => {
-		if (phase === 'inhale') return 'linear-gradient(180deg, #ffd5b8, #ffb07a)';
-		if (phase === 'hold') return 'linear-gradient(180deg, #ffe7b8, #ffbf6a)';
-		if (phase === 'exhale') return 'linear-gradient(180deg, #ffb07a, #ff7a1f)';
-		return 'linear-gradient(180deg, #f0f0f0, #e7e7e7)';
-	};
-
-	// Path for static segmented line
+	// Path with 4 points: left leg up, flat top, right leg down
 	const pathD = `M ${x0} ${y0} L ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3}`;
 
 	return (
 		<div className="w-full flex flex-col items-center justify-center session-visualizer">
-			<div className="relative w-full h-48 flex items-center justify-center mb-8">
-				<svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{width:'100%',height:'160px',zIndex:1}}>
-					{/* Static segmented line */}
-					<path d={pathD} stroke="#ff6a00" strokeWidth="22" strokeLinecap="round" fill="none" />
-					{/* Ball (centered on line) */}
-					<circle cx={ballX} cy={ballY} r={ballRadius} fill="#fff" stroke="#ff8a1f" strokeWidth={5} filter="url(#shadow)" style={{zIndex:2}} />
-					<defs>
-						<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-							<feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#ffb07a" floodOpacity="0.22" />
-						</filter>
-					</defs>
-				</svg>
-				{/* Phase label */}
-				<div className="absolute left-1/2 top-2/3 -translate-x-1/2 visualizer-label" style={{marginTop:'8px',zIndex:2}}>
+			<div className="flex flex-col items-center justify-center mb-8 mt-12">
+				{/* Bordered container with overflow hidden for flowing effect */}
+				<div 
+					className="relative border-2 border-orange-300 rounded-lg" 
+					style={{
+						width: viewWidth, 
+						height: viewHeight, 
+						padding: 0,
+						overflow: 'hidden'
+					}}
+				>
+					<svg 
+						width={viewWidth * 3} 
+						height={viewHeight} 
+						viewBox={`0 0 ${viewWidth * 3} ${viewHeight}`} 
+						style={{
+							display: 'block',
+							transform: `translateX(-${animationOffset % viewWidth}px)`,
+							willChange: 'transform'
+						}}
+					>
+						{/* First instance of shape */}
+						<path d={pathD} stroke="#ff6a00" strokeWidth="22" strokeLinecap="round" fill="none" />
+						
+						{/* Second instance (for seamless loop) - offset by shape width */}
+						<path 
+							d={`M ${x0 + viewWidth} ${y0} L ${x1 + viewWidth} ${y1} L ${x2 + viewWidth} ${y2} L ${x3 + viewWidth} ${y3}`} 
+							stroke="#ff6a00" 
+							strokeWidth="22" 
+							strokeLinecap="round" 
+							fill="none" 
+						/>
+						
+						{/* Third instance (for seamless loop) */}
+						<path 
+							d={`M ${x0 + viewWidth * 2} ${y0} L ${x1 + viewWidth * 2} ${y1} L ${x2 + viewWidth * 2} ${y2} L ${x3 + viewWidth * 2} ${y3}`} 
+							stroke="#ff6a00" 
+							strokeWidth="22" 
+							strokeLinecap="round" 
+							fill="none" 
+						/>
+						
+						<defs>
+							<filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+								<feDropShadow dx="0" dy="8" stdDeviation="8" floodColor="#ffb07a" floodOpacity="0.22" />
+							</filter>
+						</defs>
+					</svg>
+				</div>
+				{/* Phase label - outside the bordered div */}
+				<div className="text-xl font-semibold text-orange-600 mt-4 text-center">
 					{phase==='idle'?'Ready':phase==='done'?'Done':phase.charAt(0).toUpperCase()+phase.slice(1)}
 				</div>
 			</div>
