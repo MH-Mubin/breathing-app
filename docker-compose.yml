@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    container_name: breathing-app-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASS=${EMAIL_PASS}
+      - PORT=5000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    networks:
+      - breathing-app-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: breathing-app-frontend
+    ports:
+      - "5174:5174"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    networks:
+      - breathing-app-network
+    restart: unless-stopped
+
+networks:
+  breathing-app-network:
+    driver: bridge
