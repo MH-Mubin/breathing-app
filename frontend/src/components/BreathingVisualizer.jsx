@@ -94,10 +94,15 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 	const topWidth = 170; // Width of flat top section
 	
 	// Left leg bottom, left top, right top, right leg bottom
-	const x0 = centerX - legWidth, y0 = bottomY; // Left bottom
 	const x1 = centerX - topWidth/2, y1 = topY; // Left top
 	const x2 = centerX + topWidth/2, y2 = topY; // Right top
-	const x3 = centerX + legWidth, y3 = bottomY; // Right bottom
+	const x3 = centerX + legWidth, y3 = bottomY; // Right leg bottom
+	const x0 = centerX - legWidth, y0 = bottomY; // Left leg bottom
+	
+	// Add horizontal straight lines extending outward from both leg bottoms
+	const horizontalExtension = 20; // Length of horizontal lines
+	const x0Left = x0 - horizontalExtension; // Left line extends left (outward)
+	const x3Right = x3 + horizontalExtension; // Right line extends right (outward)
 
 	// Calculate animation offset based on phase and progress
 	// The shape moves left continuously with seamless looping
@@ -119,8 +124,8 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 	// This keeps the position even when paused (doesn't reset to 0)
 	const animationOffset = cycleProgress * totalCycleWidth;
 
-	// Path with 4 points: left leg up, flat top, right leg down
-	const pathD = `M ${x0} ${y0} L ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3}`;
+	// Path: Start from far left, go to left leg bottom, up to left top, across top, down to right leg bottom, extend right
+	const pathD = `M ${x0Left} ${y0} L ${x0} ${y0} L ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3} L ${x3Right} ${y3}`;
 
 	return (
 		<div className="w-full flex flex-col items-center justify-center session-visualizer">
@@ -146,23 +151,25 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 						}}
 					>
 						{/* First instance of shape */}
-						<path d={pathD} stroke="#ff6a00" strokeWidth="22" strokeLinecap="round" fill="none" />
+						<path d={pathD} stroke="#ff6a00" strokeWidth="22" strokeLinecap="round" strokeLinejoin="round" fill="none" />
 						
 						{/* Second instance (for seamless loop) - offset by shape width */}
 						<path 
-							d={`M ${x0 + viewWidth} ${y0} L ${x1 + viewWidth} ${y1} L ${x2 + viewWidth} ${y2} L ${x3 + viewWidth} ${y3}`} 
+							d={`M ${x0Left + viewWidth} ${y0} L ${x0 + viewWidth} ${y0} L ${x1 + viewWidth} ${y1} L ${x2 + viewWidth} ${y2} L ${x3 + viewWidth} ${y3} L ${x3Right + viewWidth} ${y3}`} 
 							stroke="#ff6a00" 
 							strokeWidth="22" 
 							strokeLinecap="round" 
+							strokeLinejoin="round"
 							fill="none" 
 						/>
 						
 						{/* Third instance (for seamless loop) */}
 						<path 
-							d={`M ${x0 + viewWidth * 2} ${y0} L ${x1 + viewWidth * 2} ${y1} L ${x2 + viewWidth * 2} ${y2} L ${x3 + viewWidth * 2} ${y3}`} 
+							d={`M ${x0Left + viewWidth * 2} ${y0} L ${x0 + viewWidth * 2} ${y0} L ${x1 + viewWidth * 2} ${y1} L ${x2 + viewWidth * 2} ${y2} L ${x3 + viewWidth * 2} ${y3} L ${x3Right + viewWidth * 2} ${y3}`} 
 							stroke="#ff6a00" 
 							strokeWidth="22" 
 							strokeLinecap="round" 
+							strokeLinejoin="round"
 							fill="none" 
 						/>
 						
