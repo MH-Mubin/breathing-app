@@ -127,6 +127,44 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 	// Path: Start from far left, go to left leg bottom, up to left top, across top, down to right leg bottom, extend right
 	const pathD = `M ${x0Left} ${y0} L ${x0} ${y0} L ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3} L ${x3Right} ${y3}`;
 
+	// Calculate circle Y position based on where the line is at center X
+	// The shape repeats every viewWidth, so we work with positions relative to one shape cycle
+	const offset = animationOffset % viewWidth;
+	
+	// Calculate the X position in the "virtual" coordinate space where the shape at centerX is located
+	// Since the shape moves left, we need to find the local X within the shape that's currently at centerX
+	const localX = (centerX + offset) % viewWidth;
+	
+	// Now determine Y based on which segment localX falls into
+	let circleY;
+	
+	// Calculate total shape width for normalization
+	const leftHorizEnd = x0Left + horizontalExtension; // End of left horizontal = x0
+	const leftDiagEnd = x0 + (x1 - x0); // End of left diagonal = x1
+	const topEnd = x1 + (x2 - x1); // End of top = x2
+	const rightDiagEnd = x2 + (x3 - x2); // End of right diagonal = x3
+	const rightHorizEnd = x3 + horizontalExtension; // End of right horizontal = x3Right
+	
+	// Check which segment localX is in
+	if (localX <= x0) {
+		// Left horizontal segment
+		circleY = y0;
+	} else if (localX <= x1) {
+		// Left diagonal (going up from y0 to y1)
+		const segmentProgress = (localX - x0) / (x1 - x0);
+		circleY = y0 + (y1 - y0) * segmentProgress;
+	} else if (localX <= x2) {
+		// Top flat segment
+		circleY = y1;
+	} else if (localX <= x3) {
+		// Right diagonal (going down from y2 to y3)
+		const segmentProgress = (localX - x2) / (x3 - x2);
+		circleY = y2 + (y3 - y2) * segmentProgress;
+	} else {
+		// Right horizontal segment
+		circleY = y3;
+	}
+
 	return (
 		<div className="w-full flex flex-col items-center justify-center session-visualizer">
 			<div className="flex flex-col items-center justify-center mb-8 mt-12">
@@ -179,6 +217,23 @@ export default function BreathingVisualizer({ pattern, running, onCycle, onRemai
 							</filter>
 						</defs>
 					</svg>
+					
+					{/* Circle that stays horizontally centered but moves vertically with the line */}
+					<div 
+						style={{
+							position: 'absolute',
+							left: '50%',
+							top: `${circleY}px`,
+							transform: 'translate(-50%, -50%)',
+							width: '50px',
+							height: '50px',
+							borderRadius: '50%',
+							backgroundColor: '#ff6a00',
+							boxShadow: '0 6px 20px rgba(255, 106, 0, 0.6)',
+							border: '3px solid #fff',
+							zIndex: 10
+						}}
+					/>
 				</div>
 				{/* Phase label - outside the bordered div */}
 				<div className="text-xl font-semibold text-orange-600 mt-4 text-center">
