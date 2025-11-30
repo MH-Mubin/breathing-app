@@ -1,13 +1,13 @@
-import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
 import connectDB from './config/db.js';
 
 import authRoutes from './routes/auth.js';
-import userRoutes from './routes/user.js';
-import sessionRoutes from './routes/session.js';
 import patternRoutes from './routes/pattern.js';
 import reminderRoutes from './routes/reminder.js';
+import sessionRoutes from './routes/session.js';
+import userRoutes from './routes/user.js';
 
 dotenv.config();
 

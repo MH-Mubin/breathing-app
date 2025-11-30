@@ -192,39 +192,12 @@ export default function BreathingSession() {
               </button>
             )}
             <button
-              className="btn-outline reset-btn px-6 py-2 flex items-center gap-2"
+              className="btn-outline reset-btn px-6 py-2 flex items-center justify-center"
               onClick={handleReset}
               aria-label="Reset session"
             >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12 6v6l4 2"
-                  stroke="#ff8a1f"
-                  strokeWidth={8}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>{" "}
               Reset
             </button>
-          </div>
-          <div className="w-full mt-8">
-            <div className="progress-track">
-              <div
-                className="progress-fill"
-                style={{
-                  width: `${
-                    (100 * (duration * 60 - remaining)) / (duration * 60)
-                  }%`,
-                }}
-              />
-            </div>
           </div>
         </div>
       </section>

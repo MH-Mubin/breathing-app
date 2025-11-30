@@ -1,6 +1,6 @@
 import express from 'express';
-import Pattern from '../models/Pattern.js';
 import { protect } from '../middleware/auth.js';
+import Pattern from '../models/Pattern.js';
 
 const router = express.Router();
 

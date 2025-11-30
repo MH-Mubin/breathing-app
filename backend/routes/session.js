@@ -1,7 +1,7 @@
 import express from 'express';
+import { protect } from '../middleware/auth.js';
 import Session from '../models/Session.js';
 import User from '../models/User.js';
-import { protect } from '../middleware/auth.js';
 
 const router = express.Router();
 

@@ -1,6 +1,6 @@
 import express from 'express';
-import Reminder from '../models/Reminder.js';
 import { protect } from '../middleware/auth.js';
+import Reminder from '../models/Reminder.js';
 
 const router = express.Router();
 

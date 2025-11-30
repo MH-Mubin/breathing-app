@@ -1,7 +1,7 @@
 import cron from 'node-cron';
+import nodemailer from 'nodemailer';
 import Reminder from '../models/Reminder.js';
 import User from '../models/User.js';
-import nodemailer from 'nodemailer';
 
 export const startReminders = () => {
 	// Run every minute and check reminders (simple check)

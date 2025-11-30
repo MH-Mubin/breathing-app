@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
 const achievementSchema = new mongoose.Schema({
 	name: { type: String, required: true },
