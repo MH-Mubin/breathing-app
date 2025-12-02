@@ -1,8 +1,8 @@
 import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  Routes,
+    Navigate,
+    Route,
+    BrowserRouter as Router,
+    Routes,
 } from "react-router-dom";
 import BreathingSession from "./components/BreathingSession";
 import Dashboard from "./components/Dashboard";

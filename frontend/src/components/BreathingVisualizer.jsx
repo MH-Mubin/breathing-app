@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Ball animates along three lines: up (inhale, 60deg), straight (hold), down (exhale, -60deg)
 export default function BreathingVisualizer({
@@ -101,91 +101,96 @@ export default function BreathingVisualizer({
     };
   }, [running, pattern, onCycle, onRemaining]);
 
-  // Ball position logic for segmented path
-  // Path: left leg up, top straight line (hold), right leg down
-  // SVG coordinates: centered shape with flat top - tight viewBox
-  const viewWidth = 700,
-    viewHeight = 260;
-  const centerX = viewWidth / 2; // Center horizontally
-  const bottomY = 220; // Bottom position (with clearance)
-  const topY = 40; // Top position (with clearance)
-  const legWidth = 240; // Width of each leg from center
-  const topWidth = 170; // Width of flat top section
-
-  // Left leg bottom, left top, right top, right leg bottom
-  const x1 = centerX - topWidth / 2,
-    y1 = topY; // Left top
-  const x2 = centerX + topWidth / 2,
-    y2 = topY; // Right top
-  const x3 = centerX + legWidth,
-    y3 = bottomY; // Right leg bottom
-  const x0 = centerX - legWidth,
-    y0 = bottomY; // Left leg bottom
-
-  // Add horizontal straight lines extending outward from both leg bottoms
-  // Calculate how much space is available on each side
-  const leftSpace = x0; // Space from left edge (0) to x0
-  const rightSpace = viewWidth - x3; // Space from x3 to right edge (viewWidth)
-
-  // Extend as much as possible without going outside the container
-  const x0Left = 0; // Extend to the left edge
-  const x3Right = viewWidth; // Extend to the right edge
-
-  // Calculate animation offset based on phase and progress
-  // The shape moves left continuously with seamless looping
-  const totalCycleWidth = viewWidth; // One complete cycle moves exactly one viewWidth
-
-  // Calculate total progress through one complete breathing cycle (0 to 1)
+  // Zigzag wave path with 60-degree diagonals and proper proportions
+  const viewWidth = 700;
+  const viewHeight = 260;
+  const padding = 40;
+  
+  // Calculate dimensions for 60-degree angle
+  const availableHeight = viewHeight - (2 * padding); // 180px
+  const topY = padding;
+  const bottomY = viewHeight - padding;
+  
+  // For 60-degree angle: horizontal distance = height / tan(60°)
+  // tan(60°) = √3 ≈ 1.732
+  const diagonalHorizontal = availableHeight / Math.sqrt(3); // ~104px
+  const diagonalLength = Math.sqrt(diagonalHorizontal ** 2 + availableHeight ** 2); // ~208px
+  
+  // Top horizontal line = 50% of diagonal length
+  const topHorizontalLength = diagonalLength * 0.5; // ~104px
+  
+  // Bottom horizontal line (small connector)
+  const bottomHorizontalLength = 15; // Small line at valleys
+  
+  // One complete wave cycle width
+  const cycleWidth = bottomHorizontalLength + diagonalHorizontal + topHorizontalLength + diagonalHorizontal;
+  
+  // Calculate how many complete cycles fit, then add extra for seamless loop
+  const numCycles = Math.ceil(viewWidth / cycleWidth) + 2;
+  
+  // Build the zigzag path
+  const points = [];
+  let currentX = 0;
+  
+  for (let i = 0; i < numCycles; i++) {
+    // Start at bottom
+    points.push({ x: currentX, y: bottomY });
+    
+    // Small horizontal line at bottom
+    currentX += bottomHorizontalLength;
+    points.push({ x: currentX, y: bottomY });
+    
+    // Diagonal up (45 degrees)
+    currentX += diagonalHorizontal;
+    points.push({ x: currentX, y: topY });
+    
+    // Horizontal line at top
+    currentX += topHorizontalLength;
+    points.push({ x: currentX, y: topY });
+    
+    // Diagonal down (45 degrees)
+    currentX += diagonalHorizontal;
+    points.push({ x: currentX, y: bottomY });
+  }
+  
+  // Create path string
+  const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+  
+  // Calculate animation offset
   const totalPhaseDuration = pattern.inhale + pattern.hold + pattern.exhale;
   let cycleProgress = 0;
 
   if (phase === "inhale") {
     cycleProgress = (progress * pattern.inhale) / totalPhaseDuration;
   } else if (phase === "hold") {
-    cycleProgress =
-      (pattern.inhale + progress * pattern.hold) / totalPhaseDuration;
+    cycleProgress = (pattern.inhale + progress * pattern.hold) / totalPhaseDuration;
   } else if (phase === "exhale") {
-    cycleProgress =
-      (pattern.inhale + pattern.hold + progress * pattern.exhale) /
-      totalPhaseDuration;
+    cycleProgress = (pattern.inhale + pattern.hold + progress * pattern.exhale) / totalPhaseDuration;
   }
 
-  // Move one full viewWidth per cycle for seamless loop
-  // This keeps the position even when paused (doesn't reset to 0)
-  const animationOffset = cycleProgress * totalCycleWidth;
-
-  // Path: Start from far left, go to left leg bottom, up to left top, across top, down to right leg bottom, extend right
-  const pathD = `M ${x0Left} ${y0} L ${x0} ${y0} L ${x1} ${y1} L ${x2} ${y2} L ${x3} ${y3} L ${x3Right} ${y3}`;
-
-  // Calculate circle Y position based on where the line is at center X
-  // The shape repeats every viewWidth, so we work with positions relative to one shape cycle
-  const offset = animationOffset % viewWidth;
-
-  // Calculate the X position in the "virtual" coordinate space where the shape at centerX is located
-  // Since the shape moves left, we need to find the local X within the shape that's currently at centerX
-  const localX = (centerX + offset) % viewWidth;
-
-  // Now determine Y based on which segment localX falls into
-  let circleY;
-
-  // Check which segment localX is in
-  if (localX <= x0) {
-    // Left horizontal segment
-    circleY = y0;
-  } else if (localX <= x1) {
-    // Left diagonal (going up from y0 to y1)
-    const segmentProgress = (localX - x0) / (x1 - x0);
-    circleY = y0 + (y1 - y0) * segmentProgress;
-  } else if (localX <= x2) {
-    // Top flat segment
-    circleY = y1;
-  } else if (localX <= x3) {
-    // Right diagonal (going down from y2 to y3)
-    const segmentProgress = (localX - x2) / (x3 - x2);
-    circleY = y2 + (y3 - y2) * segmentProgress;
-  } else {
-    // Right horizontal segment
-    circleY = y3;
+  // Animation moves by one complete cycle width
+  const animationOffset = cycleProgress * cycleWidth;
+  const centerX = viewWidth / 2;
+  
+  // Find ball position along the path
+  const pathPosition = (centerX + animationOffset) % cycleWidth;
+  
+  // Calculate ball Y position based on where we are in the cycle
+  let circleY = bottomY;
+  
+  for (let i = 0; i < points.length - 1; i++) {
+    const p1 = points[i];
+    const p2 = points[i + 1];
+    
+    // Normalize positions to cycle width for comparison
+    const p1X = p1.x % cycleWidth;
+    const p2X = p2.x % cycleWidth;
+    
+    if (pathPosition >= p1X && pathPosition <= p2X) {
+      const segmentProgress = (pathPosition - p1X) / (p2X - p1X);
+      circleY = p1.y + (p2.y - p1.y) * segmentProgress;
+      break;
+    }
   }
 
   return (
@@ -202,50 +207,20 @@ export default function BreathingVisualizer({
           }}
         >
           <svg
-            width={viewWidth * 3}
+            width={currentX}
             height={viewHeight}
-            viewBox={`0 0 ${viewWidth * 3} ${viewHeight}`}
+            viewBox={`0 0 ${currentX} ${viewHeight}`}
             style={{
               display: "block",
-              transform: `translateX(-${animationOffset % viewWidth}px)`,
+              transform: `translateX(-${animationOffset % cycleWidth}px)`,
               willChange: "transform",
             }}
           >
-            {/* First instance of shape */}
+            {/* Render the continuous zigzag path */}
             <path
               d={pathD}
               stroke="#ff6a00"
-              strokeWidth="22"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            />
-
-            {/* Second instance (for seamless loop) - offset by shape width */}
-            <path
-              d={`M ${x0Left + viewWidth} ${y0} L ${x0 + viewWidth} ${y0} L ${
-                x1 + viewWidth
-              } ${y1} L ${x2 + viewWidth} ${y2} L ${x3 + viewWidth} ${y3} L ${
-                x3Right + viewWidth
-              } ${y3}`}
-              stroke="#ff6a00"
-              strokeWidth="22"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              fill="none"
-            />
-
-            {/* Third instance (for seamless loop) */}
-            <path
-              d={`M ${x0Left + viewWidth * 2} ${y0} L ${
-                x0 + viewWidth * 2
-              } ${y0} L ${x1 + viewWidth * 2} ${y1} L ${
-                x2 + viewWidth * 2
-              } ${y2} L ${x3 + viewWidth * 2} ${y3} L ${
-                x3Right + viewWidth * 2
-              } ${y3}`}
-              stroke="#ff6a00"
-              strokeWidth="22"
+              strokeWidth="20"
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
@@ -264,7 +239,7 @@ export default function BreathingVisualizer({
             </defs>
           </svg>
 
-          {/* Circle that stays horizontally centered but moves vertically with the line */}
+          {/* Circle that stays horizontally centered but moves vertically along the zigzag */}
           <div
             style={{
               position: "absolute",
@@ -278,6 +253,7 @@ export default function BreathingVisualizer({
               boxShadow: "0 6px 20px rgba(255, 106, 0, 0.6)",
               border: "3px solid #fff",
               zIndex: 10,
+              transition: "top 0.05s linear",
             }}
           />
         </div>

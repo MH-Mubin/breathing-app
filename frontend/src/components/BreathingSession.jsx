@@ -34,6 +34,10 @@ export default function BreathingSession() {
   const [cycle, setCycle] = useState(0);
   const [remaining, setRemaining] = useState(5 * 60);
   const [paused, setPaused] = useState(false);
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [customDuration, setCustomDuration] = useState("");
+  const [customDurationValue, setCustomDurationValue] = useState(null);
+  const [validationError, setValidationError] = useState("");
 
   const handleStart = () => {
     setRunning(true);
@@ -54,6 +58,39 @@ export default function BreathingSession() {
     setPaused(false);
     setCycle(0);
     setRemaining(duration * 60);
+  };
+
+  const validateInput = (value) => {
+    if (!value || value.trim() === "") {
+      setValidationError("");
+      return false;
+    }
+
+    const numValue = parseInt(value, 10);
+    if (isNaN(numValue) || numValue <= 0 || numValue > 60) {
+      setValidationError("Please enter a valid number between 1-60");
+      return false;
+    }
+
+    setValidationError("");
+    return true;
+  };
+
+  const handleCustomDuration = () => {
+    const customValue = parseInt(customDuration, 10);
+
+    if (isNaN(customValue) || customValue <= 0 || customValue > 60) {
+      setValidationError("Please enter a valid number between 1-60");
+      return;
+    }
+
+    // Valid input - create custom duration button
+    setCustomDurationValue(customValue);
+    setDuration(customValue);
+    if (!running) setRemaining(customValue * 60);
+    setCustomDuration("");
+    setShowCustomInput(false);
+    setValidationError("");
   };
 
   return (
@@ -205,25 +242,103 @@ export default function BreathingSession() {
       {/* Right Panel */}
       <aside className="md:col-span-1">
         <div className="card p-4 mb-4">
-          <div className="font-semibold mb-2">Duration</div>
-          <div className="grid grid-cols-2 gap-2 mb-4 duration-grid">
+          <div className="font-semibold mb-3">Duration</div>
+          
+          {/* 2x2 Grid for preset durations */}
+          <div className="grid grid-cols-2 gap-2 mb-2">
             {durations.map((d) => (
               <button
                 key={d}
                 className={
-                  duration === d ? "duration-card active" : "duration-card"
+                  duration === d && !showCustomInput
+                    ? "px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition"
+                    : "px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-gray-200 transition"
                 }
                 onClick={() => {
                   setDuration(d);
+                  setShowCustomInput(false);
                   if (!running) setRemaining(d * 60);
                 }}
-                aria-pressed={duration === d}
+                aria-pressed={duration === d && !showCustomInput}
               >
-                <div className="minutes">{d}</div>
-                <div className="label">minutes</div>
+                {d} min
               </button>
             ))}
           </div>
+          
+          {/* Customize button - always visible */}
+          <button
+            className={
+              showCustomInput
+                ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition"
+                : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-gray-200 transition"
+            }
+            onClick={() => {
+              setShowCustomInput(true);
+            }}
+          >
+            Customize
+          </button>
+          
+          {/* Custom input field or Custom duration button */}
+          {showCustomInput ? (
+            <div className="w-full mt-2">
+              <div className="flex gap-2 w-full">
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  value={customDuration}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/[^0-9]/g, "");
+                    setCustomDuration(value);
+                    validateInput(value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && customDuration && !validationError) {
+                      handleCustomDuration();
+                    }
+                  }}
+                  placeholder="1-60"
+                  className={`flex-1 min-w-0 px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 ${
+                    validationError
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-orange-500"
+                  }`}
+                />
+                <button
+                  onClick={handleCustomDuration}
+                  disabled={!customDuration || !!validationError}
+                  className={`px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap ${
+                    !customDuration || validationError
+                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      : "bg-orange-500 text-white hover:bg-orange-600"
+                  }`}
+                >
+                  Apply
+                </button>
+              </div>
+              {validationError && (
+                <p className="text-red-500 text-xs mt-1">{validationError}</p>
+              )}
+            </div>
+          ) : customDurationValue ? (
+            <button
+              className={
+                duration === customDurationValue
+                  ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition mt-2"
+                  : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-gray-200 transition mt-2"
+              }
+              onClick={() => {
+                setDuration(customDurationValue);
+                if (!running) setRemaining(customDurationValue * 60);
+              }}
+            >
+              {customDurationValue} min
+            </button>
+          ) : null}
+        </div>
+        
+        <div className="card p-4 mb-4">
           <div className="font-semibold mb-2">Pattern</div>
           {patterns.map((p) => (
             <div
