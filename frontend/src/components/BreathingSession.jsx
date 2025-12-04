@@ -38,6 +38,7 @@ export default function BreathingSession() {
   const [customDuration, setCustomDuration] = useState("");
   const [customDurationValue, setCustomDurationValue] = useState(null);
   const [validationError, setValidationError] = useState("");
+  const [resetKey, setResetKey] = useState(0);
 
   const handleStart = () => {
     setRunning(true);
@@ -58,45 +59,54 @@ export default function BreathingSession() {
     setPaused(false);
     setCycle(0);
     setRemaining(duration * 60);
-  };
-
-  const validateInput = (value) => {
-    if (!value || value.trim() === "") {
-      setValidationError("");
-      return false;
-    }
-
-    const numValue = parseInt(value, 10);
-    if (isNaN(numValue) || numValue <= 0 || numValue > 60) {
-      setValidationError("Please enter a valid number between 1-60");
-      return false;
-    }
-
-    setValidationError("");
-    return true;
+    setResetKey(prev => prev + 1); // Force visualizer to remount
   };
 
   const handleCustomDuration = () => {
-    const customValue = parseInt(customDuration, 10);
-
-    if (isNaN(customValue) || customValue <= 0 || customValue > 60) {
-      setValidationError("Please enter a valid number between 1-60");
+    // Validate only when Apply is clicked
+    if (!customDuration || customDuration.trim() === "") {
+      setValidationError("Please enter a duration");
       return;
     }
 
-    // Valid input - create custom duration button
-    setCustomDurationValue(customValue);
-    setDuration(customValue);
-    if (!running) setRemaining(customValue * 60);
-    setCustomDuration("");
-    setShowCustomInput(false);
-    setValidationError("");
+    const customValue = parseInt(customDuration, 10);
+
+    // Check if it's a valid number
+    if (isNaN(customValue)) {
+      setValidationError("Enter a number between 1-60");
+      return;
+    }
+
+    // Check if it's in range
+    if (customValue <= 0 || customValue > 60) {
+      setValidationError("Please enter a number between 1-60");
+      return;
+    }
+
+    // Check if the value matches a preset duration (3, 5, 8, 10)
+    if (durations.includes(customValue)) {
+      // Just select the preset button, don't create custom button
+      setDuration(customValue);
+      setCustomDurationValue(null); // Clear custom value
+      if (!running) setRemaining(customValue * 60);
+      setCustomDuration("");
+      setShowCustomInput(false);
+      setValidationError("");
+    } else {
+      // Create custom duration button for other values
+      setCustomDurationValue(customValue);
+      setDuration(customValue);
+      if (!running) setRemaining(customValue * 60);
+      setCustomDuration("");
+      setShowCustomInput(false);
+      setValidationError("");
+    }
   };
 
   return (
-    <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 mt-4 px-2 md:px-0">
+    <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 mt-4 px-2 md:px-0 md:items-start">
       {/* Left Panel */}
-      <aside className="md:col-span-1">
+      <aside className="md:col-span-1 self-start">
         <div className="card p-4 mb-4">
           <div className="flex items-center gap-2 mb-2">
             <span className="orange text-2xl">🔥</span>
@@ -135,7 +145,7 @@ export default function BreathingSession() {
       </aside>
 
       {/* Center Visualizer */}
-      <section className="md:col-span-3 flex flex-col items-center justify-center">
+      <section className="md:col-span-3 flex flex-col items-center justify-center self-start">
         <div
           className="card w-full p-8 md:p-12 flex flex-col items-center"
           style={{ minHeight: "480px" }}
@@ -147,29 +157,26 @@ export default function BreathingSession() {
             </h2>
           </div>
           <BreathingVisualizer
+            key={resetKey}
             pattern={selectedPattern}
             running={running}
             onCycle={setCycle}
             onRemaining={setRemaining}
           />
-          <div className="flex gap-8 mt-8 mb-4 justify-center">
-            <div className="text-center">
-              <div className="count">{cycle}</div>
-              <div className="label">Cycles</div>
-            </div>
-            <div className="text-center">
-              <div className="count">
+          <div className="flex gap-12 mt-8 mb-4 justify-center items-center">
+            <div className="text-center bg-gradient-to-br from-orange-50 to-white px-6 py-3 rounded-xl shadow-sm border border-orange-100">
+              <div className="text-xs font-medium text-orange-600 mb-1">Time Elapsed</div>
+              <div className="text-2xl font-bold text-gray-800">
                 {Math.floor((duration * 60 - remaining) / 60)}:
                 {((duration * 60 - remaining) % 60).toString().padStart(2, "0")}
               </div>
-              <div className="label">Time</div>
             </div>
-            <div className="text-center">
-              <div className="count">
+            <div className="text-center bg-gradient-to-br from-orange-50 to-white px-6 py-3 rounded-xl shadow-sm border border-orange-100">
+              <div className="text-xs font-medium text-orange-600 mb-1">Time Remaining</div>
+              <div className="text-2xl font-bold text-gray-800">
                 {Math.floor(remaining / 60)}:
                 {(remaining % 60).toString().padStart(2, "0")}
               </div>
-              <div className="label">Remaining</div>
             </div>
           </div>
           <div className="flex gap-4 mt-2">
@@ -240,7 +247,7 @@ export default function BreathingSession() {
       </section>
 
       {/* Right Panel */}
-      <aside className="md:col-span-1">
+      <aside className="md:col-span-1 self-start">
         <div className="card p-4 mb-4">
           <div className="font-semibold mb-3">Duration</div>
           
@@ -286,19 +293,17 @@ export default function BreathingSession() {
               <div className="flex gap-2 w-full">
                 <input
                   type="text"
-                  inputMode="numeric"
                   value={customDuration}
                   onChange={(e) => {
-                    const value = e.target.value.replace(/[^0-9]/g, "");
-                    setCustomDuration(value);
-                    validateInput(value);
+                    setCustomDuration(e.target.value);
+                    setValidationError(""); // Clear error when typing
                   }}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" && customDuration && !validationError) {
+                    if (e.key === "Enter") {
                       handleCustomDuration();
                     }
                   }}
-                  placeholder="1-60"
+                  placeholder="Enter minutes"
                   className={`flex-1 min-w-0 px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 ${
                     validationError
                       ? "border-red-500 focus:ring-red-500"
@@ -307,9 +312,9 @@ export default function BreathingSession() {
                 />
                 <button
                   onClick={handleCustomDuration}
-                  disabled={!customDuration || !!validationError}
+                  disabled={!customDuration}
                   className={`px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap ${
-                    !customDuration || validationError
+                    !customDuration
                       ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                       : "bg-orange-500 text-white hover:bg-orange-600"
                   }`}

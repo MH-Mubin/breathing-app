@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 
-// Ball animates along three lines: up (inhale, 60deg), straight (hold), down (exhale, -60deg)
 export default function BreathingVisualizer({
   pattern,
   running,
@@ -9,15 +8,19 @@ export default function BreathingVisualizer({
 }) {
   const [phase, setPhase] = useState("idle");
   const [progress, setProgress] = useState(0);
-  const [cycle, setCycle] = useState(0);
-  const [remaining, setRemaining] = useState(0);
   const requestRef = useRef();
+  const runningRef = useRef(running);
   const pausedStateRef = useRef({
     phase: "idle",
     progress: 0,
     phaseIdx: 0,
     cycleNum: 1,
-  }); // Store paused state
+  });
+
+  // Update running ref whenever running prop changes
+  useEffect(() => {
+    runningRef.current = running;
+  }, [running]);
 
   useEffect(() => {
     let mounted = true;
@@ -29,12 +32,8 @@ export default function BreathingVisualizer({
     ];
 
     function runVisualizer() {
-      if (!running) {
-        // Don't reset - keep current position when paused
-        return;
-      }
+      if (!runningRef.current) return;
 
-      // Resume from paused state
       let phaseIdx = pausedStateRef.current.phaseIdx || 0;
       let cycleNum = pausedStateRef.current.cycleNum || 1;
       let resumeProgress = pausedStateRef.current.progress || 0;
@@ -44,8 +43,6 @@ export default function BreathingVisualizer({
         if (cycleNum > totalCycles) {
           setPhase("done");
           setProgress(1);
-          setCycle(totalCycles);
-          setRemaining(0);
           if (onCycle) onCycle(totalCycles);
           if (onRemaining) onRemaining(0);
           return;
@@ -53,14 +50,13 @@ export default function BreathingVisualizer({
         let p = phaseOrder[phaseIdx];
         setPhase(p.name);
 
-        // Calculate start time considering resume progress
         let phaseDuration = p.time * 1000;
         let phaseStart =
           Date.now() - (skipToResume ? resumeProgress * phaseDuration : 0);
         let phaseProgress = skipToResume ? resumeProgress : 0;
 
         function animate() {
-          if (!mounted || !running) return; // Stop animating when paused
+          if (!mounted || !runningRef.current) return;
           let elapsed = Date.now() - phaseStart;
           phaseProgress = Math.min(1, elapsed / phaseDuration);
           setProgress(phaseProgress);
@@ -69,15 +65,15 @@ export default function BreathingVisualizer({
             progress: phaseProgress,
             phaseIdx,
             cycleNum,
-          }; // Save state
-          setCycle(cycleNum);
+          };
+          
           let rem =
             (totalCycles - cycleNum) *
               (pattern.inhale + pattern.hold + pattern.exhale) +
             (p.time - elapsed / 1000);
-          setRemaining(Math.max(0, Math.round(rem)));
           if (onCycle) onCycle(cycleNum);
           if (onRemaining) onRemaining(Math.max(0, Math.round(rem)));
+          
           if (elapsed < phaseDuration) {
             requestRef.current = requestAnimationFrame(animate);
           } else {
@@ -91,7 +87,7 @@ export default function BreathingVisualizer({
         }
         animate();
       }
-      nextPhase(true); // Start with resume flag
+      nextPhase(true);
     }
 
     runVisualizer();
@@ -101,62 +97,41 @@ export default function BreathingVisualizer({
     };
   }, [running, pattern, onCycle, onRemaining]);
 
-  // Zigzag wave path with 60-degree diagonals and proper proportions
+  // Zigzag wave path with 60-degree diagonals
   const viewWidth = 700;
   const viewHeight = 260;
   const padding = 40;
-  
-  // Calculate dimensions for 60-degree angle
-  const availableHeight = viewHeight - (2 * padding); // 180px
+  const availableHeight = viewHeight - (2 * padding);
   const topY = padding;
   const bottomY = viewHeight - padding;
   
-  // For 60-degree angle: horizontal distance = height / tan(60°)
-  // tan(60°) = √3 ≈ 1.732
-  const diagonalHorizontal = availableHeight / Math.sqrt(3); // ~104px
-  const diagonalLength = Math.sqrt(diagonalHorizontal ** 2 + availableHeight ** 2); // ~208px
+  const diagonalHorizontal = availableHeight / Math.sqrt(3);
+  const diagonalLength = Math.sqrt(diagonalHorizontal ** 2 + availableHeight ** 2);
+  const topHorizontalLength = diagonalLength * 0.5;
+  const bottomHorizontalLength = 15;
   
-  // Top horizontal line = 50% of diagonal length
-  const topHorizontalLength = diagonalLength * 0.5; // ~104px
-  
-  // Bottom horizontal line (small connector)
-  const bottomHorizontalLength = 15; // Small line at valleys
-  
-  // One complete wave cycle width
   const cycleWidth = bottomHorizontalLength + diagonalHorizontal + topHorizontalLength + diagonalHorizontal;
-  
-  // Calculate how many complete cycles fit, then add extra for seamless loop
   const numCycles = Math.ceil(viewWidth / cycleWidth) + 2;
   
-  // Build the zigzag path
+  // Build zigzag path
   const points = [];
   let currentX = 0;
   
   for (let i = 0; i < numCycles; i++) {
-    // Start at bottom
     points.push({ x: currentX, y: bottomY });
-    
-    // Small horizontal line at bottom
     currentX += bottomHorizontalLength;
     points.push({ x: currentX, y: bottomY });
-    
-    // Diagonal up (45 degrees)
     currentX += diagonalHorizontal;
     points.push({ x: currentX, y: topY });
-    
-    // Horizontal line at top
     currentX += topHorizontalLength;
     points.push({ x: currentX, y: topY });
-    
-    // Diagonal down (45 degrees)
     currentX += diagonalHorizontal;
     points.push({ x: currentX, y: bottomY });
   }
   
-  // Create path string
   const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
   
-  // Calculate animation offset
+  // Calculate animation offset for scrolling path
   const totalPhaseDuration = pattern.inhale + pattern.hold + pattern.exhale;
   let cycleProgress = 0;
 
@@ -168,26 +143,23 @@ export default function BreathingVisualizer({
     cycleProgress = (pattern.inhale + pattern.hold + progress * pattern.exhale) / totalPhaseDuration;
   }
 
-  // Animation moves by one complete cycle width
   const animationOffset = cycleProgress * cycleWidth;
+  
+  // Calculate ball Y position - find where the line is at the center of viewport
+  let circleY = bottomY;
   const centerX = viewWidth / 2;
   
-  // Find ball position along the path
-  const pathPosition = (centerX + animationOffset) % cycleWidth;
+  // The X position on the path that's currently at the center of the viewport
+  const pathXAtCenter = centerX + (animationOffset % cycleWidth);
   
-  // Calculate ball Y position based on where we are in the cycle
-  let circleY = bottomY;
-  
+  // Find which segment of the path contains this X position
   for (let i = 0; i < points.length - 1; i++) {
     const p1 = points[i];
     const p2 = points[i + 1];
     
-    // Normalize positions to cycle width for comparison
-    const p1X = p1.x % cycleWidth;
-    const p2X = p2.x % cycleWidth;
-    
-    if (pathPosition >= p1X && pathPosition <= p2X) {
-      const segmentProgress = (pathPosition - p1X) / (p2X - p1X);
+    if (pathXAtCenter >= p1.x && pathXAtCenter <= p2.x) {
+      // Interpolate Y position within this segment
+      const segmentProgress = (pathXAtCenter - p1.x) / (p2.x - p1.x);
       circleY = p1.y + (p2.y - p1.y) * segmentProgress;
       break;
     }
@@ -196,7 +168,6 @@ export default function BreathingVisualizer({
   return (
     <div className="w-full flex flex-col items-center justify-center session-visualizer">
       <div className="flex flex-col items-center justify-center mb-8 mt-12">
-        {/* Bordered container with overflow hidden for flowing effect */}
         <div
           className="relative border-2 border-orange-300 rounded-lg"
           style={{
@@ -216,7 +187,6 @@ export default function BreathingVisualizer({
               willChange: "transform",
             }}
           >
-            {/* Render the continuous zigzag path */}
             <path
               d={pathD}
               stroke="#ff6a00"
@@ -225,21 +195,8 @@ export default function BreathingVisualizer({
               strokeLinejoin="round"
               fill="none"
             />
-
-            <defs>
-              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-                <feDropShadow
-                  dx="0"
-                  dy="8"
-                  stdDeviation="8"
-                  floodColor="#ffb07a"
-                  floodOpacity="0.22"
-                />
-              </filter>
-            </defs>
           </svg>
 
-          {/* Circle that stays horizontally centered but moves vertically along the zigzag */}
           <div
             style={{
               position: "absolute",
@@ -253,11 +210,9 @@ export default function BreathingVisualizer({
               boxShadow: "0 6px 20px rgba(255, 106, 0, 0.6)",
               border: "3px solid #fff",
               zIndex: 10,
-              transition: "top 0.05s linear",
             }}
           />
         </div>
-        {/* Phase label - outside the bordered div */}
         <div className="text-xl font-semibold text-orange-600 mt-1 text-center">
           {phase === "idle"
             ? "Ready"
