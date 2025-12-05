@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BreathingVisualizer from "./BreathingVisualizer";
 
 const patterns = [
@@ -40,11 +40,27 @@ export default function BreathingSession() {
   const [validationError, setValidationError] = useState("");
   const [resetKey, setResetKey] = useState(0);
 
+  // Timer effect - manages countdown independently
+  useEffect(() => {
+    if (!running || remaining <= 0) return;
+    
+    const interval = setInterval(() => {
+      setRemaining(prev => {
+        if (prev <= 1) {
+          setRunning(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, [running, remaining]);
+
   const handleStart = () => {
     setRunning(true);
     setPaused(false);
     setCycle(1);
-    setRemaining(duration * 60);
   };
   const handlePause = () => {
     setPaused(true);
@@ -161,7 +177,6 @@ export default function BreathingSession() {
             pattern={selectedPattern}
             running={running}
             onCycle={setCycle}
-            onRemaining={setRemaining}
           />
           <div className="flex gap-12 mt-8 mb-4 justify-center items-center">
             <div className="text-center bg-gradient-to-br from-orange-50 to-white px-6 py-3 rounded-xl shadow-sm border border-orange-100">

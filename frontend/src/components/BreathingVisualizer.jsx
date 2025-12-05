@@ -4,12 +4,12 @@ export default function BreathingVisualizer({
   pattern,
   running,
   onCycle,
-  onRemaining,
 }) {
   const [phase, setPhase] = useState("idle");
   const [progress, setProgress] = useState(0);
   const requestRef = useRef();
   const runningRef = useRef(running);
+  const previousRunningRef = useRef(false);
   const pausedStateRef = useRef({
     phase: "idle",
     progress: 0,
@@ -34,9 +34,14 @@ export default function BreathingVisualizer({
     function runVisualizer() {
       if (!runningRef.current) return;
 
-      let phaseIdx = pausedStateRef.current.phaseIdx || 0;
-      let cycleNum = pausedStateRef.current.cycleNum || 1;
-      let resumeProgress = pausedStateRef.current.progress || 0;
+      // Check if we're resuming from pause or starting fresh
+      const isResuming = previousRunningRef.current === false && pausedStateRef.current.progress > 0;
+      
+      let phaseIdx = isResuming ? pausedStateRef.current.phaseIdx : 0;
+      let cycleNum = isResuming ? pausedStateRef.current.cycleNum : 1;
+      let resumeProgress = isResuming ? pausedStateRef.current.progress : 0;
+      
+      previousRunningRef.current = true;
 
       function nextPhase(skipToResume = false) {
         if (!mounted) return;
@@ -44,16 +49,16 @@ export default function BreathingVisualizer({
           setPhase("done");
           setProgress(1);
           if (onCycle) onCycle(totalCycles);
-          if (onRemaining) onRemaining(0);
           return;
         }
         let p = phaseOrder[phaseIdx];
         setPhase(p.name);
 
         let phaseDuration = p.time * 1000;
-        let phaseStart =
-          Date.now() - (skipToResume ? resumeProgress * phaseDuration : 0);
-        let phaseProgress = skipToResume ? resumeProgress : 0;
+        // Only skip to resume if we're actually resuming AND have progress
+        let shouldSkip = skipToResume && isResuming && resumeProgress > 0;
+        let phaseStart = Date.now() - (shouldSkip ? resumeProgress * phaseDuration : 0);
+        let phaseProgress = shouldSkip ? resumeProgress : 0;
 
         function animate() {
           if (!mounted || !runningRef.current) return;
@@ -67,12 +72,7 @@ export default function BreathingVisualizer({
             cycleNum,
           };
           
-          let rem =
-            (totalCycles - cycleNum) *
-              (pattern.inhale + pattern.hold + pattern.exhale) +
-            (p.time - elapsed / 1000);
           if (onCycle) onCycle(cycleNum);
-          if (onRemaining) onRemaining(Math.max(0, Math.round(rem)));
           
           if (elapsed < phaseDuration) {
             requestRef.current = requestAnimationFrame(animate);
@@ -90,12 +90,16 @@ export default function BreathingVisualizer({
       nextPhase(true);
     }
 
+    if (!running) {
+      previousRunningRef.current = false;
+    }
+    
     runVisualizer();
     return () => {
       mounted = false;
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [running, pattern, onCycle, onRemaining]);
+  }, [running, pattern, onCycle]);
 
   // Zigzag wave path with 60-degree diagonals
   const viewWidth = 700;
