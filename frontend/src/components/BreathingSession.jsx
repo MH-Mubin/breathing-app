@@ -1,34 +1,115 @@
 import { useEffect, useState } from "react";
 import BreathingVisualizer from "./BreathingVisualizer";
 
-const patterns = [
-  {
-    name: "4-4-4 Balanced",
-    inhale: 4,
-    hold: 4,
-    exhale: 4,
-    desc: "Equal timing promotes harmony",
-  },
-  {
-    name: "Extended Calm",
-    inhale: 4,
-    hold: 7,
-    exhale: 8,
-    desc: "Extended exhale for calm",
-  },
-  {
-    name: "4-4-4 Box",
-    inhale: 4,
-    hold: 4,
-    exhale: 4,
-    desc: "Navy SEAL technique",
-  },
+const categories = [
+  { id: "focus", name: "Focus & Concentration" },
+  { id: "stress", name: "Stress Relief" },
+  { id: "sleep", name: "Sleep & Rest" },
+  { id: "energy", name: "Energy Boost" },
+  { id: "health", name: "Health & Recovery" },
+  { id: "emotional", name: "Emotional Balance" },
 ];
+
+const patternsByCategory = {
+  focus: [
+    { level: "Beginner", name: "5-2-7", inhale: 5, hold: 2, exhale: 7, desc: "Balances focus + calm" },
+    { level: "Intermediate", name: "4-4-6", inhale: 4, hold: 4, exhale: 6, desc: "Regulates attention and reduces distractions" },
+    { level: "Advanced", name: "5-3-9", inhale: 5, hold: 3, exhale: 9, desc: "Longer exhale deepens focus and mental clarity" },
+    { level: "Pro", name: "6-2-10", inhale: 6, hold: 2, exhale: 10, desc: "Used by elite performers for stable concentration" },
+  ],
+  stress: [
+    { level: "Beginner", name: "4-0-6", inhale: 4, hold: 0, exhale: 6, desc: "Immediately reduces stress" },
+    { level: "Intermediate", name: "Box Breathing", inhale: 4, hold: 4, exhale: 4, desc: "Navy SEAL technique - Creates calm under pressure" },
+    { level: "Advanced", name: "4-7-8", inhale: 4, hold: 7, exhale: 8, desc: "Andrew Weil Method - Deeply relaxes nervous system" },
+    { level: "Pro", name: "Coherent 6-0-6", inhale: 6, hold: 0, exhale: 6, desc: "Balances heart and brain waves" },
+  ],
+  sleep: [
+    { level: "Beginner", name: "4-0-6", inhale: 4, hold: 0, exhale: 6, desc: "Slows heart rate" },
+    { level: "Intermediate", name: "4-7-8", inhale: 4, hold: 7, exhale: 8, desc: "Scientifically shown to reduce anxiety and induce sleep" },
+    { level: "Advanced", name: "5-0-10", inhale: 5, hold: 0, exhale: 10, desc: "Long exhale signals brain to release melatonin" },
+    { level: "Pro", name: "6-0-10", inhale: 6, hold: 0, exhale: 10, desc: "Used by meditation experts for deep rest" },
+  ],
+  energy: [
+    { level: "Beginner", name: "3-1-3", inhale: 3, hold: 1, exhale: 3, desc: "Gentle stimulation without hyperventilation" },
+    { level: "Intermediate", name: "Fast Paced 2-0-2", inhale: 2, hold: 0, exhale: 2, desc: "Boosts alertness quickly" },
+    { level: "Advanced", name: "Kapalabhati 1-0-1", inhale: 1, hold: 0, exhale: 1, desc: "Sharp inhale/exhale × 20 cycles (gentle)" },
+    { level: "Pro", name: "Sharp 6 + Deep", inhale: 6, hold: 0, exhale: 6, desc: "6 sharp exhales then deep breath - Used by performers" },
+  ],
+  health: [
+    { level: "Beginner", name: "Nasal 6-0-6", inhale: 6, hold: 0, exhale: 6, desc: "Trains lungs and improves HRV (nasal breathing only)" },
+    { level: "Intermediate", name: "6-3-6", inhale: 6, hold: 3, exhale: 6, desc: "Promotes optimal oxygen + CO₂ balance" },
+    { level: "Advanced", name: "Cadence 5-0-7", inhale: 5, hold: 0, exhale: 7, desc: "5-7 breaths/min ideal for heart-lung sync" },
+    { level: "Pro", name: "CO₂ Training 4-0-12", inhale: 4, hold: 0, exhale: 12, desc: "Develops strong CO₂ tolerance" },
+  ],
+  emotional: [
+    { level: "Beginner", name: "Physiological Sigh", inhale: 2, hold: 2, exhale: 6, desc: "2s inhale + 2s top-up inhale + 6s exhale - Stops panic instantly" },
+    { level: "Intermediate", name: "4-2-6", inhale: 4, hold: 2, exhale: 6, desc: "Balances mood" },
+    { level: "Advanced", name: "3-3-6", inhale: 3, hold: 3, exhale: 6, desc: "Used in trauma-informed breathing therapy" },
+    { level: "Pro", name: "Vagal Toning 5-0-8", inhale: 5, hold: 0, exhale: 8, desc: "Slow nasal inhale + humming exhale - Stimulates vagus nerve" },
+  ],
+};
 
 const durations = [3, 5, 8, 10];
 
+// Benefits data mapped to categories
+const benefitsByCategory = {
+  focus: [
+    { emoji: "🎯", title: "Boosts Clarity", desc: "Sharpens mental focus" },
+    { emoji: "🧠", title: "Sharpens Attention", desc: "Enhances concentration" },
+    { emoji: "💡", title: "Enhances Memory", desc: "Improves recall ability" },
+    { emoji: "🎓", title: "Steadies Thoughts", desc: "Reduces mental clutter" },
+    { emoji: "⚡", title: "Improves Control", desc: "Better self-regulation" },
+  ],
+  stress: [
+    { emoji: "😌", title: "Calms Nerves", desc: "Soothes nervous system" },
+    { emoji: "🧘", title: "Lowers Cortisol", desc: "Reduces stress hormone" },
+    { emoji: "💆", title: "Relaxes Muscles", desc: "Releases physical tension" },
+    { emoji: "🌊", title: "Eases Tension", desc: "Promotes relaxation" },
+    { emoji: "☮️", title: "Stabilizes Mood", desc: "Emotional balance" },
+  ],
+  sleep: [
+    { emoji: "💤", title: "Slows Heartbeat", desc: "Calms heart rate" },
+    { emoji: "🛌", title: "Relaxes Body", desc: "Physical relaxation" },
+    { emoji: "🌙", title: "Clears Mind", desc: "Mental quietness" },
+    { emoji: "😴", title: "Deepens Rest", desc: "Better sleep quality" },
+    { emoji: "🌟", title: "Reduces Stress", desc: "Peaceful state" },
+  ],
+  energy: [
+    { emoji: "🫁", title: "Increases Oxygen", desc: "Better oxygenation" },
+    { emoji: "⚡", title: "Elevates Alertness", desc: "Mental sharpness" },
+    { emoji: "🔋", title: "Activates Body", desc: "Physical energy" },
+    { emoji: "💪", title: "Improves Stamina", desc: "Sustained energy" },
+    { emoji: "☀️", title: "Reduces Fatigue", desc: "Less tiredness" },
+  ],
+  health: [
+    { emoji: "🫁", title: "Strengthens Lungs", desc: "Better lung capacity" },
+    { emoji: "❤️", title: "Enhances Circulation", desc: "Improved blood flow" },
+    { emoji: "🩺", title: "Supports Healing", desc: "Recovery support" },
+    { emoji: "⚖️", title: "Balances Breath", desc: "Respiratory health" },
+    { emoji: "🛡️", title: "Builds Resilience", desc: "Stronger immunity" },
+  ],
+  emotional: [
+    { emoji: "🧘‍♀️", title: "Reduces Anxiety", desc: "Calms worries" },
+    { emoji: "💚", title: "Steadies Emotions", desc: "Emotional stability" },
+    { emoji: "🌈", title: "Lowers Stress", desc: "Peaceful mind" },
+    { emoji: "🎭", title: "Improves Control", desc: "Better regulation" },
+    { emoji: "✨", title: "Clears Thoughts", desc: "Mental clarity" },
+  ],
+};
+
+// Preview benefits (one from each category)
+const previewBenefits = [
+  { emoji: "😌", title: "Reduces Stress", desc: "Lowers cortisol" },
+  { emoji: "🎯", title: "Improves Focus", desc: "Mental clarity" },
+  { emoji: "⚡", title: "Boosts Energy", desc: "Oxygen flow" },
+  { emoji: "💤", title: "Better Sleep", desc: "Deepens rest" },
+  { emoji: "❤️", title: "Health & Recovery", desc: "Supports healing" },
+  { emoji: "🧘‍♀️", title: "Emotional Balance", desc: "Steadies emotions" },
+];
+
 export default function BreathingSession() {
-  const [selectedPattern, setSelectedPattern] = useState(patterns[0]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedPattern, setSelectedPattern] = useState(patternsByCategory.focus[0]);
   const [duration, setDuration] = useState(5);
   const [running, setRunning] = useState(false);
   const [cycle, setCycle] = useState(0);
@@ -39,6 +120,7 @@ export default function BreathingSession() {
   const [customDurationValue, setCustomDurationValue] = useState(null);
   const [validationError, setValidationError] = useState("");
   const [resetKey, setResetKey] = useState(0);
+  const [expandedPattern, setExpandedPattern] = useState(null);
 
   // Timer effect - manages countdown independently
   useEffect(() => {
@@ -123,41 +205,51 @@ export default function BreathingSession() {
     <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 mt-4 px-2 md:px-0 md:items-start">
       {/* Left Panel */}
       <aside className="md:col-span-1 self-start">
-        <div className="card p-4 mb-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="orange text-2xl">🔥</span>
-            <span className="font-semibold">Current Streak</span>
+        {/* Streak Card - Enhanced Design (Smaller) */}
+        <div className="card p-3 mb-3 bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 hover:shadow-lg transition-all duration-300">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🔥</span>
+              <span className="font-bold text-base text-gray-800">Streak</span>
+            </div>
+            <div className="bg-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
+              Active
+            </div>
           </div>
-          <div className="text-xl font-bold">7 days</div>
-          <div className="mt-2 btn-outline px-2 py-1 text-xs">
-            Completed Today
-          </div>
+          <div className="text-3xl font-bold text-orange-600 mb-1">7 days</div>
+          <div className="text-xs text-gray-600">Keep it going! 🎯</div>
         </div>
-        <div className="grid grid-cols-2 gap-2 mb-4">
-          <div className="stat-card">
-            <div className="font-bold">24</div>
-            <div className="text-xs">Sessions</div>
-          </div>
-          <div className="stat-card">
-            <div className="font-bold">120</div>
-            <div className="text-xs">Minutes</div>
-          </div>
-        </div>
-        <div className="card p-4 mb-4">
-          <div className="orange text-xl mb-1">🧡</div>
-          <div className="font-semibold">Reduces Stress</div>
-          <div className="text-xs text-gray-500">Lowers cortisol</div>
-        </div>
-        <div className="card p-4 mb-4">
-          <div className="orange text-xl mb-1">🧠</div>
-          <div className="font-semibold">Improves Focus</div>
-          <div className="text-xs text-gray-500">Mental clarity</div>
-        </div>
-        <div className="card p-4 mb-4">
-          <div className="orange text-xl mb-1">⚡</div>
-          <div className="font-semibold">Boosts Energy</div>
-          <div className="text-xs text-gray-500">Oxygen flow</div>
-        </div>
+
+        {/* Benefits Section */}
+        {!selectedCategory ? (
+          // Show preview of all 6 categories
+          <>
+            {previewBenefits.map((benefit, index) => (
+              <div
+                key={index}
+                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200 cursor-pointer"
+              >
+                <div className="text-2xl mb-1">{benefit.emoji}</div>
+                <div className="font-semibold text-sm text-gray-800 mb-0.5">{benefit.title}</div>
+                <div className="text-xs text-gray-500">{benefit.desc}</div>
+              </div>
+            ))}
+          </>
+        ) : (
+          // Show 5 benefits for selected category
+          <>
+            {benefitsByCategory[selectedCategory].map((benefit, index) => (
+              <div
+                key={index}
+                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200"
+              >
+                <div className="text-2xl mb-1">{benefit.emoji}</div>
+                <div className="font-semibold text-sm text-gray-800 mb-0.5">{benefit.title}</div>
+                <div className="text-xs text-gray-500">{benefit.desc}</div>
+              </div>
+            ))}
+          </>
+        )}
       </aside>
 
       {/* Center Visualizer */}
@@ -197,7 +289,7 @@ export default function BreathingSession() {
           <div className="flex gap-4 mt-2">
             {!running && !paused && (
               <button
-                className="btn-primary start-btn px-6 py-2 flex items-center gap-2"
+                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 onClick={handleStart}
                 aria-label="Start session"
               >
@@ -215,7 +307,7 @@ export default function BreathingSession() {
             )}
             {running && !paused && (
               <button
-                className="btn-primary start-btn px-6 py-2 flex items-center gap-2"
+                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 onClick={handlePause}
                 aria-label="Pause session"
               >
@@ -234,7 +326,7 @@ export default function BreathingSession() {
             )}
             {paused && (
               <button
-                className="btn-primary start-btn px-6 py-2 flex items-center gap-2"
+                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
                 onClick={handleResume}
                 aria-label="Resume session"
               >
@@ -251,7 +343,7 @@ export default function BreathingSession() {
               </button>
             )}
             <button
-              className="btn-outline reset-btn px-6 py-2 flex items-center justify-center"
+              className="btn-outline reset-btn px-6 py-2 flex items-center justify-center hover:bg-orange-50 hover:border-orange-300 transition-all duration-200"
               onClick={handleReset}
               aria-label="Reset session"
             >
@@ -263,6 +355,156 @@ export default function BreathingSession() {
 
       {/* Right Panel */}
       <aside className="md:col-span-1 self-start">
+        {/* Pattern Section - Now at TOP */}
+        <div className="card p-4 mb-4">
+          {/* Layer 1: Category Selection */}
+          {!selectedCategory && (
+            <>
+              <div className="font-semibold mb-3">What's your goal?</div>
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  className="w-full px-3 py-2 mb-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 text-left border border-transparent"
+                  onClick={() => setSelectedCategory(cat.id)}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </>
+          )}
+
+          {/* Layer 2: Pattern Selection */}
+          {selectedCategory && (
+            <>
+              <div className="flex items-center mb-3">
+                <button
+                  onClick={() => setSelectedCategory(null)}
+                  className="mr-2 text-orange-500 hover:text-orange-600 hover:bg-orange-50 rounded p-1 transition-all duration-200"
+                  aria-label="Back to categories"
+                >
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15 18l-6-6 6-6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+                <div className="font-semibold">
+                  {categories.find((c) => c.id === selectedCategory)?.name}
+                </div>
+              </div>
+              {patternsByCategory[selectedCategory].map((p) => (
+                <div
+                  key={p.name}
+                  className={
+                    selectedPattern.name === p.name
+                      ? "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-orange-500 text-white shadow-lg overflow-hidden"
+                      : "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-white border-2 border-gray-200 hover:border-orange-300 hover:shadow-md overflow-hidden"
+                  }
+                >
+                  {/* Clickable Header Area */}
+                  <div 
+                    className="cursor-pointer"
+                    onClick={() => setSelectedPattern(p)}
+                  >
+                    {/* Level Badge - Top Left Corner (Small) */}
+                    <div className="absolute top-1.5 left-1.5">
+                      <span className={`text-xs font-medium px-1.5 py-0.5 rounded ${
+                        selectedPattern.name === p.name 
+                          ? "bg-white bg-opacity-30 text-white"
+                          : p.level === "Beginner" ? "bg-green-100 text-green-700" :
+                            p.level === "Intermediate" ? "bg-blue-100 text-blue-700" :
+                            p.level === "Advanced" ? "bg-purple-100 text-purple-700" :
+                            "bg-orange-100 text-orange-700"
+                      }`}>
+                        {p.level}
+                      </span>
+                    </div>
+
+                    {/* Pattern Name - Title (Large and Centered) */}
+                    <div className="text-center mt-4 mb-2">
+                      <div className={`text-xl font-bold ${
+                        selectedPattern.name === p.name ? "text-white" : "text-gray-800"
+                      }`}>
+                        {p.name}
+                      </div>
+                    </div>
+
+                    {/* Timing - Bottom in Orange or White */}
+                    <div className={`text-center text-xs font-semibold mb-1 ${
+                      selectedPattern.name === p.name ? "text-white" : "text-orange-600"
+                    }`}>
+                      In: {p.inhale}s - Hold: {p.hold}s - Out: {p.exhale}s
+                    </div>
+                  </div>
+
+                  {/* See Benefits Button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setExpandedPattern(expandedPattern === p.name ? null : p.name);
+                    }}
+                    className={`w-full flex items-center justify-center gap-1 text-xs font-medium py-1.5 transition-all duration-200 ${
+                      selectedPattern.name === p.name
+                        ? "text-white hover:bg-white hover:bg-opacity-10"
+                        : "text-orange-600 hover:bg-orange-50"
+                    } rounded`}
+                  >
+                    <span>See Benefits</span>
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={`transition-transform duration-300 ${
+                        expandedPattern === p.name ? "rotate-180" : ""
+                      }`}
+                    >
+                      <path
+                        d="M6 9l6 6 6-6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </button>
+
+                  {/* Expandable Description Area */}
+                  <div
+                    className={`transition-all duration-300 ease-in-out ${
+                      expandedPattern === p.name
+                        ? "max-h-40 opacity-100 mt-2 pt-3 border-t"
+                        : "max-h-0 opacity-0"
+                    } ${
+                      selectedPattern.name === p.name
+                        ? "border-white border-opacity-30"
+                        : "border-gray-200"
+                    }`}
+                  >
+                    <div className={`text-sm ${
+                      selectedPattern.name === p.name ? "text-white text-opacity-90" : "text-gray-600"
+                    }`}>
+                      {p.desc}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
+
+        {/* Duration Section - Now at BOTTOM */}
         <div className="card p-4 mb-4">
           <div className="font-semibold mb-3">Duration</div>
           
@@ -273,8 +515,8 @@ export default function BreathingSession() {
                 key={d}
                 className={
                   duration === d && !showCustomInput
-                    ? "px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition"
-                    : "px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-gray-200 transition"
+                    ? "px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition-all duration-200 transform hover:scale-105"
+                    : "px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 border border-transparent"
                 }
                 onClick={() => {
                   setDuration(d);
@@ -292,8 +534,8 @@ export default function BreathingSession() {
           <button
             className={
               showCustomInput
-                ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition"
-                : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-gray-200 transition"
+                ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition-all duration-200"
+                : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 border border-transparent"
             }
             onClick={() => {
               setShowCustomInput(true);
@@ -345,8 +587,8 @@ export default function BreathingSession() {
             <button
               className={
                 duration === customDurationValue
-                  ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition mt-2"
-                  : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-gray-200 transition mt-2"
+                  ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition-all duration-200 mt-2"
+                  : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 border border-transparent mt-2"
               }
               onClick={() => {
                 setDuration(customDurationValue);
@@ -356,28 +598,6 @@ export default function BreathingSession() {
               {customDurationValue} min
             </button>
           ) : null}
-        </div>
-        
-        <div className="card p-4 mb-4">
-          <div className="font-semibold mb-2">Pattern</div>
-          {patterns.map((p) => (
-            <div
-              key={p.name}
-              className={
-                selectedPattern.name === p.name
-                  ? "btn-primary px-3 py-2 mb-2 flex flex-col"
-                  : "btn-outline px-3 py-2 mb-2 flex flex-col"
-              }
-              onClick={() => setSelectedPattern(p)}
-              style={{ cursor: "pointer" }}
-            >
-              <span>{p.name}</span>
-              <span className="text-xs text-gray-600">{p.desc}</span>
-              <span className="text-xs mt-1">
-                In: {p.inhale}s Hold: {p.hold}s Out: {p.exhale}s
-              </span>
-            </div>
-          ))}
         </div>
         <div className="card p-4 mb-4">
           <div className="font-semibold mb-2">Quick Tips</div>
