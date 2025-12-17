@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { PatternValidator } from "../utils/PatternValidator";
 import BreathingVisualizer from "./BreathingVisualizer";
 
 const categories = [
@@ -12,40 +13,40 @@ const categories = [
 
 const patternsByCategory = {
   focus: [
-    { level: "Beginner", name: "5-2-7", inhale: 5, hold: 2, exhale: 7, desc: "Balances focus + calm" },
-    { level: "Intermediate", name: "4-4-6", inhale: 4, hold: 4, exhale: 6, desc: "Regulates attention and reduces distractions" },
-    { level: "Advanced", name: "5-3-9", inhale: 5, hold: 3, exhale: 9, desc: "Longer exhale deepens focus and mental clarity" },
-    { level: "Pro", name: "6-2-10", inhale: 6, hold: 2, exhale: 10, desc: "Used by elite performers for stable concentration" },
+    { level: "Beginner", name: "5-2-7", type: "3-phase", inhale: 5, holdTop: 2, exhale: 7, category: "focus", description: "Balances focus + calm" },
+    { level: "Intermediate", name: "4-4-6", type: "3-phase", inhale: 4, holdTop: 4, exhale: 6, category: "focus", description: "Regulates attention and reduces distractions" },
+    { level: "Advanced", name: "5-3-9", type: "3-phase", inhale: 5, holdTop: 3, exhale: 9, category: "focus", description: "Longer exhale deepens focus and mental clarity" },
+    { level: "Pro", name: "6-2-10", type: "3-phase", inhale: 6, holdTop: 2, exhale: 10, category: "focus", description: "Used by elite performers for stable concentration" },
   ],
   stress: [
-    { level: "Beginner", name: "4-0-6", inhale: 4, hold: 0, exhale: 6, desc: "Immediately reduces stress" },
-    { level: "Intermediate", name: "Box Breathing", inhale: 4, hold: 4, exhale: 4, desc: "Navy SEAL technique - Creates calm under pressure" },
-    { level: "Advanced", name: "4-7-8", inhale: 4, hold: 7, exhale: 8, desc: "Andrew Weil Method - Deeply relaxes nervous system" },
-    { level: "Pro", name: "Coherent 6-0-6", inhale: 6, hold: 0, exhale: 6, desc: "Balances heart and brain waves" },
+    { level: "Beginner", name: "4-0-6", type: "3-phase", inhale: 4, holdTop: 0, exhale: 6, category: "stress", description: "Immediately reduces stress" },
+    { level: "Intermediate", name: "Box Breathing", type: "4-phase", inhale: 4, holdTop: 4, exhale: 4, holdBottom: 4, category: "stress", description: "Navy SEAL technique - Creates calm under pressure" },
+    { level: "Advanced", name: "4-7-8", type: "3-phase", inhale: 4, holdTop: 7, exhale: 8, category: "stress", description: "Andrew Weil Method - Deeply relaxes nervous system" },
+    { level: "Pro", name: "Coherent 6-0-6", type: "3-phase", inhale: 6, holdTop: 0, exhale: 6, category: "stress", description: "Balances heart and brain waves" },
   ],
   sleep: [
-    { level: "Beginner", name: "4-0-6", inhale: 4, hold: 0, exhale: 6, desc: "Slows heart rate" },
-    { level: "Intermediate", name: "4-7-8", inhale: 4, hold: 7, exhale: 8, desc: "Scientifically shown to reduce anxiety and induce sleep" },
-    { level: "Advanced", name: "5-0-10", inhale: 5, hold: 0, exhale: 10, desc: "Long exhale signals brain to release melatonin" },
-    { level: "Pro", name: "6-0-10", inhale: 6, hold: 0, exhale: 10, desc: "Used by meditation experts for deep rest" },
+    { level: "Beginner", name: "4-0-6", type: "3-phase", inhale: 4, holdTop: 0, exhale: 6, category: "sleep", description: "Slows heart rate" },
+    { level: "Intermediate", name: "4-7-8", type: "3-phase", inhale: 4, holdTop: 7, exhale: 8, category: "sleep", description: "Scientifically shown to reduce anxiety and induce sleep" },
+    { level: "Advanced", name: "5-0-10", type: "3-phase", inhale: 5, holdTop: 0, exhale: 10, category: "sleep", description: "Long exhale signals brain to release melatonin" },
+    { level: "Pro", name: "6-0-10", type: "3-phase", inhale: 6, holdTop: 0, exhale: 10, category: "sleep", description: "Used by meditation experts for deep rest" },
   ],
   energy: [
-    { level: "Beginner", name: "3-1-3", inhale: 3, hold: 1, exhale: 3, desc: "Gentle stimulation without hyperventilation" },
-    { level: "Intermediate", name: "Fast Paced 2-0-2", inhale: 2, hold: 0, exhale: 2, desc: "Boosts alertness quickly" },
-    { level: "Advanced", name: "Kapalabhati 1-0-1", inhale: 1, hold: 0, exhale: 1, desc: "Sharp inhale/exhale × 20 cycles (gentle)" },
-    { level: "Pro", name: "Sharp 6 + Deep", inhale: 6, hold: 0, exhale: 6, desc: "6 sharp exhales then deep breath - Used by performers" },
+    { level: "Beginner", name: "3-1-3", type: "3-phase", inhale: 3, holdTop: 1, exhale: 3, category: "energy", description: "Gentle stimulation without hyperventilation" },
+    { level: "Intermediate", name: "Fast Paced 2-0-2", type: "3-phase", inhale: 2, holdTop: 0, exhale: 2, category: "energy", description: "Boosts alertness quickly" },
+    { level: "Advanced", name: "Kapalabhati 1-0-1", type: "3-phase", inhale: 1, holdTop: 0, exhale: 1, category: "energy", description: "Sharp inhale/exhale × 20 cycles (gentle)" },
+    { level: "Pro", name: "Sharp 6 + Deep", type: "3-phase", inhale: 6, holdTop: 0, exhale: 6, category: "energy", description: "6 sharp exhales then deep breath - Used by performers" },
   ],
   health: [
-    { level: "Beginner", name: "Nasal 6-0-6", inhale: 6, hold: 0, exhale: 6, desc: "Trains lungs and improves HRV (nasal breathing only)" },
-    { level: "Intermediate", name: "6-3-6", inhale: 6, hold: 3, exhale: 6, desc: "Promotes optimal oxygen + CO₂ balance" },
-    { level: "Advanced", name: "Cadence 5-0-7", inhale: 5, hold: 0, exhale: 7, desc: "5-7 breaths/min ideal for heart-lung sync" },
-    { level: "Pro", name: "CO₂ Training 4-0-12", inhale: 4, hold: 0, exhale: 12, desc: "Develops strong CO₂ tolerance" },
+    { level: "Beginner", name: "Nasal 6-0-6", type: "3-phase", inhale: 6, holdTop: 0, exhale: 6, category: "health", description: "Trains lungs and improves HRV (nasal breathing only)" },
+    { level: "Intermediate", name: "6-3-6", type: "3-phase", inhale: 6, holdTop: 3, exhale: 6, category: "health", description: "Promotes optimal oxygen + CO₂ balance" },
+    { level: "Advanced", name: "Cadence 5-0-7", type: "3-phase", inhale: 5, holdTop: 0, exhale: 7, category: "health", description: "5-7 breaths/min ideal for heart-lung sync" },
+    { level: "Pro", name: "CO₂ Training 4-0-12", type: "3-phase", inhale: 4, holdTop: 0, exhale: 12, category: "health", description: "Develops strong CO₂ tolerance" },
   ],
   emotional: [
-    { level: "Beginner", name: "Physiological Sigh", inhale: 2, hold: 2, exhale: 6, desc: "2s inhale + 2s top-up inhale + 6s exhale - Stops panic instantly" },
-    { level: "Intermediate", name: "4-2-6", inhale: 4, hold: 2, exhale: 6, desc: "Balances mood" },
-    { level: "Advanced", name: "3-3-6", inhale: 3, hold: 3, exhale: 6, desc: "Used in trauma-informed breathing therapy" },
-    { level: "Pro", name: "Vagal Toning 5-0-8", inhale: 5, hold: 0, exhale: 8, desc: "Slow nasal inhale + humming exhale - Stimulates vagus nerve" },
+    { level: "Beginner", name: "Physiological Sigh", type: "3-phase", inhale: 2, holdTop: 2, exhale: 6, category: "emotional", description: "2s inhale + 2s top-up inhale + 6s exhale - Stops panic instantly" },
+    { level: "Intermediate", name: "4-2-6", type: "3-phase", inhale: 4, holdTop: 2, exhale: 6, category: "emotional", description: "Balances mood" },
+    { level: "Advanced", name: "3-3-6", type: "3-phase", inhale: 3, holdTop: 3, exhale: 6, category: "emotional", description: "Used in trauma-informed breathing therapy" },
+    { level: "Pro", name: "Vagal Toning 5-0-8", type: "3-phase", inhale: 5, holdTop: 0, exhale: 8, category: "emotional", description: "Slow nasal inhale + humming exhale - Stimulates vagus nerve" },
   ],
 };
 
@@ -121,6 +122,29 @@ export default function BreathingSession() {
   const [validationError, setValidationError] = useState("");
   const [resetKey, setResetKey] = useState(0);
   const [expandedPattern, setExpandedPattern] = useState(null);
+  const [patternValidationError, setPatternValidationError] = useState("");
+
+  // Validate all patterns on component mount
+  useEffect(() => {
+    const validateAllPatterns = () => {
+      let hasInvalidPatterns = false;
+      
+      Object.entries(patternsByCategory).forEach(([category, patterns]) => {
+        patterns.forEach(pattern => {
+          if (!PatternValidator.validatePattern(pattern)) {
+            console.error(`Invalid pattern found in ${category}:`, pattern);
+            hasInvalidPatterns = true;
+          }
+        });
+      });
+      
+      if (hasInvalidPatterns) {
+        setPatternValidationError("Some patterns have invalid configurations. Check console for details.");
+      }
+    };
+    
+    validateAllPatterns();
+  }, []);
 
   // Timer effect - manages countdown independently
   useEffect(() => {
@@ -158,6 +182,31 @@ export default function BreathingSession() {
     setCycle(0);
     setRemaining(duration * 60);
     setResetKey(prev => prev + 1); // Force visualizer to remount
+  };
+
+  const handlePatternSelection = (pattern) => {
+    // Validate pattern configuration integrity
+    if (!PatternValidator.validatePattern(pattern)) {
+      setPatternValidationError(`Invalid pattern configuration: ${pattern.name}`);
+      console.error('Pattern validation failed:', pattern);
+      return;
+    }
+    
+    // Clear any previous validation errors
+    setPatternValidationError("");
+    
+    // Set the validated pattern
+    setSelectedPattern(pattern);
+    
+    // Reset animation if running to recalculate paths
+    if (running) {
+      setRunning(false);
+      setTimeout(() => {
+        setResetKey(prev => prev + 1); // Force visualizer to remount with new pattern
+      }, 100);
+    } else {
+      setResetKey(prev => prev + 1); // Force visualizer to remount with new pattern
+    }
   };
 
   const handleCustomDuration = () => {
@@ -264,12 +313,34 @@ export default function BreathingSession() {
               Find your rhythm, one breath at a time
             </h2>
           </div>
-          <BreathingVisualizer
-            key={resetKey}
-            pattern={selectedPattern}
-            running={running}
-            onCycle={setCycle}
-          />
+          {(() => {
+            try {
+              return (
+                <BreathingVisualizer
+                  key={resetKey}
+                  pattern={selectedPattern}
+                  running={running}
+                  onCycle={setCycle}
+                />
+              );
+            } catch (error) {
+              console.error('BreathingVisualizer error:', error);
+              return (
+                <div className="w-full h-64 bg-red-50 rounded-lg flex items-center justify-center border-2 border-red-300">
+                  <div className="text-center">
+                    <div className="text-red-600 mb-2">Visualizer Error</div>
+                    <div className="text-sm text-red-500 mb-4">{error.message}</div>
+                    <button 
+                      onClick={() => setResetKey(prev => prev + 1)}
+                      className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                </div>
+              );
+            }
+          })()}
           <div className="flex gap-12 mt-8 mb-4 justify-center items-center">
             <div className="text-center bg-gradient-to-br from-orange-50 to-white px-6 py-3 rounded-xl shadow-sm border border-orange-100">
               <div className="text-xs font-medium text-orange-600 mb-1">Time Elapsed</div>
@@ -357,6 +428,12 @@ export default function BreathingSession() {
       <aside className="md:col-span-1 self-start">
         {/* Pattern Section - Now at TOP */}
         <div className="card p-4 mb-4">
+          {/* Pattern Validation Error Display */}
+          {patternValidationError && (
+            <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
+              {patternValidationError}
+            </div>
+          )}
           {/* Layer 1: Category Selection */}
           {!selectedCategory && (
             <>
@@ -414,7 +491,7 @@ export default function BreathingSession() {
                   {/* Clickable Header Area */}
                   <div 
                     className="cursor-pointer"
-                    onClick={() => setSelectedPattern(p)}
+                    onClick={() => handlePatternSelection(p)}
                   >
                     {/* Level Badge - Top Left Corner (Small) */}
                     <div className="absolute top-1.5 left-1.5">
@@ -443,7 +520,10 @@ export default function BreathingSession() {
                     <div className={`text-center text-xs font-semibold mb-1 ${
                       selectedPattern.name === p.name ? "text-white" : "text-orange-600"
                     }`}>
-                      In: {p.inhale}s - Hold: {p.hold}s - Out: {p.exhale}s
+                      {p.type === "4-phase" 
+                        ? `In: ${p.inhale}s - Hold: ${p.holdTop}s - Out: ${p.exhale}s - Hold: ${p.holdBottom}s`
+                        : `In: ${p.inhale}s - Hold: ${p.holdTop}s - Out: ${p.exhale}s`
+                      }
                     </div>
                   </div>
 
@@ -495,7 +575,7 @@ export default function BreathingSession() {
                     <div className={`text-sm ${
                       selectedPattern.name === p.name ? "text-white text-opacity-90" : "text-gray-600"
                     }`}>
-                      {p.desc}
+                      {p.description}
                     </div>
                   </div>
                 </div>

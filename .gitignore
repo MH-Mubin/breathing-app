@@ -41,3 +41,61 @@ Thumbs.db
 .env.production.local
 
 # Lockfiles are intentionally NOT ignored (keep them in repo)
+
+### Test coverage
+coverage/
+.nyc_output/
+
+### Docker
+.dockerignore
+
+### Temporary files
+*.tmp
+*.temp
+*.log
+
+### Database
+*.db
+*.sqlite
+*.sqlite3
+
+### Backup files
+*.bak
+*.backup
+
+### Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+### Optional npm cache directory
+.npm
+
+### Optional eslint cache
+.eslintcache
+
+### Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+### Optional REPL history
+.node_repl_history
+
+### Output of 'npm pack'
+*.tgz
+
+### Yarn Integrity file
+.yarn-integrity
+
+### dotenv environment variables file
+.env.test
+
+### Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+### Kiro specific (if you want to ignore certain Kiro files)
+.kiro/cache/
+.kiro/logs/

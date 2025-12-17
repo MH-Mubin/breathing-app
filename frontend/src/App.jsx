@@ -16,10 +16,11 @@ export default function App() {
     <AuthProvider>
       <Router>
         <Navbar />
-        <div className="min-h-screen bg-light pt-6 pb-12 px-2 md:px-0">
+        <div className="min-h-screen bg-gray-100 pt-6 pb-12 px-2 md:px-0">
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/practice" element={<BreathingSession />} />
+
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<Navigate to="/" />} />
