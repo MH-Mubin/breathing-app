@@ -9,7 +9,9 @@ import reminderRoutes from './routes/reminder.js';
 import sessionRoutes from './routes/session.js';
 import userRoutes from './routes/user.js';
 
-dotenv.config();
+// Load environment variables
+dotenv.config({ path: '.env.local' }); // Try local first
+dotenv.config(); // Fallback to .env
 
 const app = express();
 

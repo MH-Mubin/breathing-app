@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "jsdom": "^27.3.0"
+  },
+  "dependencies": {
+    "nodemailer": "^7.0.13"
   }
 }

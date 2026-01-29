@@ -25,6 +25,21 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
+  // Listen for unauthorized events from API interceptor
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setToken(null);
+      setUser(null);
+      // Redirect will be handled by ProtectedRoute
+    };
+
+    window.addEventListener("auth:unauthorized", handleUnauthorized);
+
+    return () => {
+      window.removeEventListener("auth:unauthorized", handleUnauthorized);
+    };
+  }, []);
+
   const login = (tokenValue) => {
     setToken(tokenValue);
   };
@@ -32,6 +47,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setToken(null);
     setUser(null);
+    localStorage.removeItem("token");
   };
 
   return (

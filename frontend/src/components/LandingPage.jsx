@@ -19,11 +19,11 @@ export default function LandingPage() {
             designed for your well-being.
           </p>
           <div className="flex gap-3 mb-8">
-            <a href="/practice" className="btn-primary px-5 py-2 text-lg">
-              Start Breathing
+            <a href="/login" className="btn-primary px-5 py-2 text-lg">
+              Get Started
             </a>
-            <a href="#" className="btn-outline px-5 py-2 text-lg">
-              Learn More
+            <a href="/practice" className="btn-outline px-5 py-2 text-lg">
+              Try Demo
             </a>
           </div>
           <div className="flex gap-8 mt-6">

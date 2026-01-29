@@ -12,6 +12,17 @@ const userSchema = new mongoose.Schema({
 	name: { type: String, required: true, trim: true },
 	email: { type: String, required: true, unique: true, lowercase: true, trim: true },
 	password: { type: String, required: true, select: false },
+	profile: {
+		phone: { type: String, trim: true },
+		location: { type: String, trim: true },
+		avatar: { type: String, default: '' }
+	},
+	preferences: {
+		notifications: { type: Boolean, default: true },
+		dailyReminders: { type: Boolean, default: true },
+		achievementAlerts: { type: Boolean, default: true },
+		emailUpdates: { type: Boolean, default: false }
+	},
 	stats: {
 		streak: { type: Number, default: 0 },
 		totalSessions: { type: Number, default: 0 },
@@ -19,7 +30,10 @@ const userSchema = new mongoose.Schema({
 		lastSessionDate: Date,
 		longestStreak: { type: Number, default: 0 }
 	},
-	achievements: [achievementSchema]
+	achievements: [achievementSchema],
+	// Password reset fields - OTP based
+	resetPasswordOTP: { type: String, select: false },
+	resetPasswordOTPExpires: { type: Date, select: false }
 }, { timestamps: true });
 
 // Hash password
