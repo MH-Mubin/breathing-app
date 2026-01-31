@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { AuthContext } from "../context/AuthContext";
+import api from "../utils/api";
 import { PatternValidator } from "../utils/PatternValidator";
 import BreathingVisualizer from "./BreathingVisualizer";
 
@@ -109,6 +112,7 @@ const previewBenefits = [
 ];
 
 export default function BreathingSession() {
+  const { token } = useContext(AuthContext);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedPattern, setSelectedPattern] = useState(patternsByCategory.focus[0]);
   const [duration, setDuration] = useState(5);
@@ -123,6 +127,7 @@ export default function BreathingSession() {
   const [resetKey, setResetKey] = useState(0);
   const [expandedPattern, setExpandedPattern] = useState(null);
   const [patternValidationError, setPatternValidationError] = useState("");
+  const [sessionId, setSessionId] = useState(null);
 
   // Validate all patterns on component mount
   useEffect(() => {
@@ -148,7 +153,50 @@ export default function BreathingSession() {
 
   // Timer effect - manages countdown independently
   useEffect(() => {
-    if (!running || remaining <= 0) return;
+    if (!running || remaining <= 0) {
+      // Session completed
+      if (remaining === 0 && sessionId && token) {
+        // Complete session
+        const completeSessionAsync = async () => {
+          try {
+            const totalDuration = duration * 60;
+            const pattern = {
+              inhale: selectedPattern.inhale,
+              hold: selectedPattern.holdTop || 0,
+              exhale: selectedPattern.exhale,
+            };
+
+            const response = await api.post("/session/complete", {
+              sessionId,
+              duration: totalDuration,
+              pattern,
+            });
+
+            if (response.data.success) {
+              const { streak, totalSessions, newAchievements } = response.data.data;
+              
+              toast.success(`Session completed! 🎉 Streak: ${streak} days`);
+              
+              if (newAchievements && newAchievements.length > 0) {
+                newAchievements.forEach(achievement => {
+                  toast.success(`🏆 Achievement Unlocked: ${achievement.name}!`, {
+                    duration: 5000,
+                  });
+                });
+              }
+              
+              setSessionId(null);
+            }
+          } catch (error) {
+            console.error("Failed to save session:", error);
+            toast.error("Session completed but failed to save. Please check your connection.");
+          }
+        };
+        
+        completeSessionAsync();
+      }
+      return;
+    }
     
     const interval = setInterval(() => {
       setRemaining(prev => {
@@ -161,9 +209,32 @@ export default function BreathingSession() {
     }, 1000);
     
     return () => clearInterval(interval);
-  }, [running, remaining]);
+  }, [running, remaining, sessionId, token, duration, selectedPattern]);
 
-  const handleStart = () => {
+  const handleStart = async () => {
+    // Start session in database if user is logged in
+    if (token) {
+      try {
+        const pattern = {
+          inhale: selectedPattern.inhale,
+          hold: selectedPattern.holdTop || 0,
+          exhale: selectedPattern.exhale,
+        };
+
+        const response = await api.post("/session/start", {
+          duration: duration * 60,
+          pattern,
+        });
+
+        if (response.data.success) {
+          setSessionId(response.data.data._id);
+        }
+      } catch (error) {
+        console.error("Failed to start session:", error);
+        // Continue anyway - session will work offline
+      }
+    }
+
     setRunning(true);
     setPaused(false);
     setCycle(1);
@@ -182,6 +253,7 @@ export default function BreathingSession() {
     setCycle(0);
     setRemaining(duration * 60);
     setResetKey(prev => prev + 1); // Force visualizer to remount
+    setSessionId(null); // Clear session ID
   };
 
   const handlePatternSelection = (pattern) => {
