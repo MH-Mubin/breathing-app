@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 
 import authRoutes from './routes/auth.js';
 import dashboardRoutes from './routes/dashboard.js';
+import feedbackRoutes from './routes/feedback.js';
 import patternRoutes from './routes/pattern.js';
 import reminderRoutes from './routes/reminder.js';
 import sessionRoutes from './routes/session.js';
@@ -30,6 +31,7 @@ app.use('/api/session', sessionRoutes);
 app.use('/api/patterns', patternRoutes);
 app.use('/api/reminder', reminderRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/feedback', feedbackRoutes);
 
 app.get('/api/health', (req, res) => {
 	res.json({ status: 'ok', message: 'Breathing App API is running' });

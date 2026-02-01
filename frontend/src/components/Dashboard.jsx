@@ -2,22 +2,57 @@ import { motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
-    Area,
-    AreaChart,
-    Cell,
-    Pie,
-    PieChart,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis
+  Area,
+  AreaChart,
+  Cell,
+  Pie,
+  PieChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis
 } from "recharts";
 import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
 
+// Tooltip component for activity heatmap
+const ActivityTooltip = ({ day, position }) => {
+  if (!day) return null;
+  
+  // Format date as "30 January, 2026"
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    const options = { day: 'numeric', month: 'long', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  };
+  
+  return (
+    <div 
+      className="fixed z-50 bg-gray-900 text-white text-xs px-3 py-2 rounded-lg shadow-xl pointer-events-none whitespace-nowrap"
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        transform: 'translate(-50%, -100%)',
+        marginTop: '-8px',
+      }}
+    >
+      <div className="font-semibold">{formatDate(day.date)}</div>
+      <div className="text-gray-300">
+        {day.sessions} session{day.sessions !== 1 ? 's' : ''} • {day.minutes} min
+      </div>
+      {/* Arrow */}
+      <div 
+        className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2 h-2 bg-gray-900 rotate-45"
+      />
+    </div>
+  );
+};
+
 export default function Dashboard() {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  const [hoveredDay, setHoveredDay] = useState(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const [stats, setStats] = useState(null);
   const [weeklyActivity, setWeeklyActivity] = useState([]);
   const [patternUsage, setPatternUsage] = useState([]);
@@ -238,7 +273,7 @@ export default function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="bg-white rounded-2xl shadow-lg p-6 mb-8"
+          className="bg-white rounded-2xl shadow-lg p-6 mb-8 relative"
         >
           <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
             <span className="text-3xl mr-3">📅</span>
@@ -263,16 +298,24 @@ export default function Dashboard() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.9 + (weekIndex * 7 + dayIndex) * 0.001 }}
-                        className={`w-[15px] h-[15px] rounded-sm cursor-pointer hover:ring-2 hover:ring-orange-400 transition-all border ${
+                        onMouseEnter={(e) => {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          setHoveredDay(day);
+                          setTooltipPosition({
+                            x: rect.left + rect.width / 2,
+                            y: rect.top,
+                          });
+                        }}
+                        onMouseLeave={() => setHoveredDay(null)}
+                        className={`w-[15px] h-[15px] rounded-sm cursor-pointer hover:ring-2 hover:ring-orange-500 transition-all border ${
                           day.active
                             ? day.sessions >= 3
-                              ? "bg-orange-600 border-orange-700"
+                              ? "bg-orange-800 border-orange-900"
                               : day.sessions >= 2
-                              ? "bg-orange-400 border-orange-500"
-                              : "bg-orange-200 border-orange-300"
-                            : "bg-gray-100 border-gray-200"
+                              ? "bg-orange-600 border-orange-700"
+                              : "bg-orange-400 border-orange-500"
+                            : "bg-[#cbcbcb] border-[#cbcbcb]"
                         }`}
-                        title={`${day.date}: ${day.sessions} session${day.sessions !== 1 ? 's' : ''}, ${day.minutes} min`}
                       />
                     ))}
                   </div>
@@ -288,14 +331,19 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <span>Less</span>
               <div className="flex gap-1">
-                <div className="w-[15px] h-[15px] bg-gray-100 border border-gray-200 rounded-sm"></div>
-                <div className="w-[15px] h-[15px] bg-orange-200 border border-orange-300 rounded-sm"></div>
+                <div className="w-[15px] h-[15px] bg-[#cbcbcb] border border-[#cbcbcb] rounded-sm"></div>
                 <div className="w-[15px] h-[15px] bg-orange-400 border border-orange-500 rounded-sm"></div>
                 <div className="w-[15px] h-[15px] bg-orange-600 border border-orange-700 rounded-sm"></div>
+                <div className="w-[15px] h-[15px] bg-orange-800 border border-orange-900 rounded-sm"></div>
               </div>
               <span>More</span>
             </div>
           </div>
+          
+          {/* Tooltip */}
+          {hoveredDay && (
+            <ActivityTooltip day={hoveredDay} position={tooltipPosition} />
+          )}
         </motion.div>
 
         {/* Charts Row */}
