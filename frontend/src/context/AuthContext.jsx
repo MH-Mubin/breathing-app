@@ -7,18 +7,26 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
 
+  const reloadUser = async () => {
+    if (!token) return;
+    try {
+      const res = await api.get("/auth/me");
+      setUser(res.data.data);
+    } catch (error) {
+      // If fetching fails with valid token syntax but invalid token (e.g. expired), logout
+      // But for network errors we might just want to keep silent or retry
+      console.error("Failed to reload user", error);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       localStorage.setItem("token", token);
-      // try fetch profile
-      api
-        .get("/auth/me")
-        .then((res) => setUser(res.data.data))
-        .catch(() => {
-          setUser(null);
-          setToken(null);
-          localStorage.removeItem("token");
-        });
+      reloadUser().catch(() => {
+        setUser(null);
+        setToken(null);
+        localStorage.removeItem("token");
+      });
     } else {
       setUser(null);
       localStorage.removeItem("token");
@@ -51,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, token, login, logout, reloadUser }}>
       {children}
     </AuthContext.Provider>
   );

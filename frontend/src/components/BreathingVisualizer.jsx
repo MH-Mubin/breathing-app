@@ -312,8 +312,9 @@ export default function BreathingVisualizer({
     if (!running) {
       previousRunningRef.current = false;
       // Pause the phase manager when not running
-      const phaseManager = new PhaseManager(pattern, config);
-      phaseManager.pause();
+      if (phaseManager) {
+        phaseManager.pause();
+      }
     }
     
     runVisualizer();

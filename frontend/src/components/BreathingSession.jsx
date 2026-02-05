@@ -112,7 +112,7 @@ const previewBenefits = [
 ];
 
 export default function BreathingSession() {
-  const { token } = useContext(AuthContext);
+  const { token, user, reloadUser } = useContext(AuthContext);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedPattern, setSelectedPattern] = useState(patternsByCategory.focus[0]);
   const [duration, setDuration] = useState(5);
@@ -186,6 +186,8 @@ export default function BreathingSession() {
               }
               
               setSessionId(null);
+              // Refresh user stats (streak) immediately
+              reloadUser();
             }
           } catch (error) {
             console.error("Failed to save session:", error);
@@ -302,12 +304,21 @@ export default function BreathingSession() {
       return;
     }
 
+    // If session is running or paused, reset it completely
+    if (running || paused) {
+      setRunning(false);
+      setPaused(false);
+      setCycle(0);
+      setSessionId(null);
+      setResetKey(prev => prev + 1); // Force visualizer remount
+    }
+
     // Check if the value matches a preset duration (3, 5, 8, 10)
     if (durations.includes(customValue)) {
       // Just select the preset button, don't create custom button
       setDuration(customValue);
       setCustomDurationValue(null); // Clear custom value
-      if (!running) setRemaining(customValue * 60);
+      setRemaining(customValue * 60); // Always update remaining time
       setCustomDuration("");
       setShowCustomInput(false);
       setValidationError("");
@@ -315,7 +326,7 @@ export default function BreathingSession() {
       // Create custom duration button for other values
       setCustomDurationValue(customValue);
       setDuration(customValue);
-      if (!running) setRemaining(customValue * 60);
+      setRemaining(customValue * 60); // Always update remaining time
       setCustomDuration("");
       setShowCustomInput(false);
       setValidationError("");
@@ -333,12 +344,39 @@ export default function BreathingSession() {
               <span className="text-2xl">🔥</span>
               <span className="font-bold text-base text-gray-800">Streak</span>
             </div>
-            <div className="bg-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
-              Active
-            </div>
+            {user?.stats?.streak > 0 && (
+              <div className="bg-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
+                Active
+              </div>
+            )}
           </div>
-          <div className="text-3xl font-bold text-orange-600 mb-1">7 days</div>
+          <div className="text-3xl font-bold text-orange-600 mb-1">
+            {user?.stats?.streak || 0} days
+          </div>
           <div className="text-xs text-gray-600">Keep it going! 🎯</div>
+        </div>
+
+        {/* Quick Tips */}
+        {/* Quick Tips - Styled */}
+        <div className="card p-4 mb-3 bg-gradient-to-br from-blue-50 to-white border border-blue-100 shadow-sm">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="text-xl">💡</span>
+            <div className="font-bold text-gray-800">Quick Tips</div>
+          </div>
+          <ul className="space-y-2">
+            <li className="flex items-start gap-2">
+              <span className="text-blue-500 mt-0.5">•</span>
+              <span className="text-sm text-gray-700">Breathe through your nose</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-blue-500 mt-0.5">•</span>
+              <span className="text-sm text-gray-700">Start slow & relaxed</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-blue-500 mt-0.5">•</span>
+              <span className="text-sm text-gray-700 italic">"If you're a beginner, start with a simple pattern like 5-2-7."</span>
+            </li>
+          </ul>
         </div>
 
         {/* Benefits Section */}
@@ -381,9 +419,12 @@ export default function BreathingSession() {
         >
           <div className="mb-4 text-center">
             <span className="session-badge">Practice Session</span>
-            <h2 className="session-title">
+            <h2 className="session-title mb-2">
               Find your rhythm, one breath at a time
             </h2>
+            <p className="text-gray-600 text-lg font-medium animate-pulse">
+              ✨ Breathe through your chest, not the belly ✨
+            </p>
           </div>
           {(() => {
             try {
@@ -671,9 +712,17 @@ export default function BreathingSession() {
                     : "px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 border border-transparent"
                 }
                 onClick={() => {
+                  // If session is running or paused, reset it completely
+                  if (running || paused) {
+                    setRunning(false);
+                    setPaused(false);
+                    setCycle(0);
+                    setSessionId(null);
+                    setResetKey(prev => prev + 1); // Force visualizer remount
+                  }
                   setDuration(d);
                   setShowCustomInput(false);
-                  if (!running) setRemaining(d * 60);
+                  setRemaining(d * 60); // Always update remaining time
                 }}
                 aria-pressed={duration === d && !showCustomInput}
               >
@@ -751,12 +800,7 @@ export default function BreathingSession() {
             </button>
           ) : null}
         </div>
-        <div className="card p-4 mb-4">
-          <div className="font-semibold mb-2">Quick Tips</div>
-          <div className="text-xs mb-1">Find Your Rhythm</div>
-          <div className="text-xs mb-1">Start slow</div>
-          <div className="text-xs mb-1">Nose Breathing</div>
-        </div>
+
       </aside>
     </div>
   );
