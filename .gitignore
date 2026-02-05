@@ -2,7 +2,7 @@
 ### Node
 node_modules/
 **/node_modules/
-
+/screenshots/
 # Build output
 dist/
 build/

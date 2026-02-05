@@ -368,22 +368,45 @@ export default function BreathingVisualizer({
     const cycleWidth = bottomHorizontalLength + diagonalHorizontal + topHorizontalLength + diagonalHorizontal;
     
     // Use infinite extension parameters if available, otherwise fallback to original logic
-    let numCycles, startX, totalWidth;
+    let numCycles, totalWidth;
     if (pathMetrics.infiniteExtension) {
       const extension = pathMetrics.infiniteExtension;
-      numCycles = extension.patternsNeeded;
-      startX = extension.leftBoundary;
-      totalWidth = extension.rightBoundary - extension.leftBoundary;
+      numCycles = extension.patternsNeeded + 4; // Add extra for safety
+      totalWidth = extension.rightBoundary - extension.leftBoundary + Math.abs(horizontalOffset);
     } else {
       // Fallback to original logic
-      numCycles = Math.ceil(viewWidth / cycleWidth) + 2;
-      startX = horizontalOffset;
+      numCycles = Math.ceil(viewWidth / cycleWidth) + 6; // Extra cycles for safety
       totalWidth = numCycles * cycleWidth;
     }
     
-    // Build zigzag path with horizontal offset applied
+    // ========================================================================
+    // ALIGNMENT LOGIC: Ensure ball at center (350px) is at bottom of upward diagonal
+    // ========================================================================
+    // Pattern sequence per cycle: bottom-line → up-diagonal → top-line → down-diagonal
+    //
+    // Upward diagonal bottoms occur at positions:
+    //   startX + bottomHorizontalLength + 0*cycleWidth
+    //   startX + bottomHorizontalLength + 1*cycleWidth
+    //   startX + bottomHorizontalLength + 2*cycleWidth
+    //   ... etc
+    //
+    // We want ONE of these to equal fixedBallX (350px):
+    //   startX + bottomHorizontalLength + n*cycleWidth = 350
+    //   startX = 350 - bottomHorizontalLength - n*cycleWidth
+    //
+    // Choose n such that startX is slightly negative (covers left viewport edge)
+    const fixedBallX = config.fixedBallPosition; // 350px
+    
+    // Calculate n: we want startX to be around -cycleWidth to -2*cycleWidth
+    // n = ceil((fixedBallX - bottomHorizontalLength + cycleWidth) / cycleWidth)
+    const n = Math.ceil((fixedBallX - bottomHorizontalLength + cycleWidth) / cycleWidth);
+    
+    // Calculate the aligned start position
+    const alignedStartX = fixedBallX - bottomHorizontalLength - (n * cycleWidth);
+    
+    // Build zigzag path with proper alignment
     const points = [];
-    let currentX = startX;
+    let currentX = alignedStartX;
     
     for (let i = 0; i < numCycles; i++) {
       points.push({ x: currentX, y: bottomY });

@@ -186,11 +186,13 @@ export class PathCalculator {
         throw new Error('Invalid input types for horizontal offset calculation');
       }
       
-      // Calculate where the bottom of up-diagonal would be in the default path
-      const defaultBottomOfUpDiagonal = bottomHorizontalLength + diagonalHorizontal;
+      // The bottom of the upward diagonal is where the bottom horizontal line ends
+      // This is where the ball should start (at the beginning of the upward diagonal)
+      const bottomOfUpDiagonal = bottomHorizontalLength;
       
-      // Calculate offset needed to align with fixed ball position
-      const offset = fixedBallPosition - defaultBottomOfUpDiagonal;
+      // Calculate offset needed to align with fixed ball position (center = 350px)
+      // This shifts the entire pattern so the diagonal bottom aligns with ball position
+      const offset = fixedBallPosition - bottomOfUpDiagonal;
       
       return offset;
     } catch (error) {
