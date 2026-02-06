@@ -58,62 +58,63 @@ const durations = [3, 5, 8, 10];
 // Benefits data mapped to categories
 const benefitsByCategory = {
   focus: [
-    { emoji: "🎯", title: "Boosts Clarity", desc: "Sharpens mental focus" },
-    { emoji: "🧠", title: "Sharpens Attention", desc: "Enhances concentration" },
-    { emoji: "💡", title: "Enhances Memory", desc: "Improves recall ability" },
-    { emoji: "🎓", title: "Steadies Thoughts", desc: "Reduces mental clutter" },
-    { emoji: "⚡", title: "Improves Control", desc: "Better self-regulation" },
+    { emoji: "🎯", title: "Boosts Clarity"},
+    { emoji: "🧠", title: "Sharpens Attention"},
+    { emoji: "💡", title: "Enhances Memory"},
+    { emoji: "🎓", title: "Steadies Thoughts"},
+    { emoji: "⚡", title: "Improves Control"},
   ],
   stress: [
-    { emoji: "😌", title: "Calms Nerves", desc: "Soothes nervous system" },
-    { emoji: "🧘", title: "Lowers Cortisol", desc: "Reduces stress hormone" },
-    { emoji: "💆", title: "Relaxes Muscles", desc: "Releases physical tension" },
-    { emoji: "🌊", title: "Eases Tension", desc: "Promotes relaxation" },
-    { emoji: "☮️", title: "Stabilizes Mood", desc: "Emotional balance" },
+    { emoji: "😌", title: "Calms Nerves"},
+    { emoji: "🧘", title: "Lowers Cortisol"},
+    { emoji: "💆", title: "Relaxes Muscles"},
+    { emoji: "🌊", title: "Eases Tension"},
+    { emoji: "☮️", title: "Stabilizes Mood"},
   ],
   sleep: [
-    { emoji: "💤", title: "Slows Heartbeat", desc: "Calms heart rate" },
-    { emoji: "🛌", title: "Relaxes Body", desc: "Physical relaxation" },
-    { emoji: "🌙", title: "Clears Mind", desc: "Mental quietness" },
-    { emoji: "😴", title: "Deepens Rest", desc: "Better sleep quality" },
-    { emoji: "🌟", title: "Reduces Stress", desc: "Peaceful state" },
+    { emoji: "💤", title: "Slows Heartbeat"},
+    { emoji: "🛌", title: "Relaxes Body"},
+    { emoji: "🌙", title: "Clears Mind"},
+    { emoji: "😴", title: "Deepens Rest"},
+    { emoji: "🌟", title: "Reduces Stress"},
   ],
   energy: [
-    { emoji: "🫁", title: "Increases Oxygen", desc: "Better oxygenation" },
-    { emoji: "⚡", title: "Elevates Alertness", desc: "Mental sharpness" },
-    { emoji: "🔋", title: "Activates Body", desc: "Physical energy" },
-    { emoji: "💪", title: "Improves Stamina", desc: "Sustained energy" },
-    { emoji: "☀️", title: "Reduces Fatigue", desc: "Less tiredness" },
+    { emoji: "🫁", title: "Increases Oxygen"},
+    { emoji: "⚡", title: "Elevates Alertness"},
+    { emoji: "🔋", title: "Activates Body"},
+    { emoji: "💪", title: "Improves Stamina"},
+    { emoji: "☀️", title: "Reduces Fatigue"},
   ],
   health: [
-    { emoji: "🫁", title: "Strengthens Lungs", desc: "Better lung capacity" },
-    { emoji: "❤️", title: "Enhances Circulation", desc: "Improved blood flow" },
-    { emoji: "🩺", title: "Supports Healing", desc: "Recovery support" },
-    { emoji: "⚖️", title: "Balances Breath", desc: "Respiratory health" },
-    { emoji: "🛡️", title: "Builds Resilience", desc: "Stronger immunity" },
+    { emoji: "🫁", title: "Strengthens Lungs"},
+    { emoji: "❤️", title: "Enhances Circulation"},
+    { emoji: "🩺", title: "Supports Healing"},
+    { emoji: "⚖️", title: "Balances Breath"},
+    { emoji: "🛡️", title: "Builds Resilience"},
   ],
   emotional: [
-    { emoji: "🧘‍♀️", title: "Reduces Anxiety", desc: "Calms worries" },
-    { emoji: "💚", title: "Steadies Emotions", desc: "Emotional stability" },
-    { emoji: "🌈", title: "Lowers Stress", desc: "Peaceful mind" },
-    { emoji: "🎭", title: "Improves Control", desc: "Better regulation" },
-    { emoji: "✨", title: "Clears Thoughts", desc: "Mental clarity" },
+    { emoji: "🧘‍♀️", title: "Reduces Anxiety"},
+    { emoji: "💚", title: "Steadies Emotions"},
+    { emoji: "🌈", title: "Lowers Stress"},
+    { emoji: "🎭", title: "Improves Control"},
+    { emoji: "✨", title: "Clears Thoughts"},
   ],
 };
 
 // Preview benefits (one from each category)
 const previewBenefits = [
-  { emoji: "😌", title: "Reduces Stress", desc: "Lowers cortisol" },
-  { emoji: "🎯", title: "Improves Focus", desc: "Mental clarity" },
-  { emoji: "⚡", title: "Boosts Energy", desc: "Oxygen flow" },
-  { emoji: "💤", title: "Better Sleep", desc: "Deepens rest" },
-  { emoji: "❤️", title: "Health & Recovery", desc: "Supports healing" },
-  { emoji: "🧘‍♀️", title: "Emotional Balance", desc: "Steadies emotions" },
+  { emoji: "😌", title: "Reduces Stress"},
+  { emoji: "🎯", title: "Improves Focus"},
+  { emoji: "⚡", title: "Boosts Energy"},
+  { emoji: "💤", title: "Better Sleep"},
+  { emoji: "❤️", title: "Health & Recovery"},
+  { emoji: "🧘♀️", title: "Emotional Balance"},
 ];
 
 export default function BreathingSession() {
   const { token, user, reloadUser } = useContext(AuthContext);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [lastCategory, setLastCategory] = useState(null);
   const [selectedPattern, setSelectedPattern] = useState(patternsByCategory.focus[0]);
   const [duration, setDuration] = useState(5);
   const [running, setRunning] = useState(false);
@@ -338,23 +339,7 @@ export default function BreathingSession() {
       {/* Left Panel */}
       <aside className="md:col-span-1 self-start">
         {/* Streak Card - Enhanced Design (Smaller) */}
-        <div className="card p-3 mb-3 bg-gradient-to-br from-orange-50 to-white border-2 border-orange-200 hover:shadow-lg transition-all duration-300">
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">🔥</span>
-              <span className="font-bold text-base text-gray-800">Streak</span>
-            </div>
-            {user?.stats?.streak > 0 && (
-              <div className="bg-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">
-                Active
-              </div>
-            )}
-          </div>
-          <div className="text-3xl font-bold text-orange-600 mb-1">
-            {user?.stats?.streak || 0} days
-          </div>
-          <div className="text-xs text-gray-600">Keep it going! 🎯</div>
-        </div>
+
 
         {/* Quick Tips */}
         {/* Quick Tips - Styled */}
@@ -386,11 +371,10 @@ export default function BreathingSession() {
             {previewBenefits.map((benefit, index) => (
               <div
                 key={index}
-                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200 cursor-pointer"
+                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200 cursor-pointer flex items-center gap-3"
               >
-                <div className="text-2xl mb-1">{benefit.emoji}</div>
-                <div className="font-semibold text-sm text-gray-800 mb-0.5">{benefit.title}</div>
-                <div className="text-xs text-gray-500">{benefit.desc}</div>
+                <div className="text-2xl">{benefit.emoji}</div>
+                <div className="font-semibold text-sm text-gray-800">{benefit.title}</div>
               </div>
             ))}
           </>
@@ -400,11 +384,10 @@ export default function BreathingSession() {
             {benefitsByCategory[selectedCategory].map((benefit, index) => (
               <div
                 key={index}
-                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200"
+                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200 flex items-center gap-3"
               >
-                <div className="text-2xl mb-1">{benefit.emoji}</div>
-                <div className="font-semibold text-sm text-gray-800 mb-0.5">{benefit.title}</div>
-                <div className="text-xs text-gray-500">{benefit.desc}</div>
+                <div className="text-2xl">{benefit.emoji}</div>
+                <div className="font-semibold text-sm text-gray-800">{benefit.title}</div>
               </div>
             ))}
           </>
@@ -414,15 +397,30 @@ export default function BreathingSession() {
       {/* Center Visualizer */}
       <section className="md:col-span-3 flex flex-col items-center justify-center self-start">
         <div
-          className="card w-full p-8 md:p-12 flex flex-col items-center"
+          className="card w-full p-8 md:p-12 flex flex-col items-center relative"
           style={{ minHeight: "480px" }}
         >
+          {/* Top Left Streak Badge */}
+          <div className="absolute top-6 left-6 flex items-center gap-2 bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-100 shadow-sm">
+            <span className="text-2xl">🔥</span>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-tight">Streak</span>
+              <div className="flex items-center gap-2">
+                 <span className="text-lg font-bold text-orange-600 leading-none">{user?.stats?.streak || 0} days</span>
+                 {user?.stats?.streak > 0 && (
+                  <span className="bg-orange-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                    Active
+                  </span>
+                 )}
+              </div>
+            </div>
+          </div>
           <div className="mb-4 text-center">
             <span className="session-badge">Practice Session</span>
             <h2 className="session-title mb-2">
               Find your rhythm, one breath at a time
             </h2>
-            <p className="text-gray-600 text-lg font-medium animate-pulse">
+            <p className="text-gray-1500 text-lg font-medium animate-pulse">
               ✨ Breathe through your chest, not the belly ✨
             </p>
           </div>
@@ -554,8 +552,15 @@ export default function BreathingSession() {
               {categories.map((cat) => (
                 <button
                   key={cat.id}
-                  className="w-full px-3 py-2 mb-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 text-left border border-transparent"
-                  onClick={() => setSelectedCategory(cat.id)}
+                  className={`w-full px-3 py-2 mb-2 rounded font-semibold text-sm transition-all duration-200 text-left border ${
+                    lastCategory === cat.id
+                      ? "bg-orange-50 text-orange-700 border-orange-200 shadow-sm"
+                      : "bg-gray-100 text-gray-700 border-transparent hover:bg-orange-50 hover:border-orange-200"
+                  }`}
+                  onClick={() => {
+                    setSelectedCategory(cat.id);
+                    setLastCategory(cat.id);
+                  }}
                 >
                   {cat.name}
                 </button>

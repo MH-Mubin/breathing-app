@@ -121,15 +121,15 @@ export default function LandingPage() {
                 className="flex flex-wrap gap-8"
               >
                 <div>
-                  <div className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">10k+</div>
+                  <div className="text-3xl font-bold bg-gradient-to-br from-orange-500 to-orange-900 bg-clip-text text-transparent">10k+</div>
                   <div className="text-sm text-gray-600">Active Users</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">50k+</div>
+                  <div className="text-3xl font-bold bg-gradient-to-br from-orange-500 to-orange-900 bg-clip-text text-transparent">50k+</div>
                   <div className="text-sm text-gray-600">Sessions Today</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">4.9★</div>
+                  <div className="text-3xl font-bold bg-gradient-to-br from-orange-500 to-orange-900 bg-clip-text text-transparent">4.9★</div>
                   <div className="text-sm text-gray-600">User Rating</div>
                 </div>
               </motion.div>
@@ -264,14 +264,15 @@ export default function LandingPage() {
             <h2 className="text-4xl md:text-5xl font-bold mt-4">How It Works</h2>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
             {/* Connection lines for desktop */}
-            <div className="hidden md:block absolute top-16 left-1/4 right-1/4 h-1 bg-gradient-to-r from-orange-200 via-orange-400 to-orange-200" />
+            <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-1 bg-gradient-to-r from-orange-200 via-orange-400 to-orange-200" />
             
             {[
-              { num: "1", title: "Choose Your Pattern", desc: "Select from various breathing patterns designed for different goals", icon: "🎯" },
-              { num: "2", title: "Follow the Guide", desc: "Visual cues help you maintain the perfect rhythm and timing", icon: "👁️" },
-              { num: "3", title: "Track Progress", desc: "Monitor your journey and build consistency with detailed analytics", icon: "📊" },
+              { num: "1", title: "Choose Goal & Pattern", desc: "Select from various breathing patterns designed for different goals", icon: "🎯" },
+              { num: "2", title: "Select Session Time", desc: "Customize duration to fit your schedule, from a quick pause to a deep session", icon: "⏱️" },
+              { num: "3", title: "Follow the ball movement", desc: "Sync your breath with the visual guide to maintain the perfect rhythm", icon: "👁️" },
+              { num: "4", title: "Track the progress", desc: "Monitor your journey and build consistency with detailed analytics", icon: "📊" },
             ].map((step, index) => (
               <motion.div
                 key={index}
@@ -284,12 +285,12 @@ export default function LandingPage() {
                 <div className="flex flex-col items-center text-center">
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="w-24 h-24 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white text-3xl font-bold shadow-xl mb-6 relative z-10"
+                    className="w-16 h-16 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white text-xl font-bold shadow-xl mb-6 relative z-10"
                   >
                     {step.num}
                   </motion.div>
-                  <div className="text-4xl mb-4">{step.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3">{step.title}</h3>
+                  <div className="text-3xl mb-4">{step.icon}</div>
+                  <h3 className="text-xl font-bold mb-3 leading-tight">{step.title}</h3>
                   <p className="text-gray-600 leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
@@ -426,7 +427,7 @@ export default function LandingPage() {
                   </div>
                   <p className="text-gray-600 mb-6 italic leading-relaxed">"{testimonial.feedback}"</p>
                   <div className="flex items-center justify-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-900 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
                       {testimonial.name[0]}
                     </div>
                     <div className="text-left">
@@ -459,7 +460,7 @@ export default function LandingPage() {
                   </div>
                   <p className="text-gray-600 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
                   <div className="flex items-center justify-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-900 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
                       {testimonial.name[0]}
                     </div>
                     <div className="text-left">
@@ -484,7 +485,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden"
+            className="bg-gradient-to-br from-orange-500 to-orange-900 rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -mr-32 -mt-32" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32" />
