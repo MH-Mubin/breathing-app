@@ -98,4 +98,7 @@ pids/
 
 ### Kiro specific (if you want to ignore certain Kiro files)
 .kiro/cache/
-.kiro/logs/
+
+### Documentation
+*.md
+!README.md
