@@ -11,14 +11,20 @@ RUN npm install
 # Copy application files
 COPY . .
 
+# Build the application
+RUN npm run build
+
+# Install serve globally
+RUN npm install -g serve
+
 # Set proper permissions
 RUN chown -R node:node /app
 
 # Switch to node user
 USER node
 
-# Expose Vite dev server port
-EXPOSE 5174
+# Expose port (Railway will set PORT env variable)
+EXPOSE 8080
 
-# Start Vite dev server
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# Start production server
+CMD ["serve", "-s", "dist", "-l", "8080"]

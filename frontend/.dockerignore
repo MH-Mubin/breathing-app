@@ -1,6 +1,13 @@
 node_modules
 npm-debug.log
-.env
 .git
 .gitignore
+.env
+.env.local
+.env.*.local
 dist
+coverage
+.vscode
+.idea
+*.md
+.DS_Store

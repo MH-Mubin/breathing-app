@@ -5,8 +5,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies (including dev dependencies for development)
-RUN npm install
+# Install production dependencies only
+RUN npm install --production
 
 # Copy application files
 COPY . .
@@ -14,5 +14,5 @@ COPY . .
 # Expose port
 EXPOSE 5000
 
-# Start the application with nodemon for hot reload
-CMD ["npm", "run", "dev"]
+# Start the application in production mode
+CMD ["npm", "start"]
