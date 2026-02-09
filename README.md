@@ -6,7 +6,65 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
+> **Live Demo:** [https://endearing-purpose-production.up.railway.app](https://endearing-purpose-production.up.railway.app)
+
 Respira is a high-performance web application designed to help users master their breath through guided exercises. Built with scalability and user experience in mind, it provides a seamless, interactive platform for stress relief, improved focus, and better sleep.
+
+---
+
+## 📖 About
+
+Respira is more than just a breathing app—it's your personal wellness companion. In today's fast-paced world, stress and anxiety have become constant companions. Respira offers a science-backed solution through the power of controlled breathing.
+
+### Why Breathing Matters
+
+Breathing is the only autonomic function we can consciously control. By mastering your breath, you can:
+- **Reduce stress and anxiety** by activating the parasympathetic nervous system
+- **Improve focus and concentration** through increased oxygen flow to the brain
+- **Enhance sleep quality** by calming the mind and body
+- **Boost energy levels** with energizing breathing patterns
+- **Support physical health** by improving heart rate variability (HRV)
+
+### Our Mission
+
+To make evidence-based breathing techniques accessible to everyone, anywhere, anytime. Whether you're a beginner or an experienced practitioner, Respira provides the tools and guidance you need to harness the power of your breath.
+
+### What Makes Respira Different
+
+- **Science-Backed Patterns**: All breathing patterns are based on research from leading experts in breathwork, including Dr. Andrew Weil, Dr. Herbert Benson, and James Nestor
+- **Adaptive Visualization**: Our unique path-based visualizer adapts to any breathing pattern, making it easy to follow along
+- **Progress Tracking**: Stay motivated with streak tracking, session history, and achievement badges
+- **Expert Insights**: Learn from quotes and recommendations from breathing experts
+- **Community Feedback**: Share your experience and read testimonials from other users
+
+---
+
+## 📸 Screenshots
+
+
+### Landing Page
+![Landing Page](./screenshots/landing-page.png)
+*Beautiful, modern landing page with animated breathing visualization*
+
+### Practice Session
+![Practice Session](./screenshots/practice-session.png)
+*Interactive breathing visualizer with real-time guidance*
+
+### Dashboard
+![Dashboard](./screenshots/dashboard.png)
+*Comprehensive dashboard with stats, activity heatmap, and insights*
+
+### Profile Page
+![Profile Page](./screenshots/profile-page.png)
+*Manage your account, preferences, and security settings*
+
+### Pattern Selection
+![Pattern Selection](./screenshots/pattern-selection.png)
+*Choose from 24+ scientifically-designed breathing patterns*
+
+
+
+---
 
 ## 🚀 Key Features
 
@@ -46,7 +104,7 @@ Follow these instructions to get a copy of the project and run it on your local 
 
 1.  **Clone the repository**
     ```bash
-    git clone https://github.com/yourusername/breathing-app.git
+    git clone https://github.com/MH-Mubin/breathing-app.git
     cd breathing-app
     ```
 
@@ -68,38 +126,52 @@ Follow these instructions to get a copy of the project and run it on your local 
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in both `backend` and `frontend` directories with the following variables:
+### Backend Environment Variables
 
-**Backend (`backend/.env`)**
+Create `backend/.env.local` for local development:
+
 ```env
-PORT=5000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret_key
-JWT_EXPIRE=30d
+# Server Configuration
+PORT=5001
 NODE_ENV=development
+
+# Database Configuration
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/breathing-app?retryWrites=true&w=majority
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters
+JWT_EXPIRE=30d
+
+# Email Configuration (Gmail)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your-email@gmail.com
+SMTP_PASS=your-gmail-app-password
+FROM_EMAIL=your-email@gmail.com
+FROM_NAME=Respira Support
+
+# Frontend URL
+FRONTEND_URL=http://localhost:5175
 ```
 
-**Frontend (`frontend/.env`)**
+**Important:** 
+- Never commit `.env.local` to git
+- Use `.env.example` as a template
+
+### Frontend Environment Variables
+
+Create `frontend/.env.local` for local development:
+
 ```env
-VITE_API_URL=http://localhost:5000/api
-# In production (e.g., Vercel), set this to your deployed backend URL
+VITE_API_URL=http://localhost:5001
 ```
 
-## 🌍 Deployment
+For production (Railway):
+```env
+VITE_API_URL=https://your-backend-url.up.railway.app
+```
 
-### Frontend (Vercel)
-The frontend is optimized for deployment on Vercel.
-1.  Connect your repository to Vercel.
-2.  Set Root Directory to `frontend`.
-3.  Set Build Command to `npm run build`.
-4.  Set Output Directory to `dist`.
-5.  Add `VITE_API_URL` environment variable pointing to your production backend.
-
-### Backend (Render/Railway)
-The backend is a standard Node.js/Express app.
-1.  Deploy to Render, Railway, or Heroku.
-2.  Set Root Directory to `backend`.
-3.  Add all environment variables from `backend/.env`.
+**Note:** Do not include `/api` at the end - the code adds it automatically.
 
 ## 📄 License
 
