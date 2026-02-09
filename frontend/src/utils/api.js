@@ -1,8 +1,18 @@
 import axios from 'axios';
 
+// Use environment variable for API URL, fallback to relative path for development
+const baseURL = import.meta.env.VITE_API_URL 
+	? `${import.meta.env.VITE_API_URL}/api`
+	: '/api';
+
 const api = axios.create({
-	baseURL: '/api'
+	baseURL
 });
+
+// Log the API URL for debugging (only in development)
+if (import.meta.env.DEV) {
+	console.log('API Base URL:', baseURL);
+}
 
 // Retry configuration
 const MAX_RETRIES = 2;

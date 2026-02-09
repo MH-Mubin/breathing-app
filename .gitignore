@@ -2,7 +2,6 @@
 ### Node
 node_modules/
 **/node_modules/
-/screenshots/
 # Build output
 dist/
 build/
@@ -39,6 +38,7 @@ Thumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+backend/.env.example
 
 # Lockfiles are intentionally NOT ignored (keep them in repo)
 
@@ -100,5 +100,14 @@ pids/
 .kiro/cache/
 
 ### Documentation
+# Ignore all markdown files except these important ones
 *.md
-!README.md
+README.md
+DEPLOYMENT.md
+SECURITY.md
+# Ignore temporary/internal documentation
+RAILWAY_TROUBLESHOOTING.md
+SECURITY_AND_DOCS_UPDATE.md
+TODOReadme.md
+**/INTEGRATION_TESTS_DOCUMENTATION.md
+/screenshots
