@@ -9,10 +9,14 @@ const api = axios.create({
 	baseURL
 });
 
-// Log the API URL for debugging (only in development)
-if (import.meta.env.DEV) {
-	console.log('API Base URL:', baseURL);
-}
+// Always log the API URL for debugging (especially important in production)
+console.log('🔧 API Configuration:', {
+	baseURL,
+	VITE_API_URL: import.meta.env.VITE_API_URL,
+	mode: import.meta.env.MODE,
+	isDev: import.meta.env.DEV,
+	isProd: import.meta.env.PROD
+});
 
 // Retry configuration
 const MAX_RETRIES = 2;
