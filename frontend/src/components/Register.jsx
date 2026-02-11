@@ -51,15 +51,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      console.log('🚀 Attempting registration with:', { 
-        name: formData.name, 
-        email: formData.email,
-        endpoint: '/auth/register'
-      });
-      
       const response = await api.post("/auth/register", formData);
-      
-      console.log('✅ Registration response:', response.data);
       
       if (response.data.success) {
         const { token } = response.data.data;
@@ -72,13 +64,7 @@ export default function Register() {
         }, 100);
       }
     } catch (error) {
-      console.error("❌ Register error:", error);
-      console.error("Error details:", {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        config: error.config
-      });
+      console.error("Registration failed:", error.response?.data?.message || error.message);
       const message = error.response?.data?.message || "Registration failed. Please try again.";
       toast.error(message);
     } finally {

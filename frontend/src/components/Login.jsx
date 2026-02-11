@@ -47,14 +47,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      console.log('🚀 Attempting login with:', { 
-        email: formData.email,
-        endpoint: '/auth/login'
-      });
-      
       const response = await api.post("/auth/login", formData);
-      
-      console.log('✅ Login response:', response.data);
       
       if (response.data.success) {
         const { token } = response.data.data;
@@ -67,13 +60,7 @@ export default function Login() {
         }, 100);
       }
     } catch (error) {
-      console.error("❌ Login error:", error);
-      console.error("Error details:", {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-        config: error.config
-      });
+      console.error("Login failed:", error.response?.data?.message || error.message);
       const message = error.response?.data?.message || "Login failed. Please try again.";
       toast.error(message);
     } finally {

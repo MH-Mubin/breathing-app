@@ -508,9 +508,6 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-
-      {/* Debug Info - Remove after fixing */}
-      <DebugInfo />
     </div>
   );
 }

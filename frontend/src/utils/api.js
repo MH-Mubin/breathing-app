@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 // Use environment variable for API URL, fallback to relative path for development
+// Railway: Environment variables are baked in during build time
 const baseURL = import.meta.env.VITE_API_URL 
 	? `${import.meta.env.VITE_API_URL}/api`
 	: '/api';
@@ -9,14 +10,8 @@ const api = axios.create({
 	baseURL
 });
 
-// Always log the API URL for debugging (especially important in production)
-console.log('🔧 API Configuration:', {
-	baseURL,
-	VITE_API_URL: import.meta.env.VITE_API_URL,
-	mode: import.meta.env.MODE,
-	isDev: import.meta.env.DEV,
-	isProd: import.meta.env.PROD
-});
+// Log API configuration once on startup
+console.log('API configured:', baseURL);
 
 // Retry configuration
 const MAX_RETRIES = 2;
