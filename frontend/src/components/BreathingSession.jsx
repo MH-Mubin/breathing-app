@@ -432,6 +432,7 @@ export default function BreathingSession() {
                   pattern={selectedPattern}
                   running={running}
                   onCycle={setCycle}
+                  duration={duration}
                 />
               );
             } catch (error) {

@@ -6,6 +6,7 @@ export default function BreathingVisualizer({
   pattern,
   running,
   onCycle,
+  duration, // Add duration prop
 }) {
   const [phase, setPhase] = useState("idle");
   const [progress, setProgress] = useState(0);
@@ -116,7 +117,11 @@ export default function BreathingVisualizer({
 
   useEffect(() => {
     let mounted = true;
-    let totalCycles = 8;
+    
+    // Calculate total cycles based on duration and pattern
+    // Each cycle duration = inhale + holdTop + exhale + (holdBottom if 4-phase)
+    const cycleDuration = pattern.inhale + (pattern.holdTop || 0) + pattern.exhale + (pattern.holdBottom || 0);
+    const totalCycles = duration ? Math.ceil((duration * 60) / cycleDuration) : 999999; // Use very large number if no duration
     
     // Validate pattern before creating PhaseManager (with performance optimization)
     let patternValidation;
@@ -328,7 +333,7 @@ export default function BreathingVisualizer({
       frameCount.current = 0;
       lastFrameTime.current = Date.now();
     };
-  }, [running, pattern, onCycle, patternHash]);
+  }, [running, pattern, onCycle, patternHash, duration]); // Add duration to dependencies
 
   // Memoize path calculations for performance
   const pathData = useMemo(() => {
@@ -519,7 +524,8 @@ export default function BreathingVisualizer({
         </div>
       )}
       
-      {performanceWarnings.length > 0 && (
+      {/* Only show performance warnings in development mode */}
+      {process.env.NODE_ENV === 'development' && performanceWarnings.length > 0 && (
         <div className="mb-4 p-2 bg-blue-50 border border-blue-200 rounded text-blue-700 text-xs max-w-md text-center">
           Performance: {performanceWarnings[performanceWarnings.length - 1].message}
         </div>
@@ -548,7 +554,7 @@ export default function BreathingVisualizer({
             <path
               d={pathData.pathD}
               stroke="var(--primary)"
-              strokeWidth="20"
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
