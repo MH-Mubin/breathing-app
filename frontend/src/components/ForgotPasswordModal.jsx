@@ -182,9 +182,10 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
               <motion.button
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
                 onClick={handleClose}
                 disabled={loading}
-                className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+                className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer"
               >
                 ×
               </motion.button>
@@ -232,7 +233,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                           setError("");
                         }}
                         placeholder="your.email@example.com"
-                        className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                         disabled={loading}
                         autoFocus
                       />
@@ -242,19 +243,21 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         type="submit"
                         disabled={loading}
-                        className="btn-primary px-4 py-2 flex-1"
+                        className="btn-primary px-4 py-2 flex-1 cursor-pointer"
                       >
                         {loading ? "Sending..." : "Send OTP"}
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         type="button"
                         onClick={handleClose}
                         disabled={loading}
-                        className="btn-outline px-4 py-2 flex-1"
+                        className="btn-outline px-4 py-2 flex-1 cursor-pointer"
                       >
                         Cancel
                       </motion.button>
@@ -288,7 +291,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                           setError("");
                         }}
                         placeholder="000000"
-                        className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400 text-center text-2xl font-mono tracking-widest"
+                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent text-center text-2xl font-mono tracking-widest"
                         disabled={loading}
                         autoFocus
                         maxLength={6}
@@ -302,19 +305,21 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         type="button"
                         onClick={handleBack}
                         disabled={loading}
-                        className="btn-outline px-4 py-2"
+                        className="btn-outline px-4 py-2 cursor-pointer"
                       >
                         ← Back
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         type="submit"
                         disabled={loading || otp.length !== 6}
-                        className="btn-primary px-4 py-2 flex-1"
+                        className="btn-primary px-4 py-2 flex-1 cursor-pointer"
                       >
                         {loading ? "Verifying..." : "Verify OTP"}
                       </motion.button>
@@ -328,7 +333,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                           setOtp("");
                           setError("");
                         }}
-                        className="text-sm text-orange-500 hover:text-orange-600"
+                        className="text-sm text-primary hover:text-primary-dark"
                         disabled={loading}
                       >
                         Resend OTP
@@ -365,7 +370,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                             setError("");
                           }}
                           placeholder="Create a new password"
-                          className="w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+                          className="w-full px-4 py-3 pr-12 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                           disabled={loading}
                           autoFocus
                           autoComplete="new-password"
@@ -408,7 +413,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                             setError("");
                           }}
                           placeholder="Re-enter your new password"
-                          className="w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+                          className="w-full px-4 py-3 pr-12 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent"
                           disabled={loading}
                           autoComplete="new-password"
                           name="confirm-new-password"
@@ -437,19 +442,21 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         type="button"
                         onClick={handleBack}
                         disabled={loading}
-                        className="btn-outline px-4 py-2"
+                        className="btn-outline px-4 py-2 cursor-pointer"
                       >
                         ← Back
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
                         type="submit"
                         disabled={loading}
-                        className="btn-primary px-4 py-2 flex-1"
+                        className="btn-primary px-4 py-2 flex-1 cursor-pointer"
                       >
                         {loading ? "Resetting..." : "Reset Password"}
                       </motion.button>

@@ -72,7 +72,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
 
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Share Your Experience</h2>
+          <h2 className="text-3xl font-heading font-bold text-gray-900 mb-2">Share Your Experience</h2>
           <p className="text-gray-600">Help others discover the benefits of breathwork</p>
         </div>
 
@@ -95,7 +95,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
                   <svg
                     className={`w-10 h-10 ${
                       star <= (hoveredRating || rating)
-                        ? "text-orange-400 fill-current"
+                        ? "text-primary fill-current"
                         : "text-gray-300"
                     }`}
                     fill="none"
@@ -125,7 +125,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
               placeholder="Tell us about your experience with Respira..."
               rows={5}
               maxLength={500}
-              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent resize-none"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
             />
             <div className="text-right text-sm text-gray-500 mt-1">
               {feedback.length}/500
@@ -136,7 +136,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-r from-orange-400 to-orange-500 text-white py-3 rounded-full font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-primary to-primary-dark text-white py-3 rounded-full font-heading font-semibold hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? "Submitting..." : "Submit Feedback"}
           </button>

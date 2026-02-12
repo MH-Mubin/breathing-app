@@ -51,7 +51,10 @@ To make evidence-based breathing techniques accessible to everyone, anywhere, an
 *Interactive breathing visualizer with real-time guidance*
 
 ### Dashboard
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](./screenshots/dashboard_1.png)
+*Comprehensive dashboard with stats, activity heatmap, and insights*
+
+![Dashboard](./screenshots/dashboard_2.png)
 *Comprehensive dashboard with stats, activity heatmap, and insights*
 
 ### Profile Page

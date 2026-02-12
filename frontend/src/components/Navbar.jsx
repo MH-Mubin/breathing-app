@@ -44,7 +44,10 @@ export default function Navbar() {
     <>
       <nav className="w-full bg-white shadow-sm sticky top-0 z-20">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="text-xl font-bold tracking-tight">Respira</div>
+          <NavLink to="/" className="flex items-center gap-2">
+            <img src="/logo.png" alt="Respira Logo" className="h-8 w-8" />
+            <div className="text-xl font-bold tracking-tight">Respira</div>
+          </NavLink>
           <div className="flex items-center gap-2">
             {visibleNavItems.map((item) => (
               <NavLink
@@ -63,7 +66,7 @@ export default function Navbar() {
             {!token && (
               <NavLink
                 to="/login"
-                className="bg-gradient-to-r from-orange-400 to-orange-500 text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all ml-2"
+                className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-2 rounded-full font-semibold hover:shadow-lg transition-all ml-2"
               >
                 Login
               </NavLink>

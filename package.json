@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "validate:colors": "node scripts/validate-colors.js"
+  },
   "devDependencies": {
     "jsdom": "^27.3.0"
   },

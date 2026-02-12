@@ -26,42 +26,35 @@ export const sendPasswordResetOTP = async (email, otp) => {
 			<!DOCTYPE html>
 			<html>
 			<head>
-				<style>
-					body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-					.container { max-width: 600px; margin: 0 auto; padding: 20px; }
-					.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
-					.content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-					.otp-box { background: white; border: 2px dashed #FF8A1F; padding: 20px; text-align: center; margin: 20px 0; border-radius: 10px; }
-					.otp-code { font-size: 32px; font-weight: bold; color: #FF8A1F; letter-spacing: 8px; font-family: monospace; }
-					.footer { text-align: center; margin-top: 20px; color: #666; font-size: 12px; }
-				</style>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			</head>
-			<body>
-				<div class="container">
-					<div class="header">
-						<h1>🧘 Respira</h1>
-						<p>Password Reset Request</p>
+			<body style="font-family: 'Nunito', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
+				<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+					<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+						<h1 style="font-family: 'Poppins', sans-serif; margin: 0; font-size: 28px;">🧘 Respira</h1>
+						<p style="font-family: 'Nunito', sans-serif; margin: 10px 0 0 0; font-size: 16px;">Password Reset Request</p>
 					</div>
-					<div class="content">
-						<p>Hello,</p>
-						<p>We received a request to reset your password. Use the OTP code below to reset your password:</p>
-						<div class="otp-box">
-							<p style="margin: 0; color: #666; font-size: 14px;">Your OTP Code</p>
-							<div class="otp-code">${otp}</div>
+					<div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">Hello,</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">We received a request to reset your password. Use the OTP code below to reset your password:</p>
+						<div style="background: white; border: 2px dashed #0EA5A4; padding: 20px; text-align: center; margin: 20px 0; border-radius: 10px;">
+							<p style="font-family: 'Nunito', sans-serif; margin: 0; color: #666; font-size: 14px;">Your OTP Code</p>
+							<div style="font-family: monospace; font-size: 32px; font-weight: bold; color: #0EA5A4; letter-spacing: 8px; margin-top: 10px;">${otp}</div>
 						</div>
-						<p><strong>This OTP will expire in 10 minutes.</strong></p>
-						<p>If you didn't request a password reset, please ignore this email. Your password will remain unchanged.</p>
-						<p><strong>Security Tips:</strong></p>
-						<ul>
-							<li>Never share your OTP with anyone</li>
-							<li>Respira will never ask for your OTP via phone or email</li>
-							<li>If you didn't request this, please secure your account</li>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;"><strong>This OTP will expire in 10 minutes.</strong></p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">If you didn't request a password reset, please ignore this email. Your password will remain unchanged.</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 10px 0;"><strong>Security Tips:</strong></p>
+						<ul style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0; padding-left: 20px;">
+							<li style="margin-bottom: 5px;">Never share your OTP with anyone</li>
+							<li style="margin-bottom: 5px;">Respira will never ask for your OTP via phone or email</li>
+							<li style="margin-bottom: 5px;">If you didn't request this, please secure your account</li>
 						</ul>
-						<p>Best regards,<br>The Respira Team</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0;">Best regards,<br>The Respira Team</p>
 					</div>
-					<div class="footer">
-						<p>© ${new Date().getFullYear()} Respira. All rights reserved.</p>
-						<p>This is an automated email. Please do not reply.</p>
+					<div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+						<p style="font-family: 'Nunito', sans-serif; margin: 5px 0;">© ${new Date().getFullYear()} Respira. All rights reserved.</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 5px 0;">This is an automated email. Please do not reply.</p>
 					</div>
 				</div>
 			</body>
@@ -107,39 +100,33 @@ export const sendPasswordResetConfirmation = async (email) => {
 			<!DOCTYPE html>
 			<html>
 			<head>
-				<style>
-					body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-					.container { max-width: 600px; margin: 0 auto; padding: 20px; }
-					.header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; }
-					.content { background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px; }
-					.success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; margin: 20px 0; }
-					.footer { text-align: center; margin-top: 20px; color: #666; font-size: 12px; }
-				</style>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			</head>
-			<body>
-				<div class="container">
-					<div class="header">
-						<h1>🧘 Respira</h1>
-						<p>Password Reset Successful</p>
+			<body style="font-family: 'Nunito', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
+				<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+					<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+						<h1 style="font-family: 'Poppins', sans-serif; margin: 0; font-size: 28px;">🧘 Respira</h1>
+						<p style="font-family: 'Nunito', sans-serif; margin: 10px 0 0 0; font-size: 16px;">Password Reset Successful</p>
 					</div>
-					<div class="content">
-						<div class="success">
-							<strong>✓ Success!</strong> Your password has been successfully reset.
+					<div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
+						<div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; margin: 0 0 20px 0;">
+							<strong style="font-family: 'Nunito', sans-serif;">✓ Success!</strong> <span style="font-family: 'Nunito', sans-serif;">Your password has been successfully reset.</span>
 						</div>
-						<p>Hello,</p>
-						<p>This email confirms that your Respira account password was successfully changed.</p>
-						<p>If you did not make this change, please contact our support team immediately at <a href="mailto:${process.env.FROM_EMAIL}">${process.env.FROM_EMAIL}</a></p>
-						<p>For your security, we recommend:</p>
-						<ul>
-							<li>Using a strong, unique password</li>
-							<li>Enabling two-factor authentication if available</li>
-							<li>Not sharing your password with anyone</li>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">Hello,</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">This email confirms that your Respira account password was successfully changed.</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">If you did not make this change, please contact our support team immediately at <a href="mailto:${process.env.FROM_EMAIL}" style="color: #0EA5A4; text-decoration: none;">${process.env.FROM_EMAIL}</a></p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 10px 0;">For your security, we recommend:</p>
+						<ul style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0; padding-left: 20px;">
+							<li style="margin-bottom: 5px;">Using a strong, unique password</li>
+							<li style="margin-bottom: 5px;">Enabling two-factor authentication if available</li>
+							<li style="margin-bottom: 5px;">Not sharing your password with anyone</li>
 						</ul>
-						<p>Best regards,<br>The Respira Team</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 0;">Best regards,<br>The Respira Team</p>
 					</div>
-					<div class="footer">
-						<p>© ${new Date().getFullYear()} Respira. All rights reserved.</p>
-						<p>This is an automated email. Please do not reply.</p>
+					<div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+						<p style="font-family: 'Nunito', sans-serif; margin: 5px 0;">© ${new Date().getFullYear()} Respira. All rights reserved.</p>
+						<p style="font-family: 'Nunito', sans-serif; margin: 5px 0;">This is an automated email. Please do not reply.</p>
 					</div>
 				</div>
 			</body>

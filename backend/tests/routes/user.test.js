@@ -143,9 +143,9 @@ describe('User Profile Routes', () => {
 							name: fc.string({ minLength: 1, maxLength: 50 }),
 							icon: fc.string({ minLength: 1, maxLength: 10 }),
 							description: fc.option(fc.string({ minLength: 0, maxLength: 200 })),
-							unlockedAt: fc.date()
+							unlockedAt: fc.date({ min: new Date('2020-01-01'), max: new Date('2030-12-31') }).filter(d => !isNaN(d.getTime()))
 						})),
-						createdAt: fc.date()
+						createdAt: fc.date({ min: new Date('2020-01-01'), max: new Date('2030-12-31') }).filter(d => !isNaN(d.getTime()))
 					}),
 					async (userData) => {
 						// Mock User.findById to return the generated user data

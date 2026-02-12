@@ -49,14 +49,14 @@ export default function ProfileCard({ user }) {
   return (
     <motion.div 
       whileHover={{ scale: 1.01 }}
-      transition={{ duration: 0.2 }}
-      className="bg-white rounded-2xl border-2 border-orange-400 p-8 flex flex-col items-center shadow-lg hover:shadow-xl transition-shadow"
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="bg-white rounded-2xl border-2 border-primary p-8 flex flex-col items-center shadow-lg hover:shadow-xl transition-shadow"
     >
       {/* Avatar with edit icon */}
       <motion.div 
         className="relative mb-6"
         whileHover={{ scale: 1.05 }}
-        transition={{ duration: 0.2 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
       >
         {user.profile?.avatar ? (
           <img 
@@ -65,7 +65,7 @@ export default function ProfileCard({ user }) {
             className="rounded-full w-32 h-32 object-cover"
           />
         ) : (
-          <div className="rounded-full bg-orange-400 w-32 h-32 flex items-center justify-center text-6xl text-white font-semibold">
+          <div className="rounded-full bg-primary w-32 h-32 flex items-center justify-center text-6xl text-white font-semibold">
             {initials}
           </div>
         )}
@@ -73,6 +73,7 @@ export default function ProfileCard({ user }) {
         <motion.div 
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 15 }}
           className="absolute bottom-0 right-0 bg-gray-900 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer shadow-lg"
         >
           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +93,7 @@ export default function ProfileCard({ user }) {
       {/* Premium badge
       <motion.div 
         whileHover={{ scale: 1.05 }}
-        className="bg-orange-400 text-white px-4 py-1.5 rounded-full text-sm font-semibold mb-6 cursor-default"
+        className="bg-primary text-white px-4 py-1.5 rounded-full text-sm font-heading font-semibold mb-6 cursor-default"
       >
         Premium Member
       </motion.div> */}
@@ -105,18 +106,18 @@ export default function ProfileCard({ user }) {
         </div>
         <div className="flex justify-between items-center text-sm">
           <span className="text-gray-500">Total Sessions</span>
-          <span className="font-bold text-orange-400">{stats.totalSessions}</span>
+          <span className="font-bold text-primary">{stats.totalSessions}</span>
         </div>
         <div className="flex justify-between items-center text-sm">
           <span className="text-gray-500">Current Streak</span>
-          <span className="font-bold text-orange-400">{stats.streak} days</span>
+          <span className="font-bold text-primary">{stats.streak} days</span>
         </div>
       </div>
 
       {/* Achievements section */}
       <div className="w-full bg-gray-100 rounded-xl p-4">
         <div className="flex items-center gap-2 mb-3">
-          <svg className="w-5 h-5 text-orange-400" fill="currentColor" viewBox="0 0 20 20">
+          <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
             <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
           </svg>
           <h4 className="font-bold text-gray-900">Achievements</h4>
@@ -127,8 +128,8 @@ export default function ProfileCard({ user }) {
               <motion.div
                 key={achievement._id || index}
                 whileHover={{ scale: 1.15, rotate: 5 }}
-                transition={{ duration: 0.2 }}
-                className="bg-orange-400 rounded-2xl w-16 h-16 flex items-center justify-center text-3xl cursor-pointer shadow-md"
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="bg-primary rounded-2xl w-16 h-16 flex items-center justify-center text-3xl cursor-pointer shadow-md"
                 title={achievement.name || "Achievement"}
               >
                 {achievement.icon || "🏆"}
@@ -140,8 +141,8 @@ export default function ProfileCard({ user }) {
               <motion.div
                 key={i}
                 whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.2 }}
-                className="bg-orange-400 rounded-2xl w-16 h-16 flex items-center justify-center text-3xl cursor-pointer shadow-md"
+                transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                className="bg-primary rounded-2xl w-16 h-16 flex items-center justify-center text-3xl cursor-pointer shadow-md"
                 title="Locked achievement"
               >
                 🏆

@@ -527,7 +527,7 @@ export default function BreathingVisualizer({
       
       <div className="flex flex-col items-center justify-center mb-8 mt-12">
         <div
-          className="relative border-2 border-orange-300 rounded-lg"
+          className="relative border-2 border-primary rounded-lg"
           style={{
             width: viewWidth,
             height: viewHeight,
@@ -547,7 +547,7 @@ export default function BreathingVisualizer({
           >
             <path
               d={pathData.pathD}
-              stroke="#ff6a00"
+              stroke="var(--primary)"
               strokeWidth="20"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -564,14 +564,14 @@ export default function BreathingVisualizer({
               width: "50px",
               height: "50px",
               borderRadius: "50%",
-              backgroundColor: "#ff6a00",
-              boxShadow: "0 6px 20px rgba(255, 106, 0, 0.6)",
-              border: "3px solid #fff",
+              backgroundColor: "white",
+              boxShadow: "0 8px 24px rgba(13, 124, 123, 0.4)",
+              border: "4px solid var(--primary)",
               zIndex: 10,
             }}
           />
         </div>
-        <div className="text-xl font-semibold text-orange-600 mt-1 text-center">
+        <div className="text-xl font-heading font-semibold text-primary-dark mt-1 text-center">
           {phase === "idle"
             ? "Ready"
             : phase === "done"

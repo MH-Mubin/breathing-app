@@ -41,20 +41,20 @@ function AppContent() {
         toastOptions={{
           duration: 4000,
           style: {
-            background: '#1f2937',
-            color: '#fff',
+            background: '#1f2428', // bg-dark from Tailwind config
+            color: '#FFFFFF', // text-light from Tailwind config
             borderRadius: '8px',
           },
           success: {
             iconTheme: {
-              primary: '#fb923c',
-              secondary: '#fff',
+              primary: '#0EA5A4', // primary from Tailwind config
+              secondary: '#FFFFFF', // text-light from Tailwind config
             },
           },
           error: {
             iconTheme: {
-              primary: '#ef4444',
-              secondary: '#fff',
+              primary: '#ef4444', // error from Tailwind config
+              secondary: '#FFFFFF', // text-light from Tailwind config
             },
           },
         }}

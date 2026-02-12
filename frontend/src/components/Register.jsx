@@ -73,20 +73,20 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-4 px-4 bg-gray-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-50">
       {/* Card Container */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-7xl bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col lg:flex-row my-4"
+        className="w-full max-w-6xl h-[650px] bg-white rounded-3xl shadow-2xl flex flex-col lg:flex-row"
       >
         {/* Left Side - Form */}
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-12"
+          className="w-full lg:w-1/2 flex items-center justify-center p-12"
         >
         <div className="w-full max-w-md">
           {/* Header */}
@@ -94,7 +94,7 @@ export default function Register() {
             <h1 className="text-4xl font-bold text-gray-900 mb-2">
               Join Respira
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 text-base">
               Start your journey to mindfulness and better breathing
             </p>
           </div>
@@ -109,7 +109,7 @@ export default function Register() {
                 placeholder="Full Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
+                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base"
                 disabled={loading}
                 autoComplete="off"
                 id="register-name"
@@ -124,7 +124,7 @@ export default function Register() {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all"
+                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base"
                 disabled={loading}
                 autoComplete="off"
                 id="register-email"
@@ -139,7 +139,7 @@ export default function Register() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all pr-12"
+                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all pr-14 text-base"
                 disabled={loading}
                 autoComplete="new-password"
                 id="register-password"
@@ -147,16 +147,16 @@ export default function Register() {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
                 disabled={loading}
               >
                 {showPassword ? (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
                 ) : (
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                   </svg>
                 )}
@@ -164,7 +164,7 @@ export default function Register() {
             </div>
 
             {/* Password hint */}
-            <p className="text-xs text-gray-500 px-2">
+            <p className="text-sm text-gray-500 px-2">
               Password must be at least 6 characters
             </p>
 
@@ -172,7 +172,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-black text-white py-4 rounded-full font-semibold hover:bg-gray-800 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-full bg-black text-white py-4 rounded-full font-semibold hover:bg-gray-800 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
@@ -189,12 +189,12 @@ export default function Register() {
           </form>
 
           {/* Login Link */}
-          <div className="mt-8 text-center">
-            <p className="text-gray-600">
+          <div className="mt-6 text-center">
+            <p className="text-gray-600 text-base">
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-orange-500 font-semibold hover:text-orange-600 transition-colors"
+                className="text-primary font-semibold hover:text-primary-dark transition-colors"
               >
                 Login here
               </Link>
@@ -208,7 +208,7 @@ export default function Register() {
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-50 to-green-100 items-center justify-center p-12 relative overflow-hidden"
+        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-50 to-green-100 items-center justify-center relative overflow-hidden rounded-r-3xl"
       >
         {/* Decorative circles */}
         <div className="absolute top-20 left-20 w-32 h-32 bg-green-200 rounded-full opacity-30 blur-2xl"></div>
@@ -216,25 +216,25 @@ export default function Register() {
         
         <div className="text-center z-10">
           {/* Lottie Animation */}
-          <div className="mb-8">
+          <div className="mb-6 flex items-center justify-center">
             {animationData ? (
               <Lottie 
                 animationData={animationData} 
                 loop={true}
-                style={{ width: 350, height: 350 }}
+                style={{ width: 320, height: 320 }}
               />
             ) : (
-              <div className="w-[350px] h-[350px] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400"></div>
+              <div className="w-[320px] h-[320px] flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
               </div>
             )}
           </div>
 
           {/* Text */}
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
+          <h2 className="text-2xl font-bold text-gray-800 mb-3">
             Begin Your Journey
           </h2>
-          <p className="text-gray-600 text-lg max-w-md mx-auto">
+          <p className="text-gray-600 text-base max-w-md mx-auto px-4">
             Join thousands who have transformed their lives through mindful breathing
           </p>
         </div>

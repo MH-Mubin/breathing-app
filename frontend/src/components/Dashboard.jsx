@@ -2,15 +2,15 @@ import { motion } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import {
-  Area,
-  AreaChart,
-  Cell,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis
+    Area,
+    AreaChart,
+    Cell,
+    Pie,
+    PieChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis
 } from "recharts";
 import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
@@ -86,7 +86,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-primary-light flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -95,7 +95,7 @@ export default function Dashboard() {
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-16 h-16 border-4 border-orange-400 border-t-transparent rounded-full mx-auto mb-4"
+            className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"
           />
           <motion.p
             initial={{ opacity: 0 }}
@@ -110,10 +110,12 @@ export default function Dashboard() {
     );
   }
 
-  const COLORS = ['#FF8A1F', '#FF9A3F', '#FFAA5F', '#FFBA7F', '#FFCA9F'];
+  // Chart colors for Recharts library (requires hex values)
+  // These values match the Tailwind config primary color palette
+  const COLORS = ['#0EA5A4', '#14B8B7', '#2DD4D4', '#5FDEDE', '#99E9E9'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-orange-50 to-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary-light to-gray-50 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -122,7 +124,7 @@ export default function Dashboard() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 to-orange-600 bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold bg-gradient-to-r from-gray-900 to-primary-dark bg-clip-text text-transparent mb-2">
             Welcome back, {user?.name || "Friend"}! 👋
           </h1>
           <p className="text-gray-600 text-lg">
@@ -137,7 +139,7 @@ export default function Dashboard() {
             value={stats?.today.streak || 0}
             label="Day Streak"
             subtitle={`Best: ${stats?.allTime.longestStreak || 0} days`}
-            color="orange"
+            color="teal"
             delay={0.1}
           />
           <StatCard
@@ -185,9 +187,9 @@ export default function Dashboard() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 border border-orange-200"
+                className="bg-gradient-to-br from-primary-light to-primary-light rounded-xl p-5 border border-primary"
               >
-                <div className="text-4xl font-bold text-orange-600 mb-1">
+                <div className="text-4xl font-bold text-primary-dark mb-1">
                   {stats?.today.sessions || 0}
                 </div>
                 <div className="text-sm text-gray-600 font-medium">Sessions Today</div>
@@ -238,7 +240,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
-            className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl shadow-xl p-6 text-white relative overflow-hidden"
+            className="bg-gradient-to-br from-primary to-primary-dark rounded-2xl shadow-xl p-6 text-white relative overflow-hidden"
           >
             {/* Background decoration */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-white opacity-10 rounded-full -mr-20 -mt-20" />
@@ -257,7 +259,8 @@ export default function Dashboard() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
                     whileHover={{ scale: 1.02, x: 5 }}
-                    className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-30"
+                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-30 cursor-pointer"
                   >
                     <div className="text-3xl mb-2">{insight.icon}</div>
                     <p className="text-sm leading-relaxed">{insight.message}</p>
@@ -298,6 +301,8 @@ export default function Dashboard() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.9 + (weekIndex * 7 + dayIndex) * 0.001 }}
+                        whileHover={{ scale: 1.2 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
                         onMouseEnter={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
                           setHoveredDay(day);
@@ -307,14 +312,14 @@ export default function Dashboard() {
                           });
                         }}
                         onMouseLeave={() => setHoveredDay(null)}
-                        className={`w-[15px] h-[15px] rounded-sm cursor-pointer hover:ring-2 hover:ring-orange-500 transition-all border ${
+                        className={`w-[15px] h-[15px] rounded-sm cursor-pointer transition-shadow border ${
                           day.active
                             ? day.sessions >= 3
-                              ? "bg-orange-800 border-orange-900"
+                              ? "bg-primary-dark border-primary-dark"
                               : day.sessions >= 2
-                              ? "bg-orange-600 border-orange-700"
-                              : "bg-orange-400 border-orange-500"
-                            : "bg-[#cbcbcb] border-[#cbcbcb]"
+                              ? "bg-primary border-primary"
+                              : "bg-primary-light border-primary"
+                            : "bg-muted border-muted"
                         }`}
                       />
                     ))}
@@ -331,10 +336,10 @@ export default function Dashboard() {
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <span>Less</span>
               <div className="flex gap-1">
-                <div className="w-[15px] h-[15px] bg-[#cbcbcb] border border-[#cbcbcb] rounded-sm"></div>
-                <div className="w-[15px] h-[15px] bg-orange-400 border border-orange-500 rounded-sm"></div>
-                <div className="w-[15px] h-[15px] bg-orange-600 border border-orange-700 rounded-sm"></div>
-                <div className="w-[15px] h-[15px] bg-orange-800 border border-orange-900 rounded-sm"></div>
+                <div className="w-[15px] h-[15px] bg-muted border border-muted rounded-sm"></div>
+                <div className="w-[15px] h-[15px] bg-primary-light border border-primary rounded-sm"></div>
+                <div className="w-[15px] h-[15px] bg-primary border border-primary rounded-sm"></div>
+                <div className="w-[15px] h-[15px] bg-primary-dark border border-primary-dark rounded-sm"></div>
               </div>
               <span>More</span>
             </div>
@@ -369,7 +374,7 @@ export default function Dashboard() {
                     labelLine={false}
                     label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                     outerRadius={80}
-                    fill="#8884d8"
+                    fill="#0EA5A4" /* Recharts default - matches Tailwind primary */
                     dataKey="count"
                   >
                     {patternUsage.map((entry, index) => (
@@ -410,9 +415,10 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height={250}>
               <AreaChart data={weeklyActivity.slice(-7)}>
                 <defs>
+                  {/* Gradient for Recharts - requires hex values from Tailwind config */}
                   <linearGradient id="colorSessions" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#FF8A1F" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#FF8A1F" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#0EA5A4" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#0EA5A4" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <XAxis
@@ -427,7 +433,7 @@ export default function Dashboard() {
                 <Area
                   type="monotone"
                   dataKey="sessions"
-                  stroke="#FF8A1F"
+                  stroke="#0EA5A4" /* Recharts requires hex - matches Tailwind primary */
                   fillOpacity={1}
                   fill="url(#colorSessions)"
                 />
@@ -457,7 +463,7 @@ export default function Dashboard() {
 // Stat Card Component
 function StatCard({ icon, value, label, subtitle, color, delay }) {
   const colorClasses = {
-    orange: "from-orange-400 to-orange-500 shadow-orange-200",
+    teal: "from-primary to-primary-dark shadow-primary/20",
     blue: "from-blue-400 to-blue-500 shadow-blue-200",
     green: "from-green-400 to-green-500 shadow-green-200",
     purple: "from-purple-400 to-purple-500 shadow-purple-200",
@@ -469,7 +475,8 @@ function StatCard({ icon, value, label, subtitle, color, delay }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay, duration: 0.5, ease: "easeOut" }}
       whileHover={{ scale: 1.05, y: -5 }}
-      className={`bg-gradient-to-br ${colorClasses[color]} rounded-2xl shadow-lg p-6 text-white relative overflow-hidden`}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className={`bg-gradient-to-br ${colorClasses[color]} rounded-2xl shadow-lg p-6 text-white relative overflow-hidden cursor-pointer`}
     >
       {/* Background decoration */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16" />
@@ -510,7 +517,7 @@ function ComparisonBar({ label, current, previous, change }) {
           <span className="text-xs text-gray-500 w-16">This week</span>
           <div className="flex-1 bg-gray-200 rounded-full h-2">
             <div
-              className="bg-orange-500 h-2 rounded-full transition-all"
+              className="bg-primary h-2 rounded-full transition-all"
               style={{ width: `${currentPercent}%` }}
             ></div>
           </div>
@@ -556,9 +563,11 @@ function AchievementsGrid({ stats }) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.3 + index * 0.05 }}
-            className={`relative rounded-xl p-4 text-center ${
+            whileHover={{ scale: unlocked ? 1.1 : 1.05, rotate: unlocked ? 5 : 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 15 }}
+            className={`relative rounded-xl p-4 text-center cursor-pointer ${
               unlocked
-                ? 'bg-gradient-to-br from-orange-400 to-orange-500 text-white'
+                ? 'bg-gradient-to-br from-primary to-primary-dark text-white'
                 : 'bg-gray-100 text-gray-400'
             }`}
           >

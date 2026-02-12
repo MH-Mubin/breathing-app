@@ -8,7 +8,7 @@ export default function Profile() {
         </p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="card p-6 flex flex-col items-center">
-            <div className="rounded-full bg-orange-400 w-20 h-20 center text-4xl mb-4">
+            <div className="rounded-full bg-primary w-20 h-20 center text-4xl mb-4">
               👤
             </div>
             <div className="font-semibold mb-1">Sarah Johnson</div>
@@ -31,9 +31,9 @@ export default function Profile() {
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="bg-orange-400 rounded-full w-8 h-8 center text-xl"
+                    className="bg-primary rounded-full w-8 h-8 center text-xl"
                   >
-                    🔒
+                    🏆
                   </div>
                 ))}
               </div>

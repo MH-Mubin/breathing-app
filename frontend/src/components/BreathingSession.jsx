@@ -371,7 +371,7 @@ export default function BreathingSession() {
             {previewBenefits.map((benefit, index) => (
               <div
                 key={index}
-                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200 cursor-pointer flex items-center gap-3"
+                className="card p-3 mb-2 hover:shadow-md hover:border-primary transition-all duration-200 cursor-pointer flex items-center gap-3"
               >
                 <div className="text-2xl">{benefit.emoji}</div>
                 <div className="font-semibold text-sm text-gray-800">{benefit.title}</div>
@@ -384,7 +384,7 @@ export default function BreathingSession() {
             {benefitsByCategory[selectedCategory].map((benefit, index) => (
               <div
                 key={index}
-                className="card p-3 mb-2 hover:shadow-md hover:border-orange-200 transition-all duration-200 flex items-center gap-3"
+                className="card p-3 mb-2 hover:shadow-md hover:border-primary transition-all duration-200 flex items-center gap-3"
               >
                 <div className="text-2xl">{benefit.emoji}</div>
                 <div className="font-semibold text-sm text-gray-800">{benefit.title}</div>
@@ -401,14 +401,14 @@ export default function BreathingSession() {
           style={{ minHeight: "480px" }}
         >
           {/* Top Left Streak Badge */}
-          <div className="absolute top-6 left-6 flex items-center gap-2 bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-100 shadow-sm">
+          <div className="absolute top-6 left-6 flex items-center gap-2 bg-primary-light px-3 py-1.5 rounded-xl border border-primary shadow-sm">
             <span className="text-2xl">🔥</span>
             <div className="flex flex-col">
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-tight">Streak</span>
               <div className="flex items-center gap-2">
-                 <span className="text-lg font-bold text-orange-600 leading-none">{user?.stats?.streak || 0} days</span>
+                 <span className="text-lg font-bold text-primary-dark leading-none">{user?.stats?.streak || 0} days</span>
                  {user?.stats?.streak > 0 && (
-                  <span className="bg-orange-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
+                  <span className="bg-primary text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">
                     Active
                   </span>
                  )}
@@ -453,15 +453,15 @@ export default function BreathingSession() {
             }
           })()}
           <div className="flex gap-12 mt-8 mb-4 justify-center items-center">
-            <div className="text-center bg-gradient-to-br from-orange-50 to-white px-6 py-3 rounded-xl shadow-sm border border-orange-100">
-              <div className="text-xs font-medium text-orange-600 mb-1">Time Elapsed</div>
+            <div className="text-center bg-gradient-to-br from-primary-light to-white px-6 py-3 rounded-xl shadow-sm border border-primary">
+              <div className="text-xs font-medium text-primary-dark mb-1">Time Elapsed</div>
               <div className="text-2xl font-bold text-gray-800">
                 {Math.floor((duration * 60 - remaining) / 60)}:
                 {((duration * 60 - remaining) % 60).toString().padStart(2, "0")}
               </div>
             </div>
-            <div className="text-center bg-gradient-to-br from-orange-50 to-white px-6 py-3 rounded-xl shadow-sm border border-orange-100">
-              <div className="text-xs font-medium text-orange-600 mb-1">Time Remaining</div>
+            <div className="text-center bg-gradient-to-br from-primary-light to-white px-6 py-3 rounded-xl shadow-sm border border-primary">
+              <div className="text-xs font-medium text-primary-dark mb-1">Time Remaining</div>
               <div className="text-2xl font-bold text-gray-800">
                 {Math.floor(remaining / 60)}:
                 {(remaining % 60).toString().padStart(2, "0")}
@@ -471,7 +471,7 @@ export default function BreathingSession() {
           <div className="flex gap-4 mt-2">
             {!running && !paused && (
               <button
-                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105 font-heading"
                 onClick={handleStart}
                 aria-label="Start session"
               >
@@ -482,14 +482,14 @@ export default function BreathingSession() {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M5 3v18l15-9L5 3z" fill="#fff" />
+                  <path d="M5 3v18l15-9L5 3z" fill="white" />
                 </svg>{" "}
                 Start
               </button>
             )}
             {running && !paused && (
               <button
-                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105 font-heading"
                 onClick={handlePause}
                 aria-label="Pause session"
               >
@@ -500,15 +500,15 @@ export default function BreathingSession() {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <rect x="6" y="4" width="4" height="16" fill="#fff" />
-                  <rect x="14" y="4" width="4" height="16" fill="#fff" />
+                  <rect x="6" y="4" width="4" height="16" fill="white" />
+                  <rect x="14" y="4" width="4" height="16" fill="white" />
                 </svg>{" "}
                 Pause
               </button>
             )}
             {paused && (
               <button
-                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105 font-heading"
                 onClick={handleResume}
                 aria-label="Resume session"
               >
@@ -519,13 +519,13 @@ export default function BreathingSession() {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M5 3v18l15-9L5 3z" fill="#fff" />
+                  <path d="M5 3v18l15-9L5 3z" fill="white" />
                 </svg>{" "}
                 Resume
               </button>
             )}
             <button
-              className="btn-outline reset-btn px-6 py-2 flex items-center justify-center hover:bg-orange-50 hover:border-orange-300 transition-all duration-200"
+              className="btn-outline reset-btn px-6 py-2 flex items-center justify-center hover:bg-primary-light hover:border-primary transition-all duration-200"
               onClick={handleReset}
               aria-label="Reset session"
             >
@@ -552,10 +552,10 @@ export default function BreathingSession() {
               {categories.map((cat) => (
                 <button
                   key={cat.id}
-                  className={`w-full px-3 py-2 mb-2 rounded font-semibold text-sm transition-all duration-200 text-left border ${
+                  className={`w-full px-3 py-2 mb-2 rounded font-heading font-semibold text-sm transition-all duration-200 text-left border ${
                     lastCategory === cat.id
-                      ? "bg-orange-50 text-orange-700 border-orange-200 shadow-sm"
-                      : "bg-gray-100 text-gray-700 border-transparent hover:bg-orange-50 hover:border-orange-200"
+                      ? "bg-primary-light text-primary-dark border-primary shadow-sm"
+                      : "bg-gray-100 text-gray-700 border-transparent hover:bg-primary-light hover:border-primary"
                   }`}
                   onClick={() => {
                     setSelectedCategory(cat.id);
@@ -574,7 +574,7 @@ export default function BreathingSession() {
               <div className="flex items-center mb-3">
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className="mr-2 text-orange-500 hover:text-orange-600 hover:bg-orange-50 rounded p-1 transition-all duration-200"
+                  className="mr-2 text-primary hover:text-primary-dark hover:bg-primary-light rounded p-1 transition-all duration-200"
                   aria-label="Back to categories"
                 >
                   <svg
@@ -593,7 +593,7 @@ export default function BreathingSession() {
                     />
                   </svg>
                 </button>
-                <div className="font-semibold">
+                <div className="font-heading font-semibold">
                   {categories.find((c) => c.id === selectedCategory)?.name}
                 </div>
               </div>
@@ -602,8 +602,8 @@ export default function BreathingSession() {
                   key={p.name}
                   className={
                     selectedPattern.name === p.name
-                      ? "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-orange-500 text-white shadow-lg overflow-hidden"
-                      : "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-white border-2 border-gray-200 hover:border-orange-300 hover:shadow-md overflow-hidden"
+                      ? "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-primary text-white shadow-lg overflow-hidden"
+                      : "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-white border-2 border-gray-200 hover:border-primary hover:shadow-md overflow-hidden"
                   }
                 >
                   {/* Clickable Header Area */}
@@ -619,7 +619,7 @@ export default function BreathingSession() {
                           : p.level === "Beginner" ? "bg-green-100 text-green-700" :
                             p.level === "Intermediate" ? "bg-blue-100 text-blue-700" :
                             p.level === "Advanced" ? "bg-purple-100 text-purple-700" :
-                            "bg-orange-100 text-orange-700"
+                            "bg-primary-light text-primary-dark"
                       }`}>
                         {p.level}
                       </span>
@@ -634,9 +634,9 @@ export default function BreathingSession() {
                       </div>
                     </div>
 
-                    {/* Timing - Bottom in Orange or White */}
+                    {/* Timing - Bottom in Primary or White */}
                     <div className={`text-center text-xs font-semibold mb-1 ${
-                      selectedPattern.name === p.name ? "text-white" : "text-orange-600"
+                      selectedPattern.name === p.name ? "text-white" : "text-primary"
                     }`}>
                       {p.type === "4-phase" 
                         ? `In: ${p.inhale}s - Hold: ${p.holdTop}s - Out: ${p.exhale}s - Hold: ${p.holdBottom}s`
@@ -654,7 +654,7 @@ export default function BreathingSession() {
                     className={`w-full flex items-center justify-center gap-1 text-xs font-medium py-1.5 transition-all duration-200 ${
                       selectedPattern.name === p.name
                         ? "text-white hover:bg-white hover:bg-opacity-10"
-                        : "text-orange-600 hover:bg-orange-50"
+                        : "text-primary hover:bg-primary-light"
                     } rounded`}
                   >
                     <span>See Benefits</span>
@@ -713,8 +713,8 @@ export default function BreathingSession() {
                 key={d}
                 className={
                   duration === d && !showCustomInput
-                    ? "px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition-all duration-200 transform hover:scale-105"
-                    : "px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 border border-transparent"
+                    ? "px-3 py-2 rounded bg-primary text-white font-heading font-semibold text-sm hover:bg-primary-dark transition-all duration-200 transform hover:scale-105"
+                    : "px-3 py-2 rounded bg-gray-100 text-gray-700 font-heading font-semibold text-sm hover:bg-primary-light hover:border-primary transition-all duration-200 border border-transparent"
                 }
                 onClick={() => {
                   // If session is running or paused, reset it completely
@@ -740,8 +740,8 @@ export default function BreathingSession() {
           <button
             className={
               showCustomInput
-                ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition-all duration-200"
-                : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 border border-transparent"
+                ? "w-full px-3 py-2 rounded bg-primary text-white font-heading font-semibold text-sm hover:bg-primary-dark transition-all duration-200"
+                : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-heading font-semibold text-sm hover:bg-primary-light hover:border-primary transition-all duration-200 border border-transparent"
             }
             onClick={() => {
               setShowCustomInput(true);
@@ -770,16 +770,16 @@ export default function BreathingSession() {
                   className={`flex-1 min-w-0 px-3 py-2 border rounded text-sm focus:outline-none focus:ring-2 ${
                     validationError
                       ? "border-red-500 focus:ring-red-500"
-                      : "border-gray-300 focus:ring-orange-500"
+                      : "border-gray-300 focus:ring-primary"
                   }`}
                 />
                 <button
                   onClick={handleCustomDuration}
                   disabled={!customDuration}
-                  className={`px-4 py-2 rounded text-sm font-semibold transition whitespace-nowrap ${
+                  className={`px-4 py-2 rounded text-sm font-heading font-semibold transition whitespace-nowrap ${
                     !customDuration
                       ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                      : "bg-orange-500 text-white hover:bg-orange-600"
+                      : "bg-primary text-white hover:bg-primary-dark"
                   }`}
                 >
                   Apply
@@ -793,8 +793,8 @@ export default function BreathingSession() {
             <button
               className={
                 duration === customDurationValue
-                  ? "w-full px-3 py-2 rounded bg-orange-500 text-white font-semibold text-sm hover:bg-orange-600 transition-all duration-200 mt-2"
-                  : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-semibold text-sm hover:bg-orange-50 hover:border-orange-200 transition-all duration-200 border border-transparent mt-2"
+                  ? "w-full px-3 py-2 rounded bg-primary text-white font-heading font-semibold text-sm hover:bg-primary-dark transition-all duration-200 mt-2"
+                  : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-heading font-semibold text-sm hover:bg-primary-light hover:border-primary transition-all duration-200 border border-transparent mt-2"
               }
               onClick={() => {
                 setDuration(customDurationValue);

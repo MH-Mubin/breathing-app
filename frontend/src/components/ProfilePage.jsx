@@ -157,7 +157,7 @@ export default function ProfilePage() {
               <p className="text-gray-600 mb-4">{error}</p>
               <button 
                 onClick={handleRetry} 
-                className="bg-orange-400 text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-500 transition-colors"
+                className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors"
               >
                 Try Again
               </button>
@@ -185,7 +185,7 @@ export default function ProfilePage() {
             <p className="text-gray-600">No profile data available</p>
             <button 
               onClick={fetchProfileData}
-              className="mt-4 bg-orange-400 text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-500 transition-colors"
+              className="mt-4 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors"
             >
               Reload Profile
             </button>

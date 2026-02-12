@@ -22,25 +22,12 @@ export default function DebugInfo() {
   }, []);
 
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      background: 'white',
-      border: '2px solid #ff6a00',
-      borderRadius: '8px',
-      padding: '15px',
-      maxWidth: '400px',
-      boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-      zIndex: 9999,
-      fontSize: '12px',
-      fontFamily: 'monospace'
-    }}>
-      <h3 style={{ margin: '0 0 10px 0', color: '#ff6a00' }}>🔧 Debug Info</h3>
+    <div className="fixed bottom-5 right-5 bg-white border-2 border-primary rounded-lg p-4 max-w-md shadow-lg z-[9999] text-xs font-mono">
+      <h3 className="m-0 mb-2.5 text-primary">🔧 Debug Info</h3>
       
-      <div style={{ marginBottom: '10px' }}>
+      <div className="mb-2.5">
         <strong>Environment:</strong>
-        <pre style={{ margin: '5px 0', background: '#f5f5f5', padding: '5px', borderRadius: '4px' }}>
+        <pre className="my-1.5 bg-surface p-1.5 rounded">
           {JSON.stringify({
             VITE_API_URL: import.meta.env.VITE_API_URL,
             MODE: import.meta.env.MODE,
@@ -50,22 +37,22 @@ export default function DebugInfo() {
         </pre>
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div className="mb-2.5">
         <strong>Backend Health:</strong>
         {backendHealth ? (
-          <pre style={{ margin: '5px 0', background: '#e8f5e9', padding: '5px', borderRadius: '4px', color: '#2e7d32' }}>
+          <pre className="my-1.5 bg-green-50 p-1.5 rounded text-green-800">
             {JSON.stringify(backendHealth, null, 2)}
           </pre>
         ) : error ? (
-          <pre style={{ margin: '5px 0', background: '#ffebee', padding: '5px', borderRadius: '4px', color: '#c62828' }}>
+          <pre className="my-1.5 bg-red-50 p-1.5 rounded text-red-800">
             Error: {error}
           </pre>
         ) : (
-          <div style={{ margin: '5px 0', color: '#666' }}>Loading...</div>
+          <div className="my-1.5 text-muted">Loading...</div>
         )}
       </div>
 
-      <div style={{ fontSize: '10px', color: '#666', marginTop: '10px' }}>
+      <div className="text-[10px] text-muted mt-2.5">
         Check browser console (F12) for detailed logs
       </div>
     </div>

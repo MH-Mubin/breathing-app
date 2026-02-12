@@ -1,19 +1,45 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --primary: #ff8a1f;
-  --primary-dark: #ff6a00;
-  --bg-dark: #1f2428;
-  --bg-light: #f3f4f6;
-  --card: #ffffff;
-  --border: #e6e7e9;
-  --text-dark: #111827;
-  --text-light: #ffffff;
-  --shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+@layer base {
+  :root {
+    /* Colors - derived from Tailwind config */
+    --color-primary: theme('colors.primary.DEFAULT');
+    --color-primary-dark: theme('colors.primary.dark');
+    --color-primary-light: theme('colors.primary.light');
+    --color-secondary: theme('colors.secondary.DEFAULT');
+    --color-accent: theme('colors.accent.DEFAULT');
+    --color-background: theme('colors.background');
+    --color-surface: theme('colors.surface');
+    --color-border: theme('colors.border');
+    --color-text-primary: theme('colors.text.primary');
+    --color-text-secondary: theme('colors.text.secondary');
+    --color-muted: theme('colors.muted');
+    
+    /* Typography */
+    --font-heading: theme('fontFamily.heading');
+    --font-body: theme('fontFamily.sans');
+    
+    /* Legacy variables for backward compatibility during migration */
+    --primary: theme('colors.primary.DEFAULT');
+    --primary-dark: theme('colors.primary.dark');
+    --accent: theme('colors.accent.DEFAULT');
+    --bg-dark: theme('colors.bg-dark');
+    --bg-light: theme('colors.secondary.DEFAULT');
+    --card: theme('colors.background');
+    --border: theme('colors.border');
+    --text-dark: theme('colors.text.primary');
+    --text-light: theme('colors.text.light');
+    --shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+  }
+
+  body {
+    font-family: theme('fontFamily.sans');
+  }
 }
 
 html,
@@ -25,8 +51,6 @@ body,
 body {
   background: var(--bg-light);
   color: var(--text-dark);
-  font-family: "Poppins", Inter, system-ui, -apple-system, "Segoe UI", Roboto,
-    Arial;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -62,7 +86,7 @@ body {
 }
 
 .btn-outline {
-  background: #fff;
+  background: white;
   color: var(--primary);
   border: 2px solid var(--border);
   border-radius: 12px;
@@ -88,7 +112,7 @@ body {
   border-radius: 999px;
   font-weight: 600;
   padding: 0.45rem 0.9rem;
-  box-shadow: 0 6px 18px rgba(255, 138, 31, 0.14);
+  box-shadow: 0 6px 18px rgba(14, 165, 164, 0.14);
 }
 .nav-link {
   color: var(--text-dark);
@@ -99,15 +123,15 @@ body {
   margin-left: 0.25rem;
 }
 .nav-link:hover {
-  background: #fff;
+  background: white;
   transform: translateY(-1px);
 }
 
 .stat-card {
-  background: #fff;
+  background: white;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(2, 6, 23, 0.04);
-  border: 1px solid #f3f4f6;
+  border: 1px solid var(--border);
   padding: 1rem;
   text-align: center;
 }
@@ -146,7 +170,7 @@ body {
   height: 64px;
   border-radius: 999px;
   background: var(--primary);
-  color: #fff;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,7 +194,7 @@ body {
   gap: 12px;
 }
 .duration-card {
-  background: #fff;
+  background: white;
   border-radius: 14px;
   border: 1px solid var(--border);
   padding: 14px 10px;
@@ -192,18 +216,18 @@ body {
   font-size: 1.25rem;
 }
 .duration-card .label {
-  color: #9ca3af;
+  color: var(--muted);
   font-size: 0.8rem;
   margin-top: 4px;
 }
 .duration-card.active {
   background: linear-gradient(180deg, var(--primary), var(--primary-dark));
-  color: #fff;
+  color: white;
   border-color: transparent;
   box-shadow: 0 10px 28px rgba(255, 138, 31, 0.18);
 }
 .duration-card.active .minutes {
-  color: #fff;
+  color: white;
 }
 .duration-card.active .label {
   color: rgba(255, 255, 255, 0.9);
@@ -212,7 +236,7 @@ body {
 /* Practice session header and controls */
 .session-badge {
   display: inline-block;
-  background: #fff;
+  background: white;
   border-radius: 999px;
   padding: 6px 12px;
   border: 1px solid var(--border);
@@ -231,7 +255,7 @@ body {
   max-width: 640px;
 }
 .visualizer-arc path.base {
-  stroke: #efefef;
+  stroke: var(--border);
   stroke-width: 10;
   stroke-linecap: round;
 }
@@ -267,12 +291,12 @@ body {
 }
 .session-counters .label {
   font-size: 0.8rem;
-  color: #6b7280;
+  color: var(--text-secondary);
 }
 
 .progress-track {
   height: 10px;
-  background: #eee;
+  background: var(--surface);
   border-radius: 999px;
   overflow: hidden;
 }

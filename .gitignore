@@ -100,13 +100,7 @@ pids/
 .kiro/cache/
 
 ### Documentation
-# Ignore all markdown files except these important ones
+# Ignore ALL markdown files except README.md in root directory only
 *.md
-README.md
-DEPLOYMENT.md
-SECURITY.md
-# Ignore temporary/internal documentation
-RAILWAY_TROUBLESHOOTING.md
-SECURITY_AND_DOCS_UPDATE.md
-TODOReadme.md
-**/INTEGRATION_TESTS_DOCUMENTATION.md
+**/*.md
+!/README.md

@@ -179,12 +179,12 @@ export default function PersonalInfoCard({ user, onUpdate }) {
   return (
     <motion.div 
       whileHover={{ scale: 1.01 }}
-      transition={{ duration: 0.2 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow"
     >
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
-          <svg className="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           <h3 className="text-xl font-bold text-gray-900">Personal Information</h3>
@@ -193,8 +193,9 @@ export default function PersonalInfoCard({ user, onUpdate }) {
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 15 }}
             onClick={handleEdit}
-            className="flex items-center gap-2 px-4 py-2 border-2 border-orange-400 text-orange-400 rounded-lg font-medium hover:bg-orange-50 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 border-2 border-primary text-primary rounded-lg font-heading font-medium hover:bg-primary-light transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -244,7 +245,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 ${
                     errors.name 
                       ? "focus:ring-red-500" 
-                      : "focus:ring-orange-400"
+                      : "focus:ring-primary"
                   }`}
                   disabled={loading}
                 />
@@ -266,7 +267,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 ${
                     errors.email 
                       ? "focus:ring-red-500" 
-                      : "focus:ring-orange-400"
+                      : "focus:ring-primary"
                   }`}
                   disabled={loading}
                 />
@@ -289,7 +290,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 ${
                     errors.phone 
                       ? "focus:ring-red-500" 
-                      : "focus:ring-orange-400"
+                      : "focus:ring-primary"
                   }`}
                   disabled={loading}
                 />
@@ -309,7 +310,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="San Francisco, CA"
-                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   disabled={loading}
                 />
               </div>
@@ -322,7 +323,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSave}
                 disabled={loading || Object.keys(errors).length > 0}
-                className="bg-orange-400 text-white px-6 py-3 rounded-lg font-medium flex-1 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-orange-500 transition-all"
+                className="bg-primary text-white px-6 py-3 rounded-lg font-heading font-medium flex-1 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary-dark transition-all"
               >
                 {loading ? "Saving..." : "Save Changes"}
               </motion.button>

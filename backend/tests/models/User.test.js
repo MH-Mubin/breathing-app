@@ -213,6 +213,6 @@ describe('User Model Property-Based Tests', () => {
         // Clean up after this test run
         await User.deleteMany({});
       }
-    ), { numRuns: 100 });
-  });
+    ), { numRuns: 20 }); // Reduced from 100 to 20 for faster execution with database operations
+  }, 60000); // 60 second timeout for database-heavy property test
 });

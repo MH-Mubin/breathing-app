@@ -185,9 +185,10 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
               <motion.button
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
                 onClick={handleClose}
                 disabled={loading}
-                className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
+                className="text-gray-400 hover:text-gray-600 text-2xl leading-none cursor-pointer"
               >
                 ×
               </motion.button>
@@ -255,7 +256,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 ${
                       errors.currentPassword 
                         ? "border-red-500 focus:ring-red-500" 
-                        : "border-gray-300 focus:ring-orange-400"
+                        : "border-border focus:ring-accent"
                     }`}
                     disabled={loading}
                     autoComplete="current-password"
@@ -297,7 +298,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 ${
                       errors.newPassword 
                         ? "border-red-500 focus:ring-red-500" 
-                        : "border-gray-300 focus:ring-orange-400"
+                        : "border-border focus:ring-accent"
                     }`}
                     disabled={loading}
                     autoComplete="new-password"
@@ -342,7 +343,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 ${
                       errors.confirmPassword 
                         ? "border-red-500 focus:ring-red-500" 
-                        : "border-gray-300 focus:ring-orange-400"
+                        : "border-border focus:ring-accent"
                     }`}
                     disabled={loading}
                     autoComplete="new-password"
@@ -375,19 +376,21 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   type="submit"
                   disabled={loading}
-                  className="btn-primary px-4 py-2 flex-1 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="btn-primary px-4 py-2 flex-1 disabled:opacity-50 disabled:cursor-not-allowed transition-all cursor-pointer"
                 >
                   {loading ? "Changing..." : "Change Password"}
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
                   type="button"
                   onClick={handleClose}
                   disabled={loading}
-                  className="btn-outline px-4 py-2 flex-1 transition-colors hover:bg-gray-50"
+                  className="btn-outline px-4 py-2 flex-1 transition-colors hover:bg-gray-50 cursor-pointer"
                 >
                   Cancel
                 </motion.button>
