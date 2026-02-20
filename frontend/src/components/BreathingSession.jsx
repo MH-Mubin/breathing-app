@@ -128,7 +128,9 @@ export default function BreathingSession() {
   const [resetKey, setResetKey] = useState(0);
   const [expandedPattern, setExpandedPattern] = useState(null);
   const [patternValidationError, setPatternValidationError] = useState("");
+
   const [sessionId, setSessionId] = useState(null);
+  const [isBridgePhase, setIsBridgePhase] = useState(false);
 
   // Validate all patterns on component mount
   useEffect(() => {
@@ -202,17 +204,20 @@ export default function BreathingSession() {
     }
     
     const interval = setInterval(() => {
-      setRemaining(prev => {
-        if (prev <= 1) {
-          setRunning(false);
-          return 0;
-        }
-        return prev - 1;
-      });
+      // Only count down if NOT in a bridge phase (0s hold visual transition)
+      if (!isBridgePhase) {
+        setRemaining(prev => {
+          if (prev <= 1) {
+            setRunning(false);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }
     }, 1000);
     
     return () => clearInterval(interval);
-  }, [running, remaining, sessionId, token, duration, selectedPattern]);
+  }, [running, remaining, sessionId, token, duration, selectedPattern, isBridgePhase]);
 
   const handleStart = async () => {
     // Start session in database if user is logged in
@@ -254,9 +259,17 @@ export default function BreathingSession() {
     setRunning(false);
     setPaused(false);
     setCycle(0);
+    setIsBridgePhase(false);
     setRemaining(duration * 60);
     setResetKey(prev => prev + 1); // Force visualizer to remount
     setSessionId(null); // Clear session ID
+  };
+
+  const handlePhaseChange = (phase) => {
+    // receiving phase object from visualizer
+    if (phase) {
+      setIsBridgePhase(!!phase.isBridge);
+    }
   };
 
   const handlePatternSelection = (pattern) => {
@@ -273,9 +286,14 @@ export default function BreathingSession() {
     // Set the validated pattern
     setSelectedPattern(pattern);
     
-    // Reset animation if running to recalculate paths
-    if (running) {
+    // Reset animation and timers if running to recalculate paths
+    if (running || paused) {
       setRunning(false);
+      setPaused(false);
+      setCycle(0);
+      setIsBridgePhase(false);
+      setRemaining(duration * 60);
+      setSessionId(null);
       setTimeout(() => {
         setResetKey(prev => prev + 1); // Force visualizer to remount with new pattern
       }, 100);
@@ -310,6 +328,7 @@ export default function BreathingSession() {
       setRunning(false);
       setPaused(false);
       setCycle(0);
+      setIsBridgePhase(false);
       setSessionId(null);
       setResetKey(prev => prev + 1); // Force visualizer remount
     }
@@ -433,6 +452,7 @@ export default function BreathingSession() {
                   running={running}
                   onCycle={setCycle}
                   duration={duration}
+                  onPhaseChange={handlePhaseChange}
                 />
               );
             } catch (error) {

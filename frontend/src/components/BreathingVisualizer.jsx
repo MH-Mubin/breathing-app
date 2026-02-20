@@ -2,11 +2,44 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PathCalculator } from "../utils/PathCalculator.js";
 import { PhaseManager } from "../utils/PhaseManager.js";
 
+/**
+ * Given a world-space X coordinate, find the Y coordinate on the zigzag path.
+ * Works by iterating through consecutive point pairs in the path and
+ * linearly interpolating Y on the segment that contains worldX.
+ * This is pattern-agnostic — it works for any zigzag path geometry.
+ */
+function getYOnPath(worldX, points) {
+  if (!points || points.length < 2) return 0;
+
+  // Clamp to path bounds
+  if (worldX <= points[0].x) return points[0].y;
+  if (worldX >= points[points.length - 1].x) return points[points.length - 1].y;
+
+  // Find the segment containing worldX
+  for (let i = 0; i < points.length - 1; i++) {
+    const p1 = points[i];
+    const p2 = points[i + 1];
+
+    // Skip zero-width segments (shouldn't happen but be safe)
+    if (p1.x === p2.x) continue;
+
+    if (worldX >= p1.x && worldX <= p2.x) {
+      // Linear interpolation: t goes from 0 to 1 across this segment
+      const t = (worldX - p1.x) / (p2.x - p1.x);
+      return p1.y + t * (p2.y - p1.y);
+    }
+  }
+
+  // Fallback (should not be reached)
+  return points[points.length - 1].y;
+}
+
 export default function BreathingVisualizer({
   pattern,
   running,
   onCycle,
   duration, // Add duration prop
+  onPhaseChange // Prop to notify parent of phase changes (bridge phases)
 }) {
   const [phase, setPhase] = useState("idle");
   const [progress, setProgress] = useState(0);
@@ -114,6 +147,18 @@ export default function BreathingVisualizer({
       };
     }
   }, [pattern, config, patternHash]);
+
+  // Effect to notify parent of phase change (especially for bridge phases)
+  useEffect(() => {
+    if (phaseManagerRef.current && onPhaseChange) {
+      const phases = phaseManagerRef.current.getAllPhases();
+      // Find current phase object to check isBridge status
+      const currentPhaseObj = phases.find(p => p.name === phase);
+      if (currentPhaseObj) {
+        onPhaseChange(currentPhaseObj);
+      }
+    }
+  }, [phase, onPhaseChange]);
 
   useEffect(() => {
     let mounted = true;
@@ -433,6 +478,9 @@ export default function BreathingVisualizer({
       totalWidth,
       topY,
       bottomY,
+      diagonalHorizontal,
+      topHorizontalLength,
+      bottomHorizontalLength,
       pathMetrics,
       horizontalOffset,
       fixedBallPosition: config.fixedBallPosition
@@ -446,57 +494,42 @@ export default function BreathingVisualizer({
     }
 
     const phases = phaseManagerRef.current.getAllPhases();
-    
-    // Calculate cycle progress based on current phase and progress
-    let elapsedTime = 0;
-    let currentPhaseFound = false;
-    
-    for (let i = 0; i < phases.length; i++) {
-      const currentPhase = phases[i];
-      if (currentPhase.name === phase && !currentPhaseFound) {
-        elapsedTime += progress * currentPhase.duration;
-        currentPhaseFound = true;
-        break;
-      } else if (!currentPhaseFound) {
-        elapsedTime += currentPhase.duration;
-      }
-    }
-    
-    const totalPhaseDuration = phases.reduce((sum, p) => sum + p.duration, 0);
-    const cycleProgress = totalPhaseDuration > 0 ? elapsedTime / totalPhaseDuration : 0;
-    const animationOffset = cycleProgress * pathData.cycleWidth;
 
-    // Calculate ball position based on current phase with optimized logic
-    let ballY = pathData.bottomY;
-    
-    switch (phase) {
-      case "inhale":
-        // Ball moves up the diagonal from bottom to top
-        ballY = pathData.bottomY - (progress * availableHeight);
-        break;
-      case "holdTop":
-        // Ball stays at top during holdTop
-        ballY = pathData.topY;
-        break;
-      case "exhale":
-        // Ball moves down the diagonal from top to bottom
-        ballY = pathData.topY + (progress * availableHeight);
-        break;
-      case "holdBottom":
-        // Ball stays at bottom during holdBottom (Box Breathing only)
-        ballY = pathData.bottomY;
-        break;
-      default:
-        // Ball at starting position (bottom) for idle/done states
-        ballY = pathData.bottomY;
-        break;
+    // ====================================================================
+    // SEGMENT-BASED OFFSET: each phase maps to its actual path segment
+    // This ensures each phase takes exactly its specified seconds.
+    // ====================================================================
+    // Phase → segment horizontal length mapping:
+    //   inhale    → diagonalHorizontal  (up-diagonal)
+    //   holdTop   → topHorizontalLength (top flat line)
+    //   exhale    → diagonalHorizontal  (down-diagonal)
+    //   holdBottom→ bottomHorizontalLength (bottom flat line)
+    const segmentHLengths = {
+      inhale: pathData.diagonalHorizontal,
+      holdTop: pathData.topHorizontalLength,
+      exhale: pathData.diagonalHorizontal,
+      holdBottom: pathData.bottomHorizontalLength
+    };
+
+    // Find current phase index
+    let phaseIndex = phases.findIndex(p => p.name === phase);
+    if (phaseIndex === -1) phaseIndex = 0;
+
+    // Calculate offset as sum of completed segment lengths + partial current segment
+    let animationOffset = 0;
+    for (let i = 0; i < phaseIndex; i++) {
+      animationOffset += segmentHLengths[phases[i].name] || 0;
     }
-    
-    // Ensure ball Y position is within valid bounds
-    ballY = Math.max(pathData.topY, Math.min(pathData.bottomY, ballY));
+    animationOffset += progress * (segmentHLengths[phases[phaseIndex].name] || 0);
+
+    // ====================================================================
+    // PIXEL-PERFECT BALL Y: derive from the actual green line path geometry
+    // ====================================================================
+    const worldX = pathData.fixedBallPosition + animationOffset;
+    const ballY = getYOnPath(worldX, pathData.points);
 
     return { animationOffset, ballY };
-  }, [phase, progress, pathData, availableHeight]);
+  }, [phase, progress, pathData]);
 
 
   // Error state display
@@ -551,42 +584,68 @@ export default function BreathingVisualizer({
               willChange: "transform",
             }}
           >
+            {/* Single breathing path line */}
             <path
               d={pathData.pathD}
-              stroke="var(--primary)"
-              strokeWidth="2"
+              stroke="#10B981"
+              strokeWidth="3"
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
             />
           </svg>
 
+          {/* Transparent Circle with Border - Smaller */}
           <div
             style={{
               position: "absolute",
               left: `${pathData.fixedBallPosition}px`,
               top: `${animationData.ballY}px`,
               transform: "translate(-50%, -50%)",
-              width: "50px",
-              height: "50px",
+              width: "30px",
+              height: "30px",
               borderRadius: "50%",
-              backgroundColor: "white",
-              boxShadow: "0 8px 24px rgba(13, 124, 123, 0.4)",
-              border: "4px solid var(--primary)",
+              backgroundColor: "transparent",
+              border: "3px solid var(--primary)",
               zIndex: 10,
             }}
-          />
+          >
+            {/* Center Point - 2px - Made more visible for debugging */}
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "4px",
+                height: "4px",
+                borderRadius: "50%",
+                backgroundColor: "#FF0000",
+                zIndex: 20,
+              }}
+            />
+          </div>
         </div>
         <div className="text-xl font-heading font-semibold text-primary-dark mt-1 text-center">
           {phase === "idle"
             ? "Ready"
             : phase === "done"
             ? "Done"
-            : phase === "holdTop"
-            ? "Hold"
-            : phase === "holdBottom"
-            ? "Hold"
-            : phase.charAt(0).toUpperCase() + phase.slice(1)}
+            : (() => {
+                // Determine label based on bridge status
+                if (!phaseManagerRef.current) return "";
+                const phases = phaseManagerRef.current.getAllPhases();
+                const currentPhaseObj = phases.find(p => p.name === phase);
+                const isBridge = currentPhaseObj?.isBridge;
+
+                if (phase === "holdTop") {
+                  return isBridge ? "Exhale" : "Hold";
+                }
+                if (phase === "holdBottom") {
+                  return isBridge ? "Inhale" : "Hold";
+                }
+                return phase.charAt(0).toUpperCase() + phase.slice(1);
+              })()}
         </div>
       </div>
     </div>

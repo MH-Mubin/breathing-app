@@ -104,3 +104,6 @@ pids/
 *.md
 **/*.md
 !/README.md
+
+### Images
+images for analyze/

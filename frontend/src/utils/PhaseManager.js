@@ -112,36 +112,33 @@ export class PhaseManager {
         console.warn('PhaseManager: Path calculation errors detected', metrics.errors);
       }
 
-      const phases = [
-        {
-          name: 'inhale',
-          duration: pattern.inhale,
-          segmentLength: metrics.diagonalLength,
-          ballSpeed: metrics.ballSpeeds.inhale
-        },
-        {
-          name: 'holdTop',
-          duration: pattern.holdTop,
-          segmentLength: metrics.topHorizontalLength,
-          ballSpeed: metrics.ballSpeeds.holdTop
-        },
-        {
-          name: 'exhale',
-          duration: pattern.exhale,
-          segmentLength: metrics.diagonalLength,
-          ballSpeed: metrics.ballSpeeds.exhale
-        }
-      ];
+      const phases = [];
 
-      // Add 4th phase for Box Breathing
-      if (pattern.holdBottom !== undefined) {
-        phases.push({
-          name: 'holdBottom',
-          duration: pattern.holdBottom,
-          segmentLength: metrics.bottomHorizontalLength,
-          ballSpeed: metrics.ballSpeeds.holdBottom
-        });
-      }
+      // Helper function to create phase with bridge logic
+      const createPhase = (name, duration, segmentLength) => {
+        // If duration is 0 or negative, it's a bridge phase
+        // It takes 0.5s to traverse visually, but doesn't count for timer
+        const isBridge = !duration || duration <= 0;
+        const finalDuration = isBridge ? 0.5 : duration;
+        
+        // Calculate speed: pixels per second
+        // For bridge: segmentLength / 0.5
+        // For normal: segmentLength / duration
+        const ballSpeed = segmentLength / finalDuration;
+
+        return {
+          name,
+          duration: finalDuration,
+          segmentLength,
+          ballSpeed,
+          isBridge
+        };
+      };
+
+      phases.push(createPhase('inhale', pattern.inhale, metrics.diagonalLength));
+      phases.push(createPhase('holdTop', pattern.holdTop, metrics.topHorizontalLength));
+      phases.push(createPhase('exhale', pattern.exhale, metrics.diagonalLength));
+      phases.push(createPhase('holdBottom', pattern.holdBottom, metrics.bottomHorizontalLength));
 
       // Validate phase sequence integrity
       this.validatePhaseSequence(phases);
