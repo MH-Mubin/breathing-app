@@ -284,6 +284,7 @@ export class PhaseManager {
     this.isPaused = false;
     this.phaseStartTime = null;
     this.pausedTime = 0;
+    this._accumulatedBreathingTime = 0; // ms of non-bridge phase time completed
   }
 
   /**
@@ -295,6 +296,7 @@ export class PhaseManager {
     this.currentPhaseIndex = 0;
     this.phaseProgress = 0;
     this.cycleNumber = 0;
+    this._accumulatedBreathingTime = 0;
     
     this.isRunning = true;
     this.isPaused = false;
@@ -475,6 +477,13 @@ export class PhaseManager {
    * @param {number} currentTime - Current timestamp in milliseconds
    */
   transitionToNextPhase(currentTime) {
+    const completedPhase = this.phases[this.currentPhaseIndex];
+
+    // Accumulate breathing time only for non-bridge phases
+    if (completedPhase && !completedPhase.isBridge) {
+      this._accumulatedBreathingTime += completedPhase.duration * 1000; // convert to ms
+    }
+
     this.currentPhaseIndex++;
 
     // Check if cycle is complete
@@ -495,19 +504,28 @@ export class PhaseManager {
    */
   getCurrentState() {
     const currentPhase = this.phases[this.currentPhaseIndex];
-    
+
+    // Calculate breathing time: accumulated completed phases +
+    // partial progress through current phase (only if not a bridge)
+    const currentPhaseBreathingMs = currentPhase.isBridge
+      ? 0
+      : this.phaseProgress * currentPhase.duration * 1000;
+    const totalBreathingTime = this._accumulatedBreathingTime + currentPhaseBreathingMs;
+
     return {
       currentPhase: currentPhase.name,
       phaseIndex: this.currentPhaseIndex,
       phaseProgress: this.phaseProgress,
       phaseDuration: currentPhase.duration,
+      isBridge: currentPhase.isBridge,
       segmentLength: currentPhase.segmentLength,
       ballSpeed: currentPhase.ballSpeed,
       cycleNumber: this.cycleNumber,
       totalPhases: this.phases.length,
       isRunning: this.isRunning,
       isPaused: this.isPaused,
-      phases: this.phases
+      phases: this.phases,
+      totalBreathingTime // ms of real breathing time elapsed (excludes bridge)
     };
   }
 

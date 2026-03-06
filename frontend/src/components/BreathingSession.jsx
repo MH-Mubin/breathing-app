@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
@@ -115,7 +115,18 @@ export default function BreathingSession() {
   const { token, user, reloadUser } = useContext(AuthContext);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [lastCategory, setLastCategory] = useState(null);
-  const [selectedPattern, setSelectedPattern] = useState(patternsByCategory.focus[0]);
+  const [selectedPattern, setSelectedPattern] = useState(() => {
+    // Restore last-used pattern from localStorage
+    try {
+      const saved = localStorage.getItem('breathingApp_selectedPattern');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Validate it matches a known pattern to avoid stale/corrupt data
+        if (parsed && parsed.name && parsed.inhale && parsed.exhale) return parsed;
+      }
+    } catch (_) {/* ignore */}
+    return null; // No pattern selected by default
+  });
   const [duration, setDuration] = useState(5);
   const [running, setRunning] = useState(false);
   const [cycle, setCycle] = useState(0);
@@ -131,6 +142,11 @@ export default function BreathingSession() {
 
   const [sessionId, setSessionId] = useState(null);
   const [isBridgePhase, setIsBridgePhase] = useState(false);
+  // Track elapsed breathing seconds for session completion checks
+  const elapsedBreathingRef = useRef(0);
+  // Ref for scrolling to goal section when Start clicked without pattern
+  const goalSectionRef = useRef(null);
+  const [isGoalShaking, setIsGoalShaking] = useState(false);
 
   // Validate all patterns on component mount
   useEffect(() => {
@@ -154,72 +170,80 @@ export default function BreathingSession() {
     validateAllPatterns();
   }, []);
 
-  // Timer effect - manages countdown independently
+  // Persist selected pattern to localStorage whenever it changes
   useEffect(() => {
-    if (!running || remaining <= 0) {
-      // Session completed
-      if (remaining === 0 && sessionId && token) {
-        // Complete session
-        const completeSessionAsync = async () => {
-          try {
-            const totalDuration = duration * 60;
-            const pattern = {
-              inhale: selectedPattern.inhale,
-              hold: selectedPattern.holdTop || 0,
-              exhale: selectedPattern.exhale,
-            };
-
-            const response = await api.post("/session/complete", {
-              sessionId,
-              duration: totalDuration,
-              pattern,
-            });
-
-            if (response.data.success) {
-              const { streak, totalSessions, newAchievements } = response.data.data;
-              
-              toast.success(`Session completed! 🎉 Streak: ${streak} days`);
-              
-              if (newAchievements && newAchievements.length > 0) {
-                newAchievements.forEach(achievement => {
-                  toast.success(`🏆 Achievement Unlocked: ${achievement.name}!`, {
-                    duration: 5000,
-                  });
-                });
-              }
-              
-              setSessionId(null);
-              // Refresh user stats (streak) immediately
-              reloadUser();
-            }
-          } catch (error) {
-            console.error("Failed to save session:", error);
-            toast.error("Session completed but failed to save. Please check your connection.");
-          }
-        };
-        
-        completeSessionAsync();
-      }
-      return;
+    if (selectedPattern) {
+      localStorage.setItem('breathingApp_selectedPattern', JSON.stringify(selectedPattern));
     }
-    
-    const interval = setInterval(() => {
-      // Only count down if NOT in a bridge phase (0s hold visual transition)
-      if (!isBridgePhase) {
-        setRemaining(prev => {
-          if (prev <= 1) {
-            setRunning(false);
-            return 0;
+  }, [selectedPattern]);
+
+  // Session completion effect — fires when remaining hits 0
+  useEffect(() => {
+    if (remaining === 0 && sessionId && token) {
+      const completeSessionAsync = async () => {
+        try {
+          const totalDuration = duration * 60;
+          const pattern = {
+            inhale: selectedPattern.inhale,
+            hold: selectedPattern.holdTop || 0,
+            exhale: selectedPattern.exhale,
+          };
+
+          const response = await api.post("/session/complete", {
+            sessionId,
+            duration: totalDuration,
+            pattern,
+          });
+
+          if (response.data.success) {
+            const { streak, totalSessions, newAchievements } = response.data.data;
+            toast.success(`Session completed! 🎉 Streak: ${streak} days`);
+            if (newAchievements && newAchievements.length > 0) {
+              newAchievements.forEach(achievement => {
+                toast.success(`🏆 Achievement Unlocked: ${achievement.name}!`, { duration: 5000 });
+              });
+            }
+            setSessionId(null);
+            reloadUser();
           }
-          return prev - 1;
-        });
-      }
-    }, 1000);
-    
-    return () => clearInterval(interval);
-  }, [running, remaining, sessionId, token, duration, selectedPattern, isBridgePhase]);
+        } catch (error) {
+          console.error("Failed to save session:", error);
+          toast.error("Session completed but failed to save. Please check your connection.");
+        }
+      };
+      completeSessionAsync();
+    }
+  }, [remaining, sessionId, token, duration, selectedPattern]);
+
+  /**
+   * handleTimeUpdate — called every animation frame by BreathingVisualizer
+   * with the precise total breathing time in milliseconds (bridge phases excluded).
+   * This replaces the coarse setInterval and provides frame-accurate timing.
+   */
+  const handleTimeUpdate = useCallback((breathingMs) => {
+    if (!running) return;
+    const totalSeconds = duration * 60;
+    const elapsedSeconds = breathingMs / 1000;
+    // Store for reference
+    elapsedBreathingRef.current = elapsedSeconds;
+    const newRemaining = Math.max(0, totalSeconds - elapsedSeconds);
+    setRemaining(newRemaining);
+    if (newRemaining <= 0) {
+      setRunning(false);
+    }
+  }, [running, duration]);
 
   const handleStart = async () => {
+    // Guard: require a pattern to be selected
+    if (!selectedPattern) {
+      toast.error("Please select a breathing pattern first!", { duration: 3000 });
+      // Scroll to goal section and shake it
+      goalSectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setIsGoalShaking(true);
+      setTimeout(() => setIsGoalShaking(false), 600);
+      return;
+    }
+
     // Start session in database if user is logged in
     if (token) {
       try {
@@ -260,6 +284,7 @@ export default function BreathingSession() {
     setPaused(false);
     setCycle(0);
     setIsBridgePhase(false);
+    elapsedBreathingRef.current = 0;
     setRemaining(duration * 60);
     setResetKey(prev => prev + 1); // Force visualizer to remount
     setSessionId(null); // Clear session ID
@@ -292,6 +317,7 @@ export default function BreathingSession() {
       setPaused(false);
       setCycle(0);
       setIsBridgePhase(false);
+      elapsedBreathingRef.current = 0;
       setRemaining(duration * 60);
       setSessionId(null);
       setTimeout(() => {
@@ -443,7 +469,7 @@ export default function BreathingSession() {
               ✨ Breathe through your chest, not the belly ✨
             </p>
           </div>
-          {(() => {
+          {selectedPattern ? (() => {
             try {
               return (
                 <BreathingVisualizer
@@ -453,6 +479,7 @@ export default function BreathingSession() {
                   onCycle={setCycle}
                   duration={duration}
                   onPhaseChange={handlePhaseChange}
+                  onTimeUpdate={handleTimeUpdate}
                 />
               );
             } catch (error) {
@@ -472,20 +499,30 @@ export default function BreathingSession() {
                 </div>
               );
             }
-          })()}
+            })() : (
+              <div className="w-full h-52 rounded-xl border-2 border-dashed border-primary/40 flex flex-col items-center justify-center gap-3 bg-primary-light/20">
+                <span className="text-4xl">🌬️</span>
+                <p className="text-primary-dark font-semibold text-base">No pattern selected</p>
+                <p className="text-gray-500 text-sm text-center px-4">
+                  Pick a goal from the <span className="text-primary font-semibold">What's your goal?</span> section →<br/>
+                  then choose a breathing pattern to begin
+                </p>
+              </div>
+            )}
+
           <div className="flex gap-12 mt-8 mb-4 justify-center items-center">
             <div className="text-center bg-gradient-to-br from-primary-light to-white px-6 py-3 rounded-xl shadow-sm border border-primary">
               <div className="text-xs font-medium text-primary-dark mb-1">Time Elapsed</div>
               <div className="text-2xl font-bold text-gray-800">
                 {Math.floor((duration * 60 - remaining) / 60)}:
-                {((duration * 60 - remaining) % 60).toString().padStart(2, "0")}
+                {Math.floor((duration * 60 - remaining) % 60).toString().padStart(2, "0")}
               </div>
             </div>
             <div className="text-center bg-gradient-to-br from-primary-light to-white px-6 py-3 rounded-xl shadow-sm border border-primary">
               <div className="text-xs font-medium text-primary-dark mb-1">Time Remaining</div>
               <div className="text-2xl font-bold text-gray-800">
                 {Math.floor(remaining / 60)}:
-                {(remaining % 60).toString().padStart(2, "0")}
+                {Math.floor(remaining % 60).toString().padStart(2, "0")}
               </div>
             </div>
           </div>
@@ -559,7 +596,13 @@ export default function BreathingSession() {
       {/* Right Panel */}
       <aside className="md:col-span-1 self-start">
         {/* Pattern Section - Now at TOP */}
-        <div className="card p-4 mb-4">
+        {/* Shake keyframe injected inline so no CSS file edit needed */}
+        <style>{`@keyframes goalShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}`}</style>
+        <div
+          ref={goalSectionRef}
+          className="card p-4 mb-4 transition-all duration-300"
+          style={isGoalShaking ? { animation: 'goalShake 0.5s ease' } : {}}
+        >
           {/* Pattern Validation Error Display */}
           {patternValidationError && (
             <div className="mb-3 p-2 bg-red-50 border border-red-200 rounded text-red-700 text-sm">
@@ -569,7 +612,9 @@ export default function BreathingSession() {
           {/* Layer 1: Category Selection */}
           {!selectedCategory && (
             <>
-              <div className="font-semibold mb-3">What's your goal?</div>
+              <div className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+                <span>🎯</span> What's your goal?
+              </div>
               {categories.map((cat) => (
                 <button
                   key={cat.id}
@@ -586,6 +631,8 @@ export default function BreathingSession() {
                   {cat.name}
                 </button>
               ))}
+              {/* end of categories list */}
+              {/* ref placed here to be used by scroll-to on Start without pattern */}
             </>
           )}
 
@@ -622,9 +669,9 @@ export default function BreathingSession() {
                 <div
                   key={p.name}
                   className={
-                    selectedPattern.name === p.name
-                      ? "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-primary text-white shadow-lg overflow-hidden"
-                      : "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-white border-2 border-gray-200 hover:border-primary hover:shadow-md overflow-hidden"
+                  selectedPattern?.name === p.name
+                    ? "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-primary text-white shadow-lg overflow-hidden"
+                    : "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-white border-2 border-gray-200 hover:border-primary hover:shadow-md overflow-hidden"
                   }
                 >
                   {/* Clickable Header Area */}
@@ -635,7 +682,7 @@ export default function BreathingSession() {
                     {/* Level Badge - Top Left Corner (Small) */}
                     <div className="absolute top-1.5 left-1.5">
                       <span className={`text-xs font-medium px-1.5 py-0.5 rounded ${
-                        selectedPattern.name === p.name 
+                        selectedPattern?.name === p.name 
                           ? "bg-white bg-opacity-30 text-white"
                           : p.level === "Beginner" ? "bg-green-100 text-green-700" :
                             p.level === "Intermediate" ? "bg-blue-100 text-blue-700" :
@@ -649,7 +696,7 @@ export default function BreathingSession() {
                     {/* Pattern Name - Title (Large and Centered) */}
                     <div className="text-center mt-4 mb-2">
                       <div className={`text-xl font-bold ${
-                        selectedPattern.name === p.name ? "text-white" : "text-gray-800"
+                        selectedPattern?.name === p.name ? "text-white" : "text-gray-800"
                       }`}>
                         {p.name}
                       </div>
@@ -657,7 +704,7 @@ export default function BreathingSession() {
 
                     {/* Timing - Bottom in Primary or White */}
                     <div className={`text-center text-xs font-semibold mb-1 ${
-                      selectedPattern.name === p.name ? "text-white" : "text-primary"
+                      selectedPattern?.name === p.name ? "text-white" : "text-primary"
                     }`}>
                       {p.type === "4-phase" 
                         ? `In: ${p.inhale}s - Hold: ${p.holdTop}s - Out: ${p.exhale}s - Hold: ${p.holdBottom}s`
@@ -673,7 +720,7 @@ export default function BreathingSession() {
                       setExpandedPattern(expandedPattern === p.name ? null : p.name);
                     }}
                     className={`w-full flex items-center justify-center gap-1 text-xs font-medium py-1.5 transition-all duration-200 ${
-                      selectedPattern.name === p.name
+                      selectedPattern?.name === p.name
                         ? "text-white hover:bg-white hover:bg-opacity-10"
                         : "text-primary hover:bg-primary-light"
                     } rounded`}
@@ -706,13 +753,13 @@ export default function BreathingSession() {
                         ? "max-h-40 opacity-100 mt-2 pt-3 border-t"
                         : "max-h-0 opacity-0"
                     } ${
-                      selectedPattern.name === p.name
+                      selectedPattern?.name === p.name
                         ? "border-white border-opacity-30"
                         : "border-gray-200"
                     }`}
                   >
                     <div className={`text-sm ${
-                      selectedPattern.name === p.name ? "text-white text-opacity-90" : "text-gray-600"
+                      selectedPattern?.name === p.name ? "text-white text-opacity-90" : "text-gray-600"
                     }`}>
                       {p.description}
                     </div>
@@ -723,9 +770,11 @@ export default function BreathingSession() {
           )}
         </div>
 
-        {/* Duration Section - Now at BOTTOM */}
+        {/* Duration Section */}
         <div className="card p-4 mb-4">
-          <div className="font-semibold mb-3">Duration</div>
+          <div className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+            <span>⏱️</span> Duration
+          </div>
           
           {/* 2x2 Grid for preset durations */}
           <div className="grid grid-cols-2 gap-2 mb-2">

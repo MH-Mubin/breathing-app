@@ -39,7 +39,8 @@ export default function BreathingVisualizer({
   running,
   onCycle,
   duration, // Add duration prop
-  onPhaseChange // Prop to notify parent of phase changes (bridge phases)
+  onPhaseChange, // Prop to notify parent of phase changes (bridge phases)
+  onTimeUpdate  // Called every frame with precise breathing ms elapsed
 }) {
   const [phase, setPhase] = useState("idle");
   const [progress, setProgress] = useState(0);
@@ -320,6 +321,11 @@ export default function BreathingVisualizer({
           // Batch state updates for better performance
           const newPhase = state.currentPhase;
           const newProgress = Math.max(0, Math.min(1, state.phaseProgress)); // Clamp progress
+
+          // Drive the session timer with precise breathing time (excludes bridge ms)
+          if (onTimeUpdate && typeof state.totalBreathingTime === 'number') {
+            onTimeUpdate(state.totalBreathingTime);
+          }
           
           // Only update state if values actually changed
           if (newPhase !== phase || Math.abs(newProgress - progress) > 0.001) {
@@ -565,6 +571,16 @@ export default function BreathingVisualizer({
       )}
       
       <div className="flex flex-col items-center justify-center mb-8 mt-12">
+        {/* Pattern badge above viewport */}
+        {pattern && (
+          <div className="mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary-dark text-sm font-semibold flex items-center gap-2">
+            <span>🫁</span>
+            <span>{pattern.name}</span>
+            <span className="text-xs text-gray-500 font-normal">
+              ({pattern.inhale}-{pattern.holdTop || 0}-{pattern.exhale}{pattern.type === '4-phase' ? `-${pattern.holdBottom || 0}` : ''})
+            </span>
+          </div>
+        )}
         <div
           className="relative border-2 border-primary rounded-lg"
           style={{
@@ -588,42 +604,62 @@ export default function BreathingVisualizer({
             <path
               d={pathData.pathD}
               stroke="#10B981"
-              strokeWidth="3"
+              strokeWidth="12"
               strokeLinecap="round"
               strokeLinejoin="round"
               fill="none"
             />
           </svg>
 
-          {/* Transparent Circle with Border - Smaller */}
+          {/* Solid filled ball with count-up number */}
           <div
             style={{
               position: "absolute",
               left: `${pathData.fixedBallPosition}px`,
               top: `${animationData.ballY}px`,
               transform: "translate(-50%, -50%)",
-              width: "30px",
-              height: "30px",
+              width: "40px",
+              height: "40px",
               borderRadius: "50%",
-              backgroundColor: "transparent",
-              border: "3px solid var(--primary)",
+              backgroundColor: "#0D9488",
+              boxShadow: "0 2px 8px rgba(13, 148, 136, 0.5)",
               zIndex: 10,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {/* Center Point - 2px - Made more visible for debugging */}
-            <div
-              style={{
-                position: "absolute",
-                left: "50%",
-                top: "50%",
-                transform: "translate(-50%, -50%)",
-                width: "4px",
-                height: "4px",
-                borderRadius: "50%",
-                backgroundColor: "#FF0000",
-                zIndex: 20,
-              }}
-            />
+            {/* Count-up number — blank during bridge/idle phases */}
+            {(() => {
+              if (phase === 'idle' || phase === 'done') return null;
+              // Check if current phase is a bridge
+              const phases = phaseManagerRef.current?.getAllPhases();
+              const currentPhaseObj = phases?.find(p => p.name === phase);
+              if (currentPhaseObj?.isBridge) return null;
+              // Get phase duration from pattern
+              const durationMap = {
+                inhale: pattern.inhale,
+                holdTop: pattern.holdTop || 0,
+                exhale: pattern.exhale,
+                holdBottom: pattern.holdBottom || 0,
+              };
+              const dur = durationMap[phase] || 0;
+              if (dur <= 0) return null;
+              const elapsed = Math.floor(progress * dur);
+              return (
+                <span
+                  style={{
+                    color: "#fff",
+                    fontSize: "16px",
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    userSelect: "none",
+                  }}
+                >
+                  {elapsed}
+                </span>
+              );
+            })()}
           </div>
         </div>
         <div className="text-xl font-heading font-semibold text-primary-dark mt-1 text-center">
