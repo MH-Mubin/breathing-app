@@ -341,5 +341,88 @@ router.put('/change-password', protect, async (req, res) => {
 		});
 	}
 });
+// Upload/Update avatar (base64)
+router.post('/avatar', protect, async (req, res) => {
+	try {
+		const { avatar } = req.body;
+
+		if (!avatar) {
+			return res.status(400).json({
+				success: false,
+				message: 'No image data provided'
+			});
+		}
+
+		// Validate base64 format (must be a data URI with image type)
+		const dataUriRegex = /^data:image\/(png|jpeg|jpg|gif|webp);base64,/;
+		if (!dataUriRegex.test(avatar)) {
+			return res.status(400).json({
+				success: false,
+				message: 'Invalid image format. Accepted: PNG, JPG, GIF, WEBP'
+			});
+		}
+
+		// Check approximate size (base64 adds ~33% overhead, limit raw to ~3MB)
+		const base64Data = avatar.split(',')[1];
+		const sizeInBytes = Buffer.from(base64Data, 'base64').length;
+		if (sizeInBytes > 3 * 1024 * 1024) {
+			return res.status(400).json({
+				success: false,
+				message: 'Image too large. Maximum size is 3MB'
+			});
+		}
+
+		const user = await User.findById(req.user._id);
+		if (!user) {
+			return res.status(404).json({ success: false, message: 'User not found' });
+		}
+
+		user.profile.avatar = avatar;
+		await user.save();
+
+		const updatedUser = user.toObject();
+		delete updatedUser.password;
+
+		res.json({
+			success: true,
+			message: 'Avatar updated successfully',
+			data: updatedUser
+		});
+	} catch (error) {
+		console.error('Avatar upload error:', error);
+		res.status(500).json({
+			success: false,
+			message: 'Failed to upload avatar'
+		});
+	}
+});
+
+// Delete avatar
+router.delete('/avatar', protect, async (req, res) => {
+	try {
+		const user = await User.findById(req.user._id);
+		if (!user) {
+			return res.status(404).json({ success: false, message: 'User not found' });
+		}
+
+		user.profile.avatar = '';
+		await user.save();
+
+		const updatedUser = user.toObject();
+		delete updatedUser.password;
+
+		res.json({
+			success: true,
+			message: 'Avatar removed successfully',
+			data: updatedUser
+		});
+	} catch (error) {
+		console.error('Avatar delete error:', error);
+		res.status(500).json({
+			success: false,
+			message: 'Failed to remove avatar'
+		});
+	}
+});
 
 export default router;

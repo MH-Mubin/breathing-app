@@ -207,7 +207,7 @@ export default function ProfilePage() {
           {/* Left Column - Profile Card */}
           <div className="lg:col-span-1">
             {console.log("🎨 Rendering ProfileCard component")}
-            <ProfileCard user={profileData} />
+            <ProfileCard user={profileData} onUpdate={handleProfileUpdate} />
           </div>
           
           {/* Right Column - 2 column grid */}
