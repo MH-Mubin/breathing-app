@@ -388,23 +388,23 @@ export default function BreathingSession() {
 
         {/* Quick Tips */}
         {/* Quick Tips - Styled */}
-        <div className="card p-4 mb-3 bg-gradient-to-br from-blue-50 to-white border border-blue-100 shadow-sm">
+        <div className="card p-4 mb-3 bg-gradient-to-br from-blue-50 to-white dark:from-slate-800 dark:to-slate-700 border border-blue-100 dark:border-slate-600 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-xl">💡</span>
-            <div className="font-bold text-gray-800">Quick Tips</div>
+            <div className="font-bold text-gray-800 dark:text-white">Quick Tips</div>
           </div>
           <ul className="space-y-2">
             <li className="flex items-start gap-2">
               <span className="text-blue-500 mt-0.5">•</span>
-              <span className="text-sm text-gray-700">Breathe through your nose</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">Breathe through your nose</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-500 mt-0.5">•</span>
-              <span className="text-sm text-gray-700">Start slow & relaxed</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300">Start slow & relaxed</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="text-blue-500 mt-0.5">•</span>
-              <span className="text-sm text-gray-700 italic">"If you're a beginner, start with a simple pattern like 5-2-7."</span>
+              <span className="text-sm text-gray-700 dark:text-gray-300 italic">"If you're a beginner, start with a simple pattern like 5-2-7."</span>
             </li>
           </ul>
         </div>
@@ -419,7 +419,7 @@ export default function BreathingSession() {
                 className="card p-3 mb-2 hover:shadow-md hover:border-primary transition-all duration-200 cursor-pointer flex items-center gap-3"
               >
                 <div className="text-2xl">{benefit.emoji}</div>
-                <div className="font-semibold text-sm text-gray-800">{benefit.title}</div>
+                <div className="font-semibold text-sm text-gray-800 dark:text-gray-200">{benefit.title}</div>
               </div>
             ))}
           </>
@@ -432,7 +432,7 @@ export default function BreathingSession() {
                 className="card p-3 mb-2 hover:shadow-md hover:border-primary transition-all duration-200 flex items-center gap-3"
               >
                 <div className="text-2xl">{benefit.emoji}</div>
-                <div className="font-semibold text-sm text-gray-800">{benefit.title}</div>
+                <div className="font-semibold text-sm text-gray-800 dark:text-gray-200">{benefit.title}</div>
               </div>
             ))}
           </>
@@ -511,16 +511,16 @@ export default function BreathingSession() {
             )}
 
           <div className="flex gap-12 mt-8 mb-4 justify-center items-center">
-            <div className="text-center bg-gradient-to-br from-primary-light to-white px-6 py-3 rounded-xl shadow-sm border border-primary">
-              <div className="text-xs font-medium text-primary-dark mb-1">Time Elapsed</div>
-              <div className="text-2xl font-bold text-gray-800">
+            <div className="text-center bg-gradient-to-br from-primary-light to-white dark:from-slate-800 dark:to-slate-700 px-6 py-3 rounded-xl shadow-sm border border-primary dark:border-primary-dark">
+              <div className="text-xs font-medium text-white mb-1">Time Elapsed</div>
+              <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {Math.floor((duration * 60 - remaining) / 60)}:
                 {Math.floor((duration * 60 - remaining) % 60).toString().padStart(2, "0")}
               </div>
             </div>
-            <div className="text-center bg-gradient-to-br from-primary-light to-white px-6 py-3 rounded-xl shadow-sm border border-primary">
-              <div className="text-xs font-medium text-primary-dark mb-1">Time Remaining</div>
-              <div className="text-2xl font-bold text-gray-800">
+            <div className="text-center bg-gradient-to-br from-primary-light to-white dark:from-slate-800 dark:to-slate-700 px-6 py-3 rounded-xl shadow-sm border border-primary dark:border-primary-dark">
+              <div className="text-xs font-medium text-white mb-1">Time Remaining</div>
+              <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {Math.floor(remaining / 60)}:
                 {Math.floor(remaining % 60).toString().padStart(2, "0")}
               </div>
@@ -612,7 +612,7 @@ export default function BreathingSession() {
           {/* Layer 1: Category Selection */}
           {!selectedCategory && (
             <>
-              <div className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+              <div className="text-lg font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
                 <span>🎯</span> What's your goal?
               </div>
               {categories.map((cat) => (
@@ -621,7 +621,7 @@ export default function BreathingSession() {
                   className={`w-full px-3 py-2 mb-2 rounded font-heading font-semibold text-sm transition-all duration-200 text-left border ${
                     lastCategory === cat.id
                       ? "bg-primary-light text-primary-dark border-primary shadow-sm"
-                      : "bg-gray-100 text-gray-700 border-transparent hover:bg-primary-light hover:border-primary"
+                      : "bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 border-transparent hover:bg-primary-light dark:hover:bg-slate-600 hover:border-primary"
                   }`}
                   onClick={() => {
                     setSelectedCategory(cat.id);
@@ -671,7 +671,7 @@ export default function BreathingSession() {
                   className={
                   selectedPattern?.name === p.name
                     ? "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-primary text-white shadow-lg overflow-hidden"
-                    : "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-white border-2 border-gray-200 hover:border-primary hover:shadow-md overflow-hidden"
+                    : "relative px-3 py-3 mb-2 rounded-lg transition-all duration-300 bg-white dark:bg-slate-800 border-2 border-gray-200 dark:border-slate-700 hover:border-primary dark:hover:border-primary hover:shadow-md overflow-hidden"
                   }
                 >
                   {/* Clickable Header Area */}
@@ -696,7 +696,7 @@ export default function BreathingSession() {
                     {/* Pattern Name - Title (Large and Centered) */}
                     <div className="text-center mt-4 mb-2">
                       <div className={`text-xl font-bold ${
-                        selectedPattern?.name === p.name ? "text-white" : "text-gray-800"
+                        selectedPattern?.name === p.name ? "text-white" : "text-gray-800 dark:text-gray-100"
                       }`}>
                         {p.name}
                       </div>
@@ -759,7 +759,7 @@ export default function BreathingSession() {
                     }`}
                   >
                     <div className={`text-sm ${
-                      selectedPattern?.name === p.name ? "text-white text-opacity-90" : "text-gray-600"
+                      selectedPattern?.name === p.name ? "text-white text-opacity-90" : "text-gray-600 dark:text-gray-400"
                     }`}>
                       {p.description}
                     </div>
@@ -772,7 +772,7 @@ export default function BreathingSession() {
 
         {/* Duration Section */}
         <div className="card p-4 mb-4">
-          <div className="text-lg font-bold text-gray-800 mb-3 flex items-center gap-2">
+          <div className="text-lg font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
             <span>⏱️</span> Duration
           </div>
           
@@ -784,7 +784,7 @@ export default function BreathingSession() {
                 className={
                   duration === d && !showCustomInput
                     ? "px-3 py-2 rounded bg-primary text-white font-heading font-semibold text-sm hover:bg-primary-dark transition-all duration-200 transform hover:scale-105"
-                    : "px-3 py-2 rounded bg-gray-100 text-gray-700 font-heading font-semibold text-sm hover:bg-primary-light hover:border-primary transition-all duration-200 border border-transparent"
+                    : "px-3 py-2 rounded bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 font-heading font-semibold text-sm hover:bg-primary-light dark:hover:bg-slate-600 hover:border-primary transition-all duration-200 border border-transparent"
                 }
                 onClick={() => {
                   // If session is running or paused, reset it completely
@@ -811,7 +811,7 @@ export default function BreathingSession() {
             className={
               showCustomInput
                 ? "w-full px-3 py-2 rounded bg-primary text-white font-heading font-semibold text-sm hover:bg-primary-dark transition-all duration-200"
-                : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-heading font-semibold text-sm hover:bg-primary-light hover:border-primary transition-all duration-200 border border-transparent"
+                : "w-full px-3 py-2 rounded bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 font-heading font-semibold text-sm hover:bg-primary-light dark:hover:bg-slate-600 hover:border-primary transition-all duration-200 border border-transparent"
             }
             onClick={() => {
               setShowCustomInput(true);
@@ -848,7 +848,7 @@ export default function BreathingSession() {
                   disabled={!customDuration}
                   className={`px-4 py-2 rounded text-sm font-heading font-semibold transition whitespace-nowrap ${
                     !customDuration
-                      ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      ? "bg-gray-300 dark:bg-slate-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
                       : "bg-primary text-white hover:bg-primary-dark"
                   }`}
                 >
@@ -864,7 +864,7 @@ export default function BreathingSession() {
               className={
                 duration === customDurationValue
                   ? "w-full px-3 py-2 rounded bg-primary text-white font-heading font-semibold text-sm hover:bg-primary-dark transition-all duration-200 mt-2"
-                  : "w-full px-3 py-2 rounded bg-gray-100 text-gray-700 font-heading font-semibold text-sm hover:bg-primary-light hover:border-primary transition-all duration-200 border border-transparent mt-2"
+                  : "w-full px-3 py-2 rounded bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-200 font-heading font-semibold text-sm hover:bg-primary-light dark:hover:bg-slate-600 hover:border-primary transition-all duration-200 border border-transparent mt-2"
               }
               onClick={() => {
                 setDuration(customDurationValue);

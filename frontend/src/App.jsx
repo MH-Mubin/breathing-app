@@ -59,7 +59,7 @@ function AppContent() {
           },
         }}
       />
-      <div className={isAuthPage || isProfilePage ? "" : "min-h-screen bg-gray-100 pt-6 pb-12 px-2 md:px-0"}>
+      <div className={isAuthPage || isProfilePage ? "" : "min-h-screen bg-gray-100 dark:bg-slate-900 pt-6 pb-12 px-2 md:px-0 transition-colors duration-300"}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />

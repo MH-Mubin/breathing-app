@@ -1,13 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { useTheme } from "../context/ThemeContext";
 import api from "../utils/api";
 
 export default function PreferencesCard({ user, onUpdate }) {
+  const { themePreference, setThemePreference } = useTheme();
+
   const [preferences, setPreferences] = useState({
     notifications: user?.preferences?.notifications ?? true,
     dailyReminders: user?.preferences?.dailyReminders ?? true,
-    achievementAlerts: user?.preferences?.achievementAlerts ?? true,
     emailUpdates: user?.preferences?.emailUpdates ?? false,
   });
   
@@ -65,7 +67,6 @@ export default function PreferencesCard({ user, onUpdate }) {
       }
 
       // If it's a 401 error, the global interceptor will handle it
-      // Just show a generic error message
       if (err.response?.status === 401) {
         const errorMsg = "Authentication error. Please log in again.";
         setError(errorMsg);
@@ -96,6 +97,13 @@ export default function PreferencesCard({ user, onUpdate }) {
     }
   };
 
+  // Theme labels for the dropdown
+  const themeOptions = [
+    { value: "light", label: "Light" },
+    { value: "dark", label: "Dark" },
+    { value: "system", label: "System" },
+  ];
+
   if (!user) {
     return (
       <div className="card p-6">
@@ -109,14 +117,14 @@ export default function PreferencesCard({ user, onUpdate }) {
     <motion.div 
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow"
+      className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 shadow-lg hover:shadow-xl transition-shadow"
     >
       <div className="flex items-center gap-2 mb-6">
         <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
-        <h3 className="text-xl font-bold text-gray-900">Preferences</h3>
+        <h3 className="text-xl font-bold text-gray-900 dark:text-white">Preferences</h3>
       </div>
 
       {/* Error message */}
@@ -126,7 +134,7 @@ export default function PreferencesCard({ user, onUpdate }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm"
+            className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-800 text-red-700 dark:text-red-400 rounded-lg text-sm"
           >
             {error}
           </motion.div>
@@ -134,8 +142,39 @@ export default function PreferencesCard({ user, onUpdate }) {
       </AnimatePresence>
 
       <div className="space-y-3">
+        {/* Appearance (Theme) - Dropdown at top */}
+        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
+          <div className="flex items-center gap-3">
+            <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            </div>
+            <div>
+              <div className="font-medium text-gray-900 dark:text-white">Appearance</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                Choose your preferred theme
+              </div>
+            </div>
+          </div>
+          <select
+            value={themePreference}
+            onChange={(e) => {
+              setThemePreference(e.target.value);
+              toast.success(`Theme set to ${themeOptions.find(o => o.value === e.target.value)?.label}`);
+            }}
+            className="bg-white dark:bg-slate-600 border border-gray-300 dark:border-slate-500 text-gray-800 dark:text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer transition-colors"
+          >
+            {themeOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Notifications toggle */}
-        <div className="flex items-center justify-between bg-gray-100 rounded-lg p-4">
+        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
           <div className="flex items-center gap-3">
             <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,8 +182,8 @@ export default function PreferencesCard({ user, onUpdate }) {
               </svg>
             </div>
             <div>
-              <div className="font-medium text-gray-900">Notifications</div>
-              <div className="text-xs text-gray-500">
+              <div className="font-medium text-gray-900 dark:text-white">Notifications</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
                 Manage your notification settings
               </div>
             </div>
@@ -157,7 +196,7 @@ export default function PreferencesCard({ user, onUpdate }) {
         </div>
 
         {/* Daily Reminders toggle */}
-        <div className="flex items-center justify-between bg-gray-100 rounded-lg p-4">
+        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
           <div className="flex items-center gap-3">
             <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,8 +204,8 @@ export default function PreferencesCard({ user, onUpdate }) {
               </svg>
             </div>
             <div>
-              <div className="font-medium text-gray-900">Daily Reminders</div>
-              <div className="text-xs text-gray-500">
+              <div className="font-medium text-gray-900 dark:text-white">Daily Reminders</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
                 Set reminders for practice sessions
               </div>
             </div>
@@ -178,30 +217,8 @@ export default function PreferencesCard({ user, onUpdate }) {
           />
         </div>
 
-        {/* Achievement Alerts toggle */}
-        <div className="flex items-center justify-between bg-gray-100 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
-              <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-              </svg>
-            </div>
-            <div>
-              <div className="font-medium text-gray-900">Achievement Alerts</div>
-              <div className="text-xs text-gray-500">
-                Get notified about new achievements
-              </div>
-            </div>
-          </div>
-          <ToggleSwitch
-            checked={preferences.achievementAlerts}
-            onChange={() => handleToggle("achievementAlerts")}
-            disabled={loading.achievementAlerts}
-          />
-        </div>
-
         {/* Email Updates toggle */}
-        <div className="flex items-center justify-between bg-gray-100 rounded-lg p-4">
+        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
           <div className="flex items-center gap-3">
             <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -209,8 +226,8 @@ export default function PreferencesCard({ user, onUpdate }) {
               </svg>
             </div>
             <div>
-              <div className="font-medium text-gray-900">Email Updates</div>
-              <div className="text-xs text-gray-500">
+              <div className="font-medium text-gray-900 dark:text-white">Email Updates</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
                 Receive weekly progress reports
               </div>
             </div>
@@ -243,7 +260,7 @@ function ToggleSwitch({ checked, onChange, disabled }) {
         transition-colors duration-200 ease-in-out
         focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
         ${disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}
-        ${checked ? "bg-primary" : "bg-gray-300"}
+        ${checked ? "bg-primary" : "bg-gray-300 dark:bg-slate-500"}
       `}
     >
       <motion.span

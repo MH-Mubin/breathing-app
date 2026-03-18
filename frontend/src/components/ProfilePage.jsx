@@ -79,7 +79,7 @@ export default function ProfilePage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0 }}
@@ -88,7 +88,7 @@ export default function ProfilePage() {
           >
             {/* Left Column Skeleton */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl border-2 border-gray-200 p-8 animate-pulse">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-gray-200 dark:border-slate-700 p-8 animate-pulse">
                 <div className="flex flex-col items-center">
                   <div className="rounded-full bg-gray-200 w-32 h-32 mb-6"></div>
                   <div className="h-6 bg-gray-200 rounded w-32 mb-2"></div>
@@ -105,7 +105,7 @@ export default function ProfilePage() {
             
             {/* Right Column Skeleton */}
             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="md:col-span-2 bg-white rounded-2xl border border-gray-200 p-6 animate-pulse">
+              <div className="md:col-span-2 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 animate-pulse">
                 <div className="h-6 bg-gray-200 rounded w-48 mb-6"></div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="h-20 bg-gray-200 rounded-lg"></div>
@@ -115,7 +115,7 @@ export default function ProfilePage() {
                 </div>
               </div>
               
-              <div className="md:col-span-2 bg-white rounded-2xl border border-gray-200 p-6 animate-pulse">
+              <div className="md:col-span-2 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 animate-pulse">
                 <div className="h-6 bg-gray-200 rounded w-32 mb-6"></div>
                 <div className="space-y-3">
                   <div className="h-16 bg-gray-200 rounded-lg"></div>
@@ -125,7 +125,7 @@ export default function ProfilePage() {
                 </div>
               </div>
               
-              <div className="md:col-span-2 bg-white rounded-2xl border border-gray-200 p-6 animate-pulse">
+              <div className="md:col-span-2 bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 animate-pulse">
                 <div className="h-6 bg-gray-200 rounded w-40 mb-6"></div>
                 <div className="space-y-3">
                   <div className="h-16 bg-gray-200 rounded-lg"></div>
@@ -144,17 +144,17 @@ export default function ProfilePage() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-2xl border border-gray-200 p-8"
+            className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-8"
           >
             <div className="text-center py-12">
               <div className="text-red-400 text-5xl mb-4">⚠️</div>
-              <h3 className="text-xl font-semibold mb-2 text-gray-900">Error Loading Profile</h3>
-              <p className="text-gray-600 mb-4">{error}</p>
+              <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Error Loading Profile</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
               <button 
                 onClick={handleRetry} 
                 className="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors"
@@ -179,10 +179,10 @@ export default function ProfilePage() {
   if (!profileData) {
     console.log("⚠️ No profileData, showing fallback message");
     return (
-      <div className="min-h-screen bg-gray-50 py-8">
+      <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center py-12">
-            <p className="text-gray-600">No profile data available</p>
+            <p className="text-gray-600 dark:text-gray-400">No profile data available</p>
             <button 
               onClick={fetchProfileData}
               className="mt-4 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors"

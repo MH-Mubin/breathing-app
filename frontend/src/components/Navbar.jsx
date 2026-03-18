@@ -42,11 +42,11 @@ export default function Navbar() {
   
   return (
     <>
-      <nav className="w-full bg-white shadow-sm sticky top-0 z-20">
+      <nav className="w-full bg-white dark:bg-slate-800 shadow-sm dark:shadow-slate-900/30 sticky top-0 z-20 transition-colors duration-300">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <NavLink to="/" className="flex items-center gap-2">
             <img src="/logo.png" alt="Respira Logo" className="h-8 w-8" />
-            <div className="text-xl font-bold tracking-tight">Respira</div>
+            <div className="text-xl font-bold tracking-tight dark:text-white">Respira</div>
           </NavLink>
           <div className="flex items-center gap-2">
             {visibleNavItems.map((item) => (

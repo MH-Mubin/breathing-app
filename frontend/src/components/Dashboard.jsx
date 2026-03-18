@@ -86,7 +86,7 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-primary-light flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-primary-light dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -101,7 +101,7 @@ export default function Dashboard() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-gray-600 font-medium"
+            className="text-gray-600 dark:text-gray-400 font-medium"
           >
             Loading your dashboard...
           </motion.p>
@@ -115,7 +115,7 @@ export default function Dashboard() {
   const COLORS = ['#0EA5A4', '#14B8B7', '#2DD4D4', '#5FDEDE', '#99E9E9'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary-light to-gray-50 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary-light to-gray-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-8 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -124,10 +124,10 @@ export default function Dashboard() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-heading font-bold bg-gradient-to-r from-gray-900 to-primary-dark bg-clip-text text-transparent mb-2">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold bg-gradient-to-r from-gray-900 to-primary-dark dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
             Welcome back, {user?.name || "Friend"}! 👋
           </h1>
-          <p className="text-gray-600 text-lg">
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
             Here's your breathing journey at a glance
           </p>
         </motion.div>
@@ -175,9 +175,9 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-            className="lg:col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-gray-100"
+            className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-slate-700"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
               <span className="text-3xl mr-3">📊</span>
               Today's Overview
             </h2>
@@ -187,23 +187,23 @@ export default function Dashboard() {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="bg-gradient-to-br from-primary-light to-primary-light rounded-xl p-5 border border-primary"
+                className="bg-gradient-to-br from-primary-light to-primary-light dark:from-slate-700 dark:to-slate-600 rounded-xl p-5 border border-primary dark:border-slate-500"
               >
-                <div className="text-4xl font-bold text-primary-dark mb-1">
+                <div className="text-4xl font-bold text-primary-dark dark:text-primary-light mb-1">
                   {stats?.today.sessions || 0}
                 </div>
-                <div className="text-sm text-gray-600 font-medium">Sessions Today</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Sessions Today</div>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.7 }}
-                className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 border border-blue-200"
+                className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-700 dark:to-slate-600 rounded-xl p-5 border border-blue-200 dark:border-slate-500"
               >
-                <div className="text-4xl font-bold text-blue-600 mb-1">
+                <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-1">
                   {stats?.today.minutes || 0}
                 </div>
-                <div className="text-sm text-gray-600 font-medium">Minutes Today</div>
+                <div className="text-sm text-gray-600 dark:text-gray-400 font-medium">Minutes Today</div>
               </motion.div>
             </div>
 
@@ -212,9 +212,9 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
-              className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-5 border border-gray-200"
+              className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-xl p-5 border border-gray-200 dark:border-slate-600"
             >
-              <h3 className="font-semibold text-gray-700 mb-4 flex items-center">
+              <h3 className="font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center">
                 <span className="mr-2">📈</span>
                 This Week vs Last Week
               </h3>
@@ -259,7 +259,6 @@ export default function Dashboard() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
                     whileHover={{ scale: 1.02, x: 5 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                     className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-30 cursor-pointer"
                   >
                     <div className="text-3xl mb-2">{insight.icon}</div>
@@ -276,9 +275,9 @@ export default function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="bg-white rounded-2xl shadow-lg p-6 mb-8 relative"
+          className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-8 relative"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
             <span className="text-3xl mr-3">📅</span>
             1-Year Activity
           </h2>
@@ -302,7 +301,6 @@ export default function Dashboard() {
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.9 + (weekIndex * 7 + dayIndex) * 0.001 }}
                         whileHover={{ scale: 1.2 }}
-                        transition={{ type: "spring", stiffness: 400, damping: 15 }}
                         onMouseEnter={(e) => {
                           const rect = e.currentTarget.getBoundingClientRect();
                           setHoveredDay(day);
@@ -319,7 +317,7 @@ export default function Dashboard() {
                               : day.sessions >= 2
                               ? "bg-primary border-primary"
                               : "bg-primary-light border-primary"
-                            : "bg-muted border-muted"
+                            : "bg-muted dark:bg-slate-700 border-muted dark:border-slate-600"
                         }`}
                       />
                     ))}
@@ -330,13 +328,13 @@ export default function Dashboard() {
           </div>
           
           <div className="flex items-center justify-between mt-4">
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-gray-600 dark:text-gray-400">
               {weeklyActivity.filter(d => d.active).length} days active in the last year
             </div>
-            <div className="flex items-center gap-2 text-sm text-gray-600">
+            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
               <span>Less</span>
               <div className="flex gap-1">
-                <div className="w-[15px] h-[15px] bg-muted border border-muted rounded-sm"></div>
+                <div className="w-[15px] h-[15px] bg-muted dark:bg-slate-700 border border-muted dark:border-slate-600 rounded-sm"></div>
                 <div className="w-[15px] h-[15px] bg-primary-light border border-primary rounded-sm"></div>
                 <div className="w-[15px] h-[15px] bg-primary border border-primary rounded-sm"></div>
                 <div className="w-[15px] h-[15px] bg-primary-dark border border-primary-dark rounded-sm"></div>
@@ -359,9 +357,9 @@ export default function Dashboard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.0 }}
-              className="bg-white rounded-2xl shadow-lg p-6"
+              className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
                 <span className="text-3xl mr-3">🎯</span>
                 Breathing Patterns
               </h2>
@@ -392,9 +390,9 @@ export default function Dashboard() {
                         className="w-3 h-3 rounded-full mr-2"
                         style={{ backgroundColor: COLORS[index] }}
                       ></div>
-                      <span className="text-gray-700">{pattern.name}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{pattern.name}</span>
                     </div>
-                    <span className="text-gray-500">{pattern.count} sessions</span>
+                    <span className="text-gray-500 dark:text-gray-400">{pattern.count} sessions</span>
                   </div>
                 ))}
               </div>
@@ -406,9 +404,9 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
-            className="bg-white rounded-2xl shadow-lg p-6"
+            className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
           >
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
               <span className="text-3xl mr-3">📈</span>
               Weekly Trend
             </h2>
@@ -447,9 +445,9 @@ export default function Dashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2 }}
-          className="bg-white rounded-2xl shadow-lg p-6"
+          className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
         >
-          <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
             <span className="text-3xl mr-3">🏆</span>
             Achievements
           </h2>
@@ -463,10 +461,10 @@ export default function Dashboard() {
 // Stat Card Component
 function StatCard({ icon, value, label, subtitle, color, delay }) {
   const colorClasses = {
-    teal: "from-primary to-primary-dark shadow-primary/20",
-    blue: "from-blue-400 to-blue-500 shadow-blue-200",
-    green: "from-green-400 to-green-500 shadow-green-200",
-    purple: "from-purple-400 to-purple-500 shadow-purple-200",
+    teal: "from-primary to-primary-dark dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-primary/20",
+    blue: "from-blue-400 to-blue-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-blue-200",
+    green: "from-green-400 to-green-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-green-200",
+    purple: "from-purple-400 to-purple-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-purple-200",
   };
 
   return (
@@ -475,11 +473,10 @@ function StatCard({ icon, value, label, subtitle, color, delay }) {
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay, duration: 0.5, ease: "easeOut" }}
       whileHover={{ scale: 1.05, y: -5 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={`bg-gradient-to-br ${colorClasses[color]} rounded-2xl shadow-lg p-6 text-white relative overflow-hidden cursor-pointer`}
     >
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16" />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-white dark:bg-primary opacity-10 rounded-full -mr-16 -mt-16" />
       
       <div className="relative z-10">
         <div className="text-5xl mb-3">{icon}</div>
@@ -487,12 +484,12 @@ function StatCard({ icon, value, label, subtitle, color, delay }) {
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: delay + 0.3, type: "spring", stiffness: 200 }}
-          className="text-4xl font-bold mb-2"
+          className="text-4xl font-bold mb-2 text-white dark:text-primary-light"
         >
           {value}
         </motion.div>
-        <div className="text-sm font-semibold opacity-90 mb-1">{label}</div>
-        <div className="text-xs opacity-75">{subtitle}</div>
+        <div className="text-sm font-semibold opacity-90 mb-1 text-white dark:text-gray-200">{label}</div>
+        <div className="text-xs opacity-75 text-white dark:text-gray-400">{subtitle}</div>
       </div>
     </motion.div>
   );
@@ -507,7 +504,7 @@ function ComparisonBar({ label, current, previous, change }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm font-medium text-gray-700">{label}</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
         <span className={`text-sm font-semibold ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
           {change >= 0 ? '+' : ''}{change}
         </span>
@@ -515,23 +512,23 @@ function ComparisonBar({ label, current, previous, change }) {
       <div className="space-y-1">
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-500 w-16">This week</span>
-          <div className="flex-1 bg-gray-200 rounded-full h-2">
+          <div className="flex-1 bg-gray-200 dark:bg-slate-600 rounded-full h-2">
             <div
               className="bg-primary h-2 rounded-full transition-all"
               style={{ width: `${currentPercent}%` }}
             ></div>
           </div>
-          <span className="text-xs font-semibold text-gray-700 w-8">{current}</span>
+          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 w-8">{current}</span>
         </div>
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-500 w-16">Last week</span>
-          <div className="flex-1 bg-gray-200 rounded-full h-2">
+          <div className="flex-1 bg-gray-200 dark:bg-slate-600 rounded-full h-2">
             <div
               className="bg-gray-400 h-2 rounded-full transition-all"
               style={{ width: `${previousPercent}%` }}
             ></div>
           </div>
-          <span className="text-xs font-semibold text-gray-700 w-8">{previous}</span>
+          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 w-8">{previous}</span>
         </div>
       </div>
     </div>
@@ -564,11 +561,10 @@ function AchievementsGrid({ stats }) {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.3 + index * 0.05 }}
             whileHover={{ scale: unlocked ? 1.1 : 1.05, rotate: unlocked ? 5 : 0 }}
-            transition={{ type: "spring", stiffness: 300, damping: 15 }}
             className={`relative rounded-xl p-4 text-center cursor-pointer ${
               unlocked
                 ? 'bg-gradient-to-br from-primary to-primary-dark text-white'
-                : 'bg-gray-100 text-gray-400'
+                : 'bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-gray-500'
             }`}
           >
             <div className="text-4xl mb-2">{achievement.icon}</div>

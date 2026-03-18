@@ -171,17 +171,17 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-70 px-4">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="bg-white rounded-lg shadow-xl max-w-md w-full"
+            className="bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-md w-full border border-transparent dark:border-slate-700"
           >
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b">
-              <h3 className="text-xl font-semibold">Change Password</h3>
+            <div className="flex items-center justify-between p-6 border-b dark:border-slate-700">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Change Password</h3>
               <motion.button
                 whileHover={{ scale: 1.1, rotate: 90 }}
                 whileTap={{ scale: 0.9 }}
@@ -214,8 +214,8 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     >
                       ✓
                     </motion.div>
-                    <h4 className="text-lg font-semibold mb-2">Password Changed!</h4>
-                    <p className="text-gray-600">
+                    <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Password Changed!</h4>
+                    <p className="text-gray-600 dark:text-gray-300">
                       Your password has been successfully updated.
                     </p>
                   </motion.div>
@@ -244,7 +244,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
 
               {/* Current Password */}
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                   Current Password <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -253,10 +253,10 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     name="currentPassword"
                     value={formData.currentPassword}
                     onChange={handleChange}
-                    className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 ${
+                    className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 bg-white dark:bg-slate-700 text-gray-900 dark:text-white ${
                       errors.currentPassword 
                         ? "border-red-500 focus:ring-red-500" 
-                        : "border-border focus:ring-accent"
+                        : "border-gray-300 dark:border-slate-600 focus:ring-primary"
                     }`}
                     disabled={loading}
                     autoComplete="current-password"
@@ -286,7 +286,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
 
               {/* New Password */}
               <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                   New Password <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -295,10 +295,10 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     name="newPassword"
                     value={formData.newPassword}
                     onChange={handleChange}
-                    className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 ${
+                    className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 bg-white dark:bg-slate-700 text-gray-900 dark:text-white ${
                       errors.newPassword 
                         ? "border-red-500 focus:ring-red-500" 
-                        : "border-border focus:ring-accent"
+                        : "border-gray-300 dark:border-slate-600 focus:ring-primary"
                     }`}
                     disabled={loading}
                     autoComplete="new-password"
@@ -324,14 +324,14 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                 {errors.newPassword && (
                   <p className="text-red-500 text-xs mt-1">{errors.newPassword}</p>
                 )}
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   Must be at least 6 characters
                 </p>
               </div>
 
               {/* Confirm Password */}
               <div className="mb-6">
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
                   Confirm New Password <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
@@ -340,10 +340,10 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 ${
+                    className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring-2 bg-white dark:bg-slate-700 text-gray-900 dark:text-white ${
                       errors.confirmPassword 
                         ? "border-red-500 focus:ring-red-500" 
-                        : "border-border focus:ring-accent"
+                        : "border-gray-300 dark:border-slate-600 focus:ring-primary"
                     }`}
                     disabled={loading}
                     autoComplete="new-password"
@@ -390,7 +390,7 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                   type="button"
                   onClick={handleClose}
                   disabled={loading}
-                  className="btn-outline px-4 py-2 flex-1 transition-colors hover:bg-gray-50 cursor-pointer"
+                  className="btn-outline px-4 py-2 flex-1 transition-colors border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer rounded-lg"
                 >
                   Cancel
                 </motion.button>

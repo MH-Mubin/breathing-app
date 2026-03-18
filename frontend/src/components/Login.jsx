@@ -69,13 +69,13 @@ export default function Login() {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-50 dark:bg-slate-900">
       {/* Card Container */}
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-6xl h-[600px] bg-white rounded-3xl shadow-2xl flex flex-col lg:flex-row"
+        className="w-full max-w-6xl h-[600px] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl dark:shadow-slate-900/50 flex flex-col lg:flex-row"
       >
         {/* Left Side - Form */}
         <motion.div 
@@ -87,10 +87,10 @@ export default function Login() {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
               Welcome back!
             </h1>
-            <p className="text-gray-600 text-base">
+            <p className="text-gray-600 dark:text-gray-400 text-base">
               Find your calm and master your breath with Respira
             </p>
           </div>
@@ -105,7 +105,7 @@ export default function Login() {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base"
+                className="w-full px-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base bg-white dark:bg-slate-700 dark:text-white dark:placeholder-gray-400"
                 disabled={loading}
               />
             </div>
@@ -118,7 +118,7 @@ export default function Login() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all pr-14 text-base"
+                className="w-full px-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all pr-14 text-base bg-white dark:bg-slate-700 dark:text-white dark:placeholder-gray-400"
                 disabled={loading}
               />
               <button
@@ -144,7 +144,7 @@ export default function Login() {
             <div className="text-right">
               <button
                 type="button"
-                className="text-base text-gray-600 hover:text-primary transition-colors"
+                className="text-base text-gray-600 dark:text-gray-400 hover:text-primary transition-colors"
                 onClick={() => setShowForgotPassword(true)}
               >
                 Forgot Password?
@@ -155,7 +155,7 @@ export default function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-black text-white py-4 rounded-full font-semibold hover:bg-gray-800 transition-all transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none text-base"
+              className="w-full bg-black text-white py-4 rounded-full font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base hover:bg-gray-900 hover:shadow-xl hover:scale-[1.01]"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
@@ -173,7 +173,7 @@ export default function Login() {
 
           {/* Register Link */}
           <div className="mt-6 text-center">
-            <p className="text-gray-600 text-base">
+            <p className="text-gray-600 dark:text-gray-400 text-base">
               Not a member?{" "}
               <Link
                 to="/register"
@@ -191,7 +191,7 @@ export default function Login() {
         initial={{ opacity: 0, x: 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-50 to-green-100 items-center justify-center relative overflow-hidden rounded-r-3xl"
+        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-700 dark:to-slate-600 items-center justify-center relative overflow-hidden rounded-r-3xl"
       >
         {/* Decorative circles */}
         <div className="absolute top-20 left-20 w-32 h-32 bg-green-200 rounded-full opacity-30 blur-2xl"></div>
@@ -214,10 +214,10 @@ export default function Login() {
           </div>
 
           {/* Text */}
-          <h2 className="text-2xl font-bold text-gray-800 mb-3">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">
             Find Your Inner Peace
           </h2>
-          <p className="text-gray-600 text-base max-w-md mx-auto px-4">
+          <p className="text-gray-600 dark:text-gray-300 text-base max-w-md mx-auto px-4">
             Master your breath, calm your mind, and transform your life with Respira
           </p>
         </div>

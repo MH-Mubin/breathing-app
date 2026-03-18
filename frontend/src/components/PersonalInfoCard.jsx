@@ -180,14 +180,14 @@ export default function PersonalInfoCard({ user, onUpdate }) {
     <motion.div 
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow"
+      className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 shadow-lg hover:shadow-xl transition-shadow"
     >
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-2">
           <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
-          <h3 className="text-xl font-bold text-gray-900">Personal Information</h3>
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white">Personal Information</h3>
         </div>
         {!isEditing && (
           <motion.button 
@@ -234,7 +234,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Name field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Full Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -242,7 +242,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 ${
+                  className={`w-full px-4 py-3 bg-gray-100 dark:bg-slate-700 dark:text-white border-0 rounded-lg focus:outline-none focus:ring-2 ${
                     errors.name 
                       ? "focus:ring-red-500" 
                       : "focus:ring-primary"
@@ -256,7 +256,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
 
               {/* Email field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Email Address <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -264,7 +264,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 ${
+                  className={`w-full px-4 py-3 bg-gray-100 dark:bg-slate-700 dark:text-white border-0 rounded-lg focus:outline-none focus:ring-2 ${
                     errors.email 
                       ? "focus:ring-red-500" 
                       : "focus:ring-primary"
@@ -278,7 +278,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
 
               {/* Phone field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Phone Number
                 </label>
                 <input
@@ -287,7 +287,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+1 (555) 123-4567"
-                  className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 ${
+                  className={`w-full px-4 py-3 bg-gray-100 dark:bg-slate-700 dark:text-white border-0 rounded-lg focus:outline-none focus:ring-2 ${
                     errors.phone 
                       ? "focus:ring-red-500" 
                       : "focus:ring-primary"
@@ -301,7 +301,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
 
               {/* Location field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Location
                 </label>
                 <input
@@ -310,7 +310,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="San Francisco, CA"
-                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-4 py-3 bg-gray-100 dark:bg-slate-700 dark:text-white border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   disabled={loading}
                 />
               </div>
@@ -332,7 +332,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
                 whileTap={{ scale: 0.98 }}
                 onClick={handleCancel}
                 disabled={loading}
-                className="border-2 border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium flex-1 hover:bg-gray-50 transition-colors"
+                className="border-2 border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-lg font-medium flex-1 hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors"
               >
                 Cancel
               </motion.button>
@@ -349,29 +349,29 @@ export default function PersonalInfoCard({ user, onUpdate }) {
             className="grid grid-cols-1 md:grid-cols-2 gap-4"
           >
             {/* Full Name */}
-            <div className="bg-gray-100 rounded-lg px-4 py-3">
-              <div className="text-xs text-gray-500 mb-1">Full Name</div>
-              <div className="font-semibold text-gray-900">{user.name}</div>
+            <div className="bg-gray-100 dark:bg-slate-700 rounded-lg px-4 py-3">
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Full Name</div>
+              <div className="font-semibold text-gray-900 dark:text-white">{user.name}</div>
             </div>
 
             {/* Email Address */}
-            <div className="bg-gray-100 rounded-lg px-4 py-3">
-              <div className="text-xs text-gray-500 mb-1">Email Address</div>
-              <div className="font-semibold text-gray-900 break-all">{user.email}</div>
+            <div className="bg-gray-100 dark:bg-slate-700 rounded-lg px-4 py-3">
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Email Address</div>
+              <div className="font-semibold text-gray-900 dark:text-white break-all">{user.email}</div>
             </div>
 
             {/* Phone Number */}
-            <div className="bg-gray-100 rounded-lg px-4 py-3">
-              <div className="text-xs text-gray-500 mb-1">Phone Number</div>
-              <div className="font-semibold text-gray-900">
+            <div className="bg-gray-100 dark:bg-slate-700 rounded-lg px-4 py-3">
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Phone Number</div>
+              <div className="font-semibold text-gray-900 dark:text-white">
                 {user.profile?.phone || "Not provided"}
               </div>
             </div>
 
             {/* Location */}
-            <div className="bg-gray-100 rounded-lg px-4 py-3">
-              <div className="text-xs text-gray-500 mb-1">Location</div>
-              <div className="font-semibold text-gray-900">
+            <div className="bg-gray-100 dark:bg-slate-700 rounded-lg px-4 py-3">
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Location</div>
+              <div className="font-semibold text-gray-900 dark:text-white">
                 {user.profile?.location || "Not provided"}
               </div>
             </div>

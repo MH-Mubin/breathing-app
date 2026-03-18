@@ -38,7 +38,7 @@ export default function LandingPage() {
     fetchFeedbacks();
   }, []);
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary-light to-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary-light to-gray-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       {/* Hero Section */}
       <section className="relative overflow-hidden">
         {/* Background decorations */}
@@ -71,18 +71,18 @@ export default function LandingPage() {
                 transition={{ delay: 0.3 }}
                 className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 leading-tight"
               >
-                <span className="bg-gradient-to-r from-gray-900 via-primary to-gray-900 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-gray-900 via-primary to-gray-900 dark:from-white dark:via-primary dark:to-gray-300 bg-clip-text text-transparent">
                   Master Your Breath,
                 </span>
                 <br />
-                <span className="text-gray-900">Transform Your Life</span>
+                <span className="text-gray-900 dark:text-white">Transform Your Life</span>
               </motion.h1>
               
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-xl text-gray-600 mb-8 leading-relaxed"
+                className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
               >
                 Discover the power of rhythmic breathing. Reduce stress, improve focus, and boost your energy with guided exercises designed for your well-being.
               </motion.p>
@@ -108,7 +108,7 @@ export default function LandingPage() {
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 500, damping: 15 }}
-                    className="bg-white text-gray-900 px-8 py-4 rounded-full text-lg font-heading font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-gray-200 cursor-pointer"
+                    className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-8 py-4 rounded-full text-lg font-heading font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-gray-200 dark:border-slate-700 cursor-pointer"
                   >
                     Try Demo
                   </motion.button>
@@ -124,15 +124,15 @@ export default function LandingPage() {
               >
                 <div>
                   <div className="text-3xl font-bold bg-gradient-to-br from-primary to-primary-dark bg-clip-text text-transparent">10k+</div>
-                  <div className="text-sm text-gray-600">Active Users</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Active Users</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold bg-gradient-to-br from-primary to-primary-dark bg-clip-text text-transparent">50k+</div>
-                  <div className="text-sm text-gray-600">Sessions Today</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">Sessions Today</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold bg-gradient-to-br from-primary to-primary-dark bg-clip-text text-transparent">4.9★</div>
-                  <div className="text-sm text-gray-600">User Rating</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400">User Rating</div>
                 </div>
               </motion.div>
             </motion.div>
@@ -220,8 +220,8 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <span className="text-primary font-heading font-semibold text-sm uppercase tracking-wider">Why Choose Us</span>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4">Benefits of Regular Practice</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-gray-900 dark:text-white">Benefits of Regular Practice</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Experience transformative changes in your physical and mental well-being
             </p>
           </motion.div>
@@ -239,14 +239,14 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
                 whileHover={{ y: -10, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl border border-gray-100 relative overflow-hidden group cursor-pointer"
+                className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl border border-gray-100 dark:border-slate-700 relative overflow-hidden group cursor-pointer"
                 style={{ transition: "box-shadow 0.2s ease" }}
               >
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${benefit.color} opacity-10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500`} />
                 <div className="relative z-10">
                   <div className="text-6xl mb-4">{benefit.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3">{benefit.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{benefit.desc}</p>
+                  <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -255,7 +255,7 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white dark:bg-slate-800">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -264,7 +264,7 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <span className="text-primary font-heading font-semibold text-sm uppercase tracking-wider">Simple Process</span>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4">How It Works</h2>
+            <h2 className="text-4xl md:text-5xl font-bold mt-4 text-gray-900 dark:text-white">How It Works</h2>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
@@ -294,8 +294,8 @@ export default function LandingPage() {
                     {step.num}
                   </motion.div>
                   <div className="text-3xl mb-4">{step.icon}</div>
-                  <h3 className="text-xl font-bold mb-3 leading-tight">{step.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{step.desc}</p>
+                  <h3 className="text-xl font-bold mb-3 leading-tight text-gray-900 dark:text-white">{step.title}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{step.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -304,7 +304,7 @@ export default function LandingPage() {
       </section>
 
       {/* What Experts Say */}
-      <section className="py-20 px-4 bg-gradient-to-br from-primary-light to-white">
+      <section className="py-20 px-4 bg-gradient-to-br from-primary-light to-white dark:from-slate-900 dark:to-slate-800">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -313,8 +313,8 @@ export default function LandingPage() {
             className="text-center mb-16"
           >
             <span className="text-primary font-heading font-semibold text-sm uppercase tracking-wider">Expert Insights</span>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4">What Experts Say</h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-gray-900 dark:text-white">What Experts Say</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Leading health professionals on the science of breathwork
             </p>
           </motion.div>
@@ -350,7 +350,7 @@ export default function LandingPage() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
                 whileHover={{ y: -8, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl border-2 border-primary relative overflow-hidden group cursor-pointer"
+                className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border-2 border-primary dark:border-primary-dark relative overflow-hidden group cursor-pointer"
                 style={{ transition: "box-shadow 0.2s ease" }}
               >
                 {/* Decorative gradient */}
@@ -361,15 +361,15 @@ export default function LandingPage() {
                   <div className="text-5xl mb-4">{expert.icon}</div>
                   
                   {/* Quote */}
-                  <p className="text-gray-700 mb-6 italic leading-relaxed text-lg">
+                  <p className="text-gray-700 dark:text-gray-300 mb-6 italic leading-relaxed text-lg">
                     "{expert.quote}"
                   </p>
                   
                   {/* Expert Info */}
-                  <div className="border-t border-gray-200 pt-4">
-                    <div className="font-bold text-gray-900 text-lg">{expert.name}</div>
+                  <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
+                    <div className="font-bold text-gray-900 dark:text-white text-lg">{expert.name}</div>
                     <div className="text-primary font-semibold text-sm mt-1">{expert.role}</div>
-                    <div className="text-gray-500 text-xs mt-1">{expert.credential}</div>
+                    <div className="text-gray-500 dark:text-gray-400 text-xs mt-1">{expert.credential}</div>
                   </div>
                 </div>
               </motion.div>
@@ -387,8 +387,8 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">What Our Users Say</h2>
-            <p className="text-xl text-gray-600 mb-6">Join thousands who transformed their lives</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">What Our Users Say</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">Join thousands who transformed their lives</p>
             
             {/* Share Feedback Button */}
             {user ? (
@@ -425,7 +425,7 @@ export default function LandingPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2, duration: 0.6 }}
                   whileHover={{ y: -5, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                  className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 cursor-pointer"
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer"
                   style={{ transition: "box-shadow 0.2s ease" }}
                 >
                   <div className="flex justify-center mb-4">
@@ -433,14 +433,14 @@ export default function LandingPage() {
                       <span key={i} className={`text-2xl ${i < testimonial.rating ? 'text-primary' : 'text-gray-300'}`}>★</span>
                     ))}
                   </div>
-                  <p className="text-gray-600 mb-6 italic leading-relaxed">"{testimonial.feedback}"</p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.feedback}"</p>
                   <div className="flex items-center justify-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
                       {testimonial.name[0]}
                     </div>
                     <div className="text-left">
-                      <div className="font-bold">{testimonial.name}</div>
-                      <div className="text-sm text-gray-500">Respira User</div>
+                      <div className="font-bold text-gray-900 dark:text-white">{testimonial.name}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">Respira User</div>
                     </div>
                   </div>
                 </motion.div>
@@ -459,7 +459,7 @@ export default function LandingPage() {
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2, duration: 0.6 }}
                   whileHover={{ y: -5, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                  className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 cursor-pointer"
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer"
                   style={{ transition: "box-shadow 0.2s ease" }}
                 >
                   <div className="flex justify-center mb-4">
@@ -467,14 +467,14 @@ export default function LandingPage() {
                       <span key={i} className="text-primary text-2xl">★</span>
                     ))}
                   </div>
-                  <p className="text-gray-600 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
                   <div className="flex items-center justify-center">
                     <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
                       {testimonial.name[0]}
                     </div>
                     <div className="text-left">
-                      <div className="font-bold">{testimonial.name}</div>
-                      <div className="text-sm text-gray-500">{testimonial.role}</div>
+                      <div className="font-bold text-gray-900 dark:text-white">{testimonial.name}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -494,7 +494,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-primary to-primary-dark rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden"
+            className="bg-gradient-to-br from-primary to-primary-dark dark:from-slate-800 dark:to-slate-900 border border-transparent dark:border-slate-700 rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -mr-32 -mt-32" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32" />
@@ -509,7 +509,7 @@ export default function LandingPage() {
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 500, damping: 15 }}
-                  className="bg-white text-primary px-10 py-5 rounded-full text-xl font-heading font-bold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
+                  className="bg-white text-primary dark:bg-primary dark:text-white dark:hover:bg-primary-dark px-10 py-5 rounded-full text-xl font-heading font-bold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
                 >
                   Begin Your Practice →
                 </motion.button>

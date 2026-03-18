@@ -40,6 +40,32 @@
   body {
     font-family: theme('fontFamily.sans');
   }
+
+  .dark {
+    --color-primary: #14b8a6;
+    --color-primary-dark: #0d9488;
+    --color-primary-light: #042f2e;
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-border: #334155;
+    --color-text-primary: #f1f5f9;
+    --color-text-secondary: #94a3b8;
+    --color-muted: #334155;
+
+    --primary: #14b8a6;
+    --primary-dark: #0d9488;
+    --accent: #22d3ee;
+    --bg-dark: #020617;
+    --bg-light: #0f172a;
+    --card: #1e293b;
+    --border: #334155;
+    --text-dark: #f1f5f9;
+    --text-light: #ffffff;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --muted: #475569;
+
+    color-scheme: dark;
+  }
 }
 
 html,
@@ -53,6 +79,7 @@ body {
   color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .card {
@@ -86,7 +113,7 @@ body {
 }
 
 .btn-outline {
-  background: white;
+  background: var(--card);
   color: var(--primary);
   border: 2px solid var(--border);
   border-radius: 12px;
@@ -123,12 +150,12 @@ body {
   margin-left: 0.25rem;
 }
 .nav-link:hover {
-  background: white;
+  background: var(--card);
   transform: translateY(-1px);
 }
 
 .stat-card {
-  background: white;
+  background: var(--card);
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(2, 6, 23, 0.04);
   border: 1px solid var(--border);
@@ -194,7 +221,7 @@ body {
   gap: 12px;
 }
 .duration-card {
-  background: white;
+  background: var(--card);
   border-radius: 14px;
   border: 1px solid var(--border);
   padding: 14px 10px;
@@ -236,7 +263,7 @@ body {
 /* Practice session header and controls */
 .session-badge {
   display: inline-block;
-  background: white;
+  background: var(--card);
   border-radius: 999px;
   padding: 6px 12px;
   border: 1px solid var(--border);
@@ -361,4 +388,24 @@ body {
 
 .animation-delay-4000 {
   animation-delay: 4s;
+}
+
+/* Fix autofill background and text color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px var(--card) inset !important;
+  -webkit-text-fill-color: white !important;
+  caret-color: white !important;
+}
+
+/* Dark mode autofill */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #1e293b inset !important;
+  -webkit-text-fill-color: white !important;
+  caret-color: white !important;
 }

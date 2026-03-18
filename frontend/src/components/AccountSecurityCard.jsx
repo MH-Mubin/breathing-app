@@ -43,13 +43,13 @@ export default function AccountSecurityCard() {
       <motion.div 
         whileHover={{ scale: 1.01 }}
         transition={{ type: "spring", stiffness: 300, damping: 20 }}
-        className="bg-white rounded-2xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow"
+        className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 shadow-lg hover:shadow-xl transition-shadow"
       >
         <div className="flex items-center gap-2 mb-6">
           <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
-          <h3 className="text-xl font-heading font-bold text-gray-900">Account & Security</h3>
+          <h3 className="text-xl font-heading font-bold text-gray-900 dark:text-white">Account & Security</h3>
         </div>
 
         <div className="space-y-3">
@@ -59,7 +59,7 @@ export default function AccountSecurityCard() {
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             onClick={handlePasswordChange}
-            className="w-full flex items-center justify-between bg-gray-100 rounded-lg p-4 transition-colors hover:bg-gray-200 text-left"
+            className="w-full flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4 transition-colors hover:bg-gray-200 dark:hover:bg-slate-600 text-left"
           >
             <div className="flex items-center gap-3">
               <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
@@ -68,8 +68,8 @@ export default function AccountSecurityCard() {
                 </svg>
               </div>
               <div>
-                <div className="font-medium text-gray-900">Change Password</div>
-                <div className="text-xs text-gray-500">
+                <div className="font-medium text-gray-900 dark:text-white">Change Password</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   Update your password
                 </div>
               </div>
@@ -85,7 +85,7 @@ export default function AccountSecurityCard() {
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             onClick={handlePrivacySettings}
-            className="w-full flex items-center justify-between bg-gray-100 rounded-lg p-4 transition-colors hover:bg-gray-200 text-left cursor-pointer"
+            className="w-full flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4 transition-colors hover:bg-gray-200 dark:hover:bg-slate-600 text-left cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
@@ -95,8 +95,8 @@ export default function AccountSecurityCard() {
                 </svg>
               </div>
               <div>
-                <div className="font-medium text-gray-900">Privacy Settings</div>
-                <div className="text-xs text-gray-500">
+                <div className="font-medium text-gray-900 dark:text-white">Privacy Settings</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   Manage your privacy preferences
                 </div>
               </div>
@@ -112,7 +112,7 @@ export default function AccountSecurityCard() {
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             onClick={handleHelpSupport}
-            className="w-full flex items-center justify-between bg-gray-100 rounded-lg p-4 transition-colors hover:bg-gray-200 text-left cursor-pointer"
+            className="w-full flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4 transition-colors hover:bg-gray-200 dark:hover:bg-slate-600 text-left cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
@@ -121,8 +121,8 @@ export default function AccountSecurityCard() {
                 </svg>
               </div>
               <div>
-                <div className="font-medium text-gray-900">Help & Support</div>
-                <div className="text-xs text-gray-500">
+                <div className="font-medium text-gray-900 dark:text-white">Help & Support</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   Get help with your account
                 </div>
               </div>
@@ -133,7 +133,7 @@ export default function AccountSecurityCard() {
           </motion.button>
 
           {/* Divider */}
-          <div className="border-t border-gray-200 my-2"></div>
+          <div className="border-t border-gray-200 dark:border-slate-600 my-2"></div>
 
           {/* Sign Out */}
           <motion.button
@@ -141,7 +141,7 @@ export default function AccountSecurityCard() {
             whileTap={{ scale: 0.98 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
             onClick={handleSignOut}
-            className="w-full flex items-center justify-between bg-gray-100 rounded-lg p-4 transition-colors hover:bg-gray-200 text-left cursor-pointer"
+            className="w-full flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4 transition-colors hover:bg-gray-200 dark:hover:bg-slate-600 text-left cursor-pointer"
           >
             <div className="flex items-center gap-3">
               <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
@@ -150,8 +150,8 @@ export default function AccountSecurityCard() {
                 </svg>
               </div>
               <div>
-                <div className="font-medium text-gray-900">Sign Out</div>
-                <div className="text-xs text-gray-500">
+                <div className="font-medium text-gray-900 dark:text-white">Sign Out</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400">
                   Sign out of your account
                 </div>
               </div>

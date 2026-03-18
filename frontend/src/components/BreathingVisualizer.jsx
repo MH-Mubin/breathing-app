@@ -576,7 +576,7 @@ export default function BreathingVisualizer({
           <div className="mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary-dark text-sm font-semibold flex items-center gap-2">
             <span>🫁</span>
             <span>{pattern.name}</span>
-            <span className="text-xs text-gray-500 font-normal">
+            <span className="text-xs text-white font-normal">
               ({pattern.inhale}-{pattern.holdTop || 0}-{pattern.exhale}{pattern.type === '4-phase' ? `-${pattern.holdBottom || 0}` : ''})
             </span>
           </div>
