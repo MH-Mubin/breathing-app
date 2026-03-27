@@ -10,7 +10,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
   
   // Form state
   const [formData, setFormData] = useState({
-    name: user?.name || "",
+    name: user?.name ? (user.name.includes('@') ? user.name.split('@')[0] : user.name) : "",
     email: user?.email || "",
     phone: user?.profile?.phone || "",
     location: user?.profile?.location || "",
@@ -80,7 +80,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
   const handleCancel = () => {
     setIsEditing(false);
     setFormData({
-      name: user?.name || "",
+      name: user?.name ? (user.name.includes('@') ? user.name.split('@')[0] : user.name) : "",
       email: user?.email || "",
       phone: user?.profile?.phone || "",
       location: user?.profile?.location || "",
@@ -351,7 +351,9 @@ export default function PersonalInfoCard({ user, onUpdate }) {
             {/* Full Name */}
             <div className="bg-gray-100 dark:bg-slate-700 rounded-lg px-4 py-3">
               <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Full Name</div>
-              <div className="font-semibold text-gray-900 dark:text-white">{user.name}</div>
+              <div className="font-semibold text-gray-900 dark:text-white">
+                {user?.name ? (user.name.includes('@') ? user.name.split('@')[0] : user.name) : ""}
+              </div>
             </div>
 
             {/* Email Address */}

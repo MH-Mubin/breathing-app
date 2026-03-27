@@ -10,6 +10,7 @@ import patternRoutes from './routes/pattern.js';
 import reminderRoutes from './routes/reminder.js';
 import sessionRoutes from './routes/session.js';
 import userRoutes from './routes/user.js';
+import passportConfig from './config/passport.js'; // Import passport config
 
 // Load environment variables
 dotenv.config({ path: '.env.local' }); // Try local first
@@ -20,6 +21,9 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// Initialize Passport
+app.use(passportConfig.initialize());
 
 // Connect to DB
 connectDB();

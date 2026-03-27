@@ -55,7 +55,8 @@ export default function ProfileCard({ user, onUpdate }) {
   // Generate initials from user name
   const initials = useMemo(() => {
     if (!user?.name) return "?";
-    const nameParts = user.name.trim().split(" ");
+    const actualName = user.name.includes('@') ? user.name.split('@')[0] : user.name;
+    const nameParts = actualName.trim().split(" ");
     if (nameParts.length === 1) {
       return nameParts[0].charAt(0).toUpperCase();
     }
@@ -334,7 +335,7 @@ export default function ProfileCard({ user, onUpdate }) {
 
       {/* User name */}
       <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 text-center">
-        {user.name}
+        {user?.name ? (user.name.includes('@') ? user.name.split('@')[0] : user.name) : ""}
       </h2>
 
       {/* User email */}

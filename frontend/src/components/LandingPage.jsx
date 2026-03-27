@@ -95,9 +95,9 @@ export default function LandingPage() {
               >
                 <Link to="/login">
                   <motion.button
-                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileHover={{ scale: 1.03, y: -3 }}
                     whileTap={{ scale: 0.95 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     className="bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-4 rounded-full text-lg font-heading font-semibold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
                   >
                     Get Started Free
@@ -238,16 +238,20 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
-                whileHover={{ y: -10, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl border border-gray-100 dark:border-slate-700 relative overflow-hidden group cursor-pointer"
-                style={{ transition: "box-shadow 0.2s ease" }}
               >
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${benefit.color} opacity-10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500`} />
-                <div className="relative z-10">
-                  <div className="text-6xl mb-4">{benefit.icon}</div>
-                  <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.desc}</p>
-                </div>
+                <motion.div
+                  whileHover={{ y: -5, scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl border border-gray-100 dark:border-slate-700 relative overflow-hidden group cursor-pointer h-full"
+                  style={{ transition: "box-shadow 0.2s ease" }}
+                >
+                  <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${benefit.color} opacity-10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500`} />
+                  <div className="relative z-10">
+                    <div className="text-6xl mb-4">{benefit.icon}</div>
+                    <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
+                    <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.desc}</p>
+                  </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -287,8 +291,8 @@ export default function LandingPage() {
               >
                 <div className="flex flex-col items-center text-center">
                   <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    transition={{ type: "spring", stiffness: 600, damping: 12 }}
+                    whileHover={{ scale: 1.05, rotate: 5, y: -3 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
                     className="w-16 h-16 bg-gradient-to-r from-primary to-primary-dark rounded-full flex items-center justify-center text-white text-xl font-bold shadow-xl mb-6 relative z-10 cursor-pointer"
                   >
                     {step.num}
@@ -349,29 +353,33 @@ export default function LandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.2, duration: 0.6 }}
-                whileHover={{ y: -8, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border-2 border-primary dark:border-primary-dark relative overflow-hidden group cursor-pointer"
-                style={{ transition: "box-shadow 0.2s ease" }}
               >
-                {/* Decorative gradient */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-light to-primary opacity-50 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
-                
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className="text-5xl mb-4">{expert.icon}</div>
+                <motion.div
+                  whileHover={{ y: -5, scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border-2 border-primary dark:border-primary-dark relative overflow-hidden group cursor-pointer h-full"
+                  style={{ transition: "box-shadow 0.2s ease" }}
+                >
+                  {/* Decorative gradient */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary-light to-primary opacity-50 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500" />
                   
-                  {/* Quote */}
-                  <p className="text-gray-700 dark:text-gray-300 mb-6 italic leading-relaxed text-lg">
-                    "{expert.quote}"
-                  </p>
-                  
-                  {/* Expert Info */}
-                  <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
-                    <div className="font-bold text-gray-900 dark:text-white text-lg">{expert.name}</div>
-                    <div className="text-primary font-semibold text-sm mt-1">{expert.role}</div>
-                    <div className="text-gray-500 dark:text-gray-400 text-xs mt-1">{expert.credential}</div>
+                  <div className="relative z-10">
+                    {/* Icon */}
+                    <div className="text-5xl mb-4">{expert.icon}</div>
+                    
+                    {/* Quote */}
+                    <p className="text-gray-700 dark:text-gray-300 mb-6 italic leading-relaxed text-lg">
+                      "{expert.quote}"
+                    </p>
+                    
+                    {/* Expert Info */}
+                    <div className="border-t border-gray-200 dark:border-slate-700 pt-4">
+                      <div className="font-bold text-gray-900 dark:text-white text-lg">{expert.name}</div>
+                      <div className="text-primary font-semibold text-sm mt-1">{expert.role}</div>
+                      <div className="text-gray-500 dark:text-gray-400 text-xs mt-1">{expert.credential}</div>
+                    </div>
                   </div>
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
@@ -404,9 +412,9 @@ export default function LandingPage() {
             ) : (
               <Link to="/login">
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-3 rounded-full font-heading font-semibold shadow-lg hover:shadow-xl transition-all cursor-pointer"
                 >
                   ✨ Login to Share Your Experience
@@ -424,25 +432,29 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2, duration: 0.6 }}
-                  whileHover={{ y: -5, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer"
-                  style={{ transition: "box-shadow 0.2s ease" }}
                 >
-                  <div className="flex justify-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <span key={i} className={`text-2xl ${i < testimonial.rating ? 'text-primary' : 'text-gray-300'}`}>★</span>
-                    ))}
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.feedback}"</p>
-                  <div className="flex items-center justify-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
-                      {testimonial.name[0]}
+                  <motion.div
+                    whileHover={{ y: -5, scale: 1.03 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer h-full"
+                    style={{ transition: "box-shadow 0.2s ease" }}
+                  >
+                    <div className="flex justify-center mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className={`text-2xl ${i < testimonial.rating ? 'text-primary' : 'text-gray-300'}`}>★</span>
+                      ))}
                     </div>
-                    <div className="text-left">
-                      <div className="font-bold text-gray-900 dark:text-white">{testimonial.name}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">Respira User</div>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.feedback}"</p>
+                    <div className="flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
+                        {testimonial.name[0]}
+                      </div>
+                      <div className="text-left">
+                        <div className="font-bold text-gray-900 dark:text-white">{testimonial.name}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">Respira User</div>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               ))
             ) : (
@@ -458,25 +470,29 @@ export default function LandingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.2, duration: 0.6 }}
-                  whileHover={{ y: -5, scale: 1.02, transition: { type: "spring", stiffness: 500, damping: 15 } }}
-                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer"
-                  style={{ transition: "box-shadow 0.2s ease" }}
                 >
-                  <div className="flex justify-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <span key={i} className="text-primary text-2xl">★</span>
-                    ))}
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
-                  <div className="flex items-center justify-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
-                      {testimonial.name[0]}
+                  <motion.div
+                    whileHover={{ y: -5, scale: 1.03 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                    className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer h-full"
+                    style={{ transition: "box-shadow 0.2s ease" }}
+                  >
+                    <div className="flex justify-center mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <span key={i} className="text-primary text-2xl">★</span>
+                      ))}
                     </div>
-                    <div className="text-left">
-                      <div className="font-bold text-gray-900 dark:text-white">{testimonial.name}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</div>
+                    <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
+                    <div className="flex items-center justify-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
+                        {testimonial.name[0]}
+                      </div>
+                      <div className="text-left">
+                        <div className="font-bold text-gray-900 dark:text-white">{testimonial.name}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">{testimonial.role}</div>
+                      </div>
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               ))
             )}
@@ -506,9 +522,9 @@ export default function LandingPage() {
               </p>
               <Link to="/practice">
                 <motion.button
-                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   className="bg-white text-primary dark:bg-primary dark:text-white dark:hover:bg-primary-dark px-10 py-5 rounded-full text-xl font-heading font-bold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
                 >
                   Begin Your Practice →

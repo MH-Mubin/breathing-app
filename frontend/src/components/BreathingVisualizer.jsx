@@ -573,11 +573,20 @@ export default function BreathingVisualizer({
       <div className="flex flex-col items-center justify-center mb-8 mt-12">
         {/* Pattern badge above viewport */}
         {pattern && (
-          <div className="mb-3 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary-dark text-sm font-semibold flex items-center gap-2">
-            <span>🫁</span>
+          <div className="mb-3 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary-dark dark:text-primary-light text-base font-semibold flex items-center gap-2">
+            <span className="text-xl">🫁</span>
             <span>{pattern.name}</span>
-            <span className="text-xs text-white font-normal">
-              ({pattern.inhale}-{pattern.holdTop || 0}-{pattern.exhale}{pattern.type === '4-phase' ? `-${pattern.holdBottom || 0}` : ''})
+            <span className="text-sm font-medium opacity-80">
+              ({
+                {
+                  focus: "Focus & Concentration",
+                  stress: "Stress Relief",
+                  sleep: "Sleep & Rest",
+                  energy: "Energy Boost",
+                  health: "Health & Recovery",
+                  emotional: "Emotional Balance"
+                }[pattern.category] || pattern.category
+              })
             </span>
           </div>
         )}

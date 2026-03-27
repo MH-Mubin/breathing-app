@@ -125,7 +125,7 @@ export default function Dashboard() {
           className="mb-8"
         >
           <h1 className="text-4xl md:text-5xl font-heading font-bold bg-gradient-to-r from-gray-900 to-primary-dark dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
-            Welcome back, {user?.name || "Friend"}! 👋
+            Welcome back, {user?.name ? (user.name.includes('@') ? user.name.split('@')[0] : user.name) : "Friend"}! 👋
           </h1>
           <p className="text-gray-600 dark:text-gray-300 text-lg">
             Here's your breathing journey at a glance
@@ -349,69 +349,21 @@ export default function Dashboard() {
           )}
         </motion.div>
 
-        {/* Charts Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Pattern Usage */}
-          {patternUsage.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0 }}
-              className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
-            >
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                <span className="text-3xl mr-3">🎯</span>
-                Breathing Patterns
-              </h2>
-              <ResponsiveContainer width="100%" height={250}>
-                <PieChart>
-                  <Pie
-                    data={patternUsage}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
-                    outerRadius={80}
-                    fill="#0EA5A4" /* Recharts default - matches Tailwind primary */
-                    dataKey="count"
-                  >
-                    {patternUsage.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="mt-4 space-y-2">
-                {patternUsage.slice(0, 3).map((pattern, index) => (
-                  <div key={index} className="flex items-center justify-between text-sm">
-                    <div className="flex items-center">
-                      <div
-                        className="w-3 h-3 rounded-full mr-2"
-                        style={{ backgroundColor: COLORS[index] }}
-                      ></div>
-                      <span className="text-gray-700 dark:text-gray-300">{pattern.name}</span>
-                    </div>
-                    <span className="text-gray-500 dark:text-gray-400">{pattern.count} sessions</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Weekly Activity Chart */}
+        {/* Charts Row - Reorganized Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+          {/* Weekly Activity Chart - Takes 5 columns, reduced height */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.1 }}
-            className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
+            className="lg:col-span-5 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
           >
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
               <span className="text-3xl mr-3">📈</span>
               Weekly Trend
             </h2>
-            <ResponsiveContainer width="100%" height={250}>
-              <AreaChart data={weeklyActivity.slice(-7)}>
+            <ResponsiveContainer width="100%" height={200}>
+              <AreaChart data={weeklyActivity.slice(-7)} margin={{ left: -20, right: 10 }}>
                 <defs>
                   {/* Gradient for Recharts - requires hex values from Tailwind config */}
                   <linearGradient id="colorSessions" x1="0" y1="0" x2="0" y2="1">
@@ -422,11 +374,23 @@ export default function Dashboard() {
                 <XAxis
                   dataKey="date"
                   tickFormatter={(date) => new Date(date).toLocaleDateString('en-US', { weekday: 'short' })}
+                  tick={{ fill: '#ffffff', fontSize: 12 }}
+                  interval={0}
+                  tickMargin={8}
                 />
-                <YAxis />
+                <YAxis 
+                  tick={{ fill: '#ffffff', fontSize: 12 }}
+                  tickMargin={5}
+                />
                 <Tooltip
                   labelFormatter={(date) => new Date(date).toLocaleDateString()}
                   formatter={(value) => [`${value} sessions`, 'Sessions']}
+                  contentStyle={{ 
+                    backgroundColor: '#1e293b', 
+                    border: '1px solid #334155',
+                    borderRadius: '8px',
+                    color: '#ffffff'
+                  }}
                 />
                 <Area
                   type="monotone"
@@ -438,21 +402,73 @@ export default function Dashboard() {
               </AreaChart>
             </ResponsiveContainer>
           </motion.div>
-        </div>
 
-        {/* Achievements */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
-        >
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-            <span className="text-3xl mr-3">🏆</span>
-            Achievements
-          </h2>
-          <AchievementsGrid stats={stats} />
-        </motion.div>
+          {/* Achievements - Takes 7 columns, positioned to the right */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="lg:col-span-7 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
+          >
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+              <span className="text-3xl mr-3">🏆</span>
+              Achievements
+            </h2>
+            <AchievementsCompactGrid stats={stats} />
+          </motion.div>
+
+          {/* Pattern Usage - Full width below */}
+          {patternUsage.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0 }}
+              className="lg:col-span-12 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
+            >
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                <span className="text-3xl mr-3">🎯</span>
+                Breathing Patterns
+              </h2>
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="w-full md:w-1/2">
+                  <ResponsiveContainer width="100%" height={250}>
+                    <PieChart>
+                      <Pie
+                        data={patternUsage}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                        outerRadius={80}
+                        fill="#0EA5A4" /* Recharts default - matches Tailwind primary */
+                        dataKey="count"
+                      >
+                        {patternUsage.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="w-full md:w-1/2 space-y-2">
+                  {patternUsage.slice(0, 5).map((pattern, index) => (
+                    <div key={index} className="flex items-center justify-between text-sm">
+                      <div className="flex items-center">
+                        <div
+                          className="w-3 h-3 rounded-full mr-2"
+                          style={{ backgroundColor: COLORS[index] }}
+                        ></div>
+                        <span className="text-gray-700 dark:text-gray-300">{pattern.name}</span>
+                      </div>
+                      <span className="text-gray-500 dark:text-gray-400">{pattern.count} sessions</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -461,10 +477,10 @@ export default function Dashboard() {
 // Stat Card Component
 function StatCard({ icon, value, label, subtitle, color, delay }) {
   const colorClasses = {
-    teal: "from-primary to-primary-dark dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-primary/20",
-    blue: "from-blue-400 to-blue-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-blue-200",
-    green: "from-green-400 to-green-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-green-200",
-    purple: "from-purple-400 to-purple-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-purple-200",
+    teal: "from-primary to-primary-dark dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-lg shadow-teal-500/20 dark:shadow-teal-500/10",
+    blue: "from-blue-400 to-blue-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-lg shadow-blue-500/20 dark:shadow-blue-500/10",
+    green: "from-green-400 to-green-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-lg shadow-green-500/20 dark:shadow-green-500/10",
+    purple: "from-purple-400 to-purple-500 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600 dark:border shadow-lg shadow-purple-500/20 dark:shadow-purple-500/10",
   };
 
   return (
@@ -472,25 +488,30 @@ function StatCard({ icon, value, label, subtitle, color, delay }) {
       initial={{ opacity: 0, scale: 0.9, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ delay, duration: 0.5, ease: "easeOut" }}
-      whileHover={{ scale: 1.05, y: -5 }}
-      className={`bg-gradient-to-br ${colorClasses[color]} rounded-2xl shadow-lg p-6 text-white relative overflow-hidden cursor-pointer`}
     >
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-white dark:bg-primary opacity-10 rounded-full -mr-16 -mt-16" />
-      
-      <div className="relative z-10">
-        <div className="text-5xl mb-3">{icon}</div>
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: delay + 0.3, type: "spring", stiffness: 200 }}
-          className="text-4xl font-bold mb-2 text-white dark:text-primary-light"
-        >
-          {value}
-        </motion.div>
-        <div className="text-sm font-semibold opacity-90 mb-1 text-white dark:text-gray-200">{label}</div>
-        <div className="text-xs opacity-75 text-white dark:text-gray-400">{subtitle}</div>
-      </div>
+      <motion.div
+        whileHover={{ scale: 1.03, y: -3 }}
+        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        className={`bg-gradient-to-br ${colorClasses[color]} rounded-2xl p-5 text-white relative overflow-hidden cursor-pointer flex items-center justify-between min-h-[100px]`}
+      >
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white dark:bg-primary opacity-5 rounded-full -mr-16 -mt-16 pointer-events-none" />
+        
+        <div className="relative z-10">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: delay + 0.3, type: "spring", stiffness: 200 }}
+            className="text-3xl font-bold mb-1 text-white dark:text-primary-light"
+          >
+            {value}
+          </motion.div>
+          <div className="text-sm font-semibold opacity-90 text-white dark:text-gray-200">{label}</div>
+          <div className="text-xs opacity-75 text-white dark:text-gray-400">{subtitle}</div>
+        </div>
+        
+        <div className="text-4xl opacity-90 relative z-10">{icon}</div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -504,31 +525,31 @@ function ComparisonBar({ label, current, previous, change }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{label}</span>
+        <span className="text-sm font-medium text-gray-700 dark:text-white">{label}</span>
         <span className={`text-sm font-semibold ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
           {change >= 0 ? '+' : ''}{change}
         </span>
       </div>
       <div className="space-y-1">
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 w-16">This week</span>
+          <span className="text-xs text-gray-500 dark:text-gray-300 w-16">This week</span>
           <div className="flex-1 bg-gray-200 dark:bg-slate-600 rounded-full h-2">
             <div
               className="bg-primary h-2 rounded-full transition-all"
               style={{ width: `${currentPercent}%` }}
             ></div>
           </div>
-          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 w-8">{current}</span>
+          <span className="text-xs font-semibold text-gray-700 dark:text-white w-8">{current}</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-500 w-16">Last week</span>
+          <span className="text-xs text-gray-500 dark:text-gray-300 w-16">Last week</span>
           <div className="flex-1 bg-gray-200 dark:bg-slate-600 rounded-full h-2">
             <div
               className="bg-gray-400 h-2 rounded-full transition-all"
               style={{ width: `${previousPercent}%` }}
             ></div>
           </div>
-          <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 w-8">{previous}</span>
+          <span className="text-xs font-semibold text-gray-700 dark:text-white w-8">{previous}</span>
         </div>
       </div>
     </div>
@@ -559,24 +580,80 @@ function AchievementsGrid({ stats }) {
             key={index}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.3 + index * 0.05 }}
-            whileHover={{ scale: unlocked ? 1.1 : 1.05, rotate: unlocked ? 5 : 0 }}
-            className={`relative rounded-xl p-4 text-center cursor-pointer ${
-              unlocked
-                ? 'bg-gradient-to-br from-primary to-primary-dark text-white'
-                : 'bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-gray-500'
-            }`}
+            transition={{ delay: 1.3 + index * 0.05, duration: 0.5, ease: "easeOut" }}
           >
-            <div className="text-4xl mb-2">{achievement.icon}</div>
-            <div className="text-sm font-semibold mb-1">{achievement.name}</div>
-            {!unlocked && (
-              <div className="text-xs">
-                {achievement.current}/{achievement.requirement}
-              </div>
-            )}
-            {unlocked && (
-              <div className="absolute top-2 right-2 text-xl">✓</div>
-            )}
+            <motion.div
+              whileHover={{ scale: unlocked ? 1.1 : 1.05, rotate: unlocked ? 5 : 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              className={`relative rounded-xl p-4 text-center cursor-pointer h-full ${
+                unlocked
+                  ? 'bg-gradient-to-br from-primary to-primary-dark text-white'
+                  : 'bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-white'
+              }`}
+            >
+              <div className="text-4xl mb-2">{achievement.icon}</div>
+              <div className="text-sm font-semibold mb-1">{achievement.name}</div>
+              {!unlocked && (
+                <div className="text-xs dark:text-gray-300">
+                  {achievement.current}/{achievement.requirement}
+                </div>
+              )}
+              {unlocked && (
+                <div className="absolute top-2 right-2 text-xl">✓</div>
+              )}
+            </motion.div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
+// Compact Achievements Grid Component (for sidebar)
+function AchievementsCompactGrid({ stats }) {
+  const achievements = [
+    { name: 'First Breath', icon: '🌱', requirement: 1, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
+    { name: 'Getting Started', icon: '🌿', requirement: 5, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
+    { name: 'Dedicated', icon: '🌳', requirement: 10, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
+    { name: 'Committed', icon: '🏆', requirement: 25, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
+    { name: '3-Day Streak', icon: '🔥', requirement: 3, current: stats?.allTime.longestStreak || 0, type: 'streak' },
+    { name: 'Week Warrior', icon: '💪', requirement: 7, current: stats?.allTime.longestStreak || 0, type: 'streak' },
+    { name: 'Hour of Peace', icon: '⏰', requirement: 60, current: stats?.allTime.totalMinutes || 0, type: 'minutes' },
+    { name: 'Time Investment', icon: '⌛', requirement: 300, current: stats?.allTime.totalMinutes || 0, type: 'minutes' },
+  ];
+
+  return (
+    <div className="grid grid-cols-4 gap-3">
+      {achievements.map((achievement, index) => {
+        const unlocked = achievement.current >= achievement.requirement;
+
+        return (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.3 + index * 0.05, duration: 0.5, ease: "easeOut" }}
+          >
+            <motion.div
+              whileHover={{ scale: unlocked ? 1.08 : 1.03, rotate: unlocked ? 3 : 0 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
+              className={`relative rounded-lg p-3 text-center cursor-pointer ${
+                unlocked
+                  ? 'bg-gradient-to-br from-primary to-primary-dark text-white'
+                  : 'bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-white'
+              }`}
+            >
+              <div className="text-3xl mb-1">{achievement.icon}</div>
+              <div className="text-xs font-semibold mb-0.5">{achievement.name}</div>
+              {!unlocked && (
+                <div className="text-[10px] dark:text-gray-300">
+                  {achievement.current}/{achievement.requirement}
+                </div>
+              )}
+              {unlocked && (
+                <div className="absolute top-1 right-1 text-sm">✓</div>
+              )}
+            </motion.div>
           </motion.div>
         );
       })}

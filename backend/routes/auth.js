@@ -1,6 +1,7 @@
 import crypto from 'crypto';
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import passport from 'passport';
 import { protect } from '../middleware/auth.js';
 import User from '../models/User.js';
 import { sendPasswordResetConfirmation, sendPasswordResetOTP } from '../utils/emailService.js';
@@ -10,6 +11,19 @@ const router = express.Router();
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE || '7d' });
 };
+
+// Google OAuth Routes
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get('/google/callback', 
+	passport.authenticate('google', { session: false, failureRedirect: `${process.env.FRONTEND_URL}/login?error=auth_failed` }),
+	(req, res) => {
+		// Successful authentication
+		const token = generateToken(req.user._id);
+		// Assuming frontend uses this query parameter to auto-login
+		res.redirect(`${process.env.FRONTEND_URL}/login?token=${token}`);
+	}
+);
 
 // Register
 router.post('/register', async (req, res) => {
@@ -38,6 +52,10 @@ router.post('/login', async (req, res) => {
 
 		const user = await User.findOne({ email }).select('+password');
 		if (!user) return res.status(400).json({ success: false, message: 'Invalid credentials' });
+
+		if (!user.password) {
+			return res.status(400).json({ success: false, message: 'This account uses Google Login. Please click "Continue with Google" to access your account.' });
+		}
 
 		const isMatch = await user.comparePassword(password);
 		if (!isMatch) return res.status(400).json({ success: false, message: 'Invalid credentials' });

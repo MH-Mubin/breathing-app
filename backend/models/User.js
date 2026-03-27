@@ -11,7 +11,8 @@ const achievementSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
 	name: { type: String, required: true, trim: true },
 	email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-	password: { type: String, required: true, select: false },
+	password: { type: String, required: function() { return !this.googleId; }, select: false },
+	googleId: { type: String, unique: true, sparse: true },
 	profile: {
 		phone: { type: String, trim: true },
 		location: { type: String, trim: true },

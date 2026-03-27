@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Respira - Breathe Intentionally</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-tertiary-fixed": "#351000",
+                        "on-primary-fixed-variant": "#00504f",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "primary": "#006161",
+                        "surface-dim": "#d8dadc",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#7bd5d4",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#c2fffd",
+                        "on-secondary-fixed-variant": "#43474b",
+                        "tertiary-fixed-dim": "#ffb693",
+                        "secondary-fixed": "#dfe3e7",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed-dim": "#c3c7cb",
+                        "secondary-container": "#dce0e4",
+                        "surface-container": "#eceef0",
+                        "tertiary": "#854524",
+                        "on-secondary-container": "#5e6367",
+                        "surface-tint": "#006a69",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-primary-fixed": "#002020",
+                        "on-tertiary-container": "#fff1eb",
+                        "inverse-surface": "#2d3133",
+                        "inverse-primary": "#7bd5d4",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-surface": "#191c1e",
+                        "secondary": "#5a5f62",
+                        "outline-variant": "#bdc9c8",
+                        "on-secondary-fixed": "#171c1f",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f7f9fb",
+                        "outline": "#6e7979",
+                        "on-background": "#191c1e",
+                        "on-tertiary-fixed-variant": "#713615",
+                        "primary-container": "#0d7c7b",
+                        "on-surface-variant": "#3e4948",
+                        "primary-fixed": "#98f2f0",
+                        "tertiary-container": "#a35d39"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .breathing-bg {
+            background: radial-gradient(circle at 50% 50%, #98f2f0 0%, transparent 70%);
+            opacity: 0.15;
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.6);
+        }
+        .gradient-button {
+            background: linear-gradient(135deg, #006161 0%, #0d7c7b 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed antialiased overflow-hidden">
+<!-- Auth Shell Suppression: No TopAppBar or BottomNavBar as per UX Goal for transactional pages -->
+<main class="min-h-screen flex items-center justify-center relative overflow-hidden px-6">
+<!-- Background Decor -->
+<div class="absolute inset-0 z-0">
+<div class="breathing-bg absolute w-[1200px] h-[1200px] -top-1/4 -right-1/4 rounded-full"></div>
+<div class="breathing-bg absolute w-[800px] h-[800px] -bottom-1/4 -left-1/4 rounded-full"></div>
+</div>
+<div class="relative z-10 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Left Column: Branding & Reassuring Visual -->
+<div class="hidden lg:flex flex-col space-y-12 pr-12">
+<div class="flex items-center space-x-2">
+<span class="text-4xl font-extrabold tracking-tighter text-primary font-headline">Respira</span>
+</div>
+<div class="space-y-6">
+<h1 class="font-headline text-5xl font-bold tracking-tight text-on-surface leading-[1.1]">
+                        Find your center in a <span class="text-primary italic">single breath.</span>
+</h1>
+<p class="text-on-surface-variant text-lg max-w-md leading-relaxed">
+                        Join our community of over 50,000 practitioners who prioritize mental clarity through intentional breathing.
+                    </p>
+</div>
+<!-- Abstract Graphic / Hero Image -->
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary-fixed-dim/20 rounded-[2.5rem] blur-2xl transition duration-1000 group-hover:duration-200 group-hover:opacity-100"></div>
+<div class="relative rounded-[2.5rem] overflow-hidden bg-surface-container shadow-2xl aspect-square">
+<img alt="Calm Morning" class="w-full h-full object-contain p-4" data-alt="Minimalist abstract photograph of soft ripples on water at dawn with a soothing teal and grey color palette" src="https://lh3.googleusercontent.com/aida/ADBb0ujXlx1e5nDkwi73UsZnejc5jeU4123YXfQL8-KpU7obRHyyq03b8NmNJApL3WkPaAoHNjSuIkwezoxWkHpLgwr_s747zSETfrZ6uGX-anjdsu-g_Pfl9tPtTsqMCYJNPXhrHqN2MYQMWZrVlAWbt_rr7V2qzqHQSUX6rdKA-WIohN0s9lm8nqkqd2wyUtnAapaXvAXVQ9HbyZj2kCNeYoNF7c-YN-s4Xv_iZgm89HJ7e_eKYeL8i5O3Lub-8HIKoSKfM7B10y11Vw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8 glass-effect p-6 rounded-2xl">
+<div class="flex items-center space-x-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-surface-dim"></div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-primary-fixed"></div>
+<div class="w-8 h-8 rounded-full border-2 border-surface bg-secondary-container"></div>
+</div>
+<span class="text-sm font-semibold text-primary-fixed-dim">"Consistency is the key to clarity."</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Authentication Forms -->
+<div class="relative">
+<div class="bg-surface-container-lowest rounded-[2rem] p-10 lg:p-14 shadow-[0_20px_40px_rgba(15,23,42,0.04)] border border-outline-variant/15">
+<!-- Form Header -->
+<div class="flex flex-col space-y-2 mb-10">
+<h2 class="font-headline text-3xl font-bold text-on-surface">Welcome to Respira</h2>
+<div class="flex items-center space-x-1">
+<span class="text-on-surface-variant">Don't have an account?</span>
+<button class="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30">Sign up</button>
+</div>
+</div>
+<!-- Login Form -->
+<form class="space-y-6">
+<div class="space-y-4">
+<!-- Name Field (Optional/SignUp variant) -->
+<div class="hidden group">
+<label class="block text-xs font-bold uppercase tracking-widest text-outline mb-2 px-1" for="name">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">person</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline transition-all" id="name" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="group">
+<label class="block text-xs font-bold uppercase tracking-widest text-outline mb-2 px-1" for="email">Email Address</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">mail</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline transition-all" id="email" placeholder="name@example.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="group">
+<div class="flex justify-between items-center mb-2 px-1">
+<label class="block text-xs font-bold uppercase tracking-widest text-outline" for="password">Password</label>
+<a class="text-xs font-semibold text-primary hover:text-primary-container" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">lock</span>
+<input class="w-full pl-12 pr-12 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 text-on-surface placeholder:text-outline transition-all" id="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Login CTA -->
+<button class="w-full py-4 rounded-xl gradient-button text-on-primary font-bold text-lg shadow-lg shadow-primary/20 hover:scale-[1.01] active:scale-95 transition-all duration-200" type="submit">
+                            Login to Dashboard
+                        </button>
+<div class="relative flex py-4 items-center">
+<div class="flex-grow border-t border-outline-variant/30"></div>
+<span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-outline/60">or continue with</span>
+<div class="flex-grow border-t border-outline-variant/30"></div>
+</div>
+<!-- Social Buttons -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center space-x-2 py-3 px-4 bg-surface-container border border-outline-variant/10 rounded-xl hover:bg-surface-container-high transition-colors" type="button">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnxVFPyVBa4Vi5qVlpVNlDyIh20ogqzNXqAaoDI5Arg7RkHi1ZmZtBI4o5dG7CkSXXSnqYzxTYdvLgr8axHtLjrCnYXT2gxcEKe2k4ETEQHTMgYNyw3e3q-_O91bTmC11JZWpXyosK62TC1NgW7CX0TrjnHb27qGwb0UY8dbijBoJ5tesZwMQA2ZG9bhvm_g2HNajFb6B74ZzeByBEIdkaQ36beIbZLJo15dCLEYniJwQ0VkD-A6RfZunrEUpSKyjcGYiU5kGTnp4"/>
+<span class="text-sm font-bold text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center space-x-2 py-3 px-4 bg-surface-container border border-outline-variant/10 rounded-xl hover:bg-surface-container-high transition-colors" type="button">
+<img alt="LinkedIn" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK_62pV4Ad_9-rVmK2Z8SzZHiUT3XQ-QEzZfOPuIVPXsNjNZhfkfXWy5EnWut--SRdBY-kSaK_Ur3z4mlN-YPc5zjoCQX2JMp--tCpZrgW2zyYoflwK1c9lYFJKHsLmh4o-lchNdPClmKFmrpv6BTFhQOxGPYmHlmZrR9PtmqHfTcFraz2VthjgJUQr5SBuA4KTMOINLiM3xdqq_yi_zTtC3nZeYnCetStF3jBeEUncT3Yryey0hkQih4m5x91qoy5thPULkZBZUs"/>
+<span class="text-sm font-bold text-on-surface">LinkedIn</span>
+</button>
+</div>
+</form>
+</div>
+<!-- Secondary Visual Element (The Breath Pacer) -->
+<div class="absolute -bottom-20 -right-20 hidden 2xl:block opacity-40">
+<div class="relative flex items-center justify-center">
+<div class="absolute w-40 h-40 border-4 border-primary/10 rounded-full animate-pulse"></div>
+<div class="absolute w-32 h-32 border-4 border-primary/20 rounded-full animate-pulse delay-75"></div>
+<div class="absolute w-24 h-24 border-4 border-primary/40 rounded-full animate-pulse delay-150"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Component Anchor -->
+<footer class="w-full py-12 bg-surface-container-low mt-auto border-t border-outline-variant/15 relative z-20">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center space-y-6 md:space-y-0">
+<div class="flex flex-col items-center md:items-start space-y-2">
+<span class="font-headline font-bold text-primary text-xl tracking-tighter">Respira</span>
+<p class="font-body text-sm text-outline">© 2024 Respira. Breathe intentionally.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-sm text-outline font-medium hover:text-primary underline decoration-primary/30 transition-all" href="#">Privacy</a>
+<a class="text-sm text-outline font-medium hover:text-primary underline decoration-primary/30 transition-all" href="#">Terms</a>
+<a class="text-sm text-outline font-medium hover:text-primary underline decoration-primary/30 transition-all" href="#">Support</a>
+<a class="text-sm text-outline font-medium hover:text-primary underline decoration-primary/30 transition-all" href="#">Scientific Research</a>
+</div>
+</div>
+</footer>
+</body></html>
