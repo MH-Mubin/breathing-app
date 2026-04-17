@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import connectDB from './config/db.js';
 
+import passportConfig from './config/passport.js'; // Import passport config
 import authRoutes from './routes/auth.js';
 import dashboardRoutes from './routes/dashboard.js';
 import feedbackRoutes from './routes/feedback.js';
@@ -10,7 +11,6 @@ import patternRoutes from './routes/pattern.js';
 import reminderRoutes from './routes/reminder.js';
 import sessionRoutes from './routes/session.js';
 import userRoutes from './routes/user.js';
-import passportConfig from './config/passport.js'; // Import passport config
 
 // Load environment variables
 dotenv.config({ path: '.env.local' }); // Try local first
@@ -29,6 +29,7 @@ app.use(passportConfig.initialize());
 connectDB();
 
 // Routes
+app.get('/', (req, res) => res.send('Breathing App API is running...'));
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/session', sessionRoutes);
