@@ -88,43 +88,46 @@ export default function Register() {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-50 dark:bg-slate-900">
-      {/* Card Container */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-6xl h-[650px] bg-white dark:bg-slate-800 rounded-3xl shadow-2xl dark:shadow-slate-900/50 flex flex-col lg:flex-row"
-      >
-        {/* Left Side - Form */}
+    <div className="h-[calc(100vh-80px)] w-full flex items-center justify-center relative overflow-hidden px-4 md:px-6 bg-[#f7f9fb] dark:bg-slate-900 transition-colors duration-300">
+      {/* Background Decor */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute w-[1200px] h-[1200px] -top-1/4 -right-1/4 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, #98f2f0 0%, transparent 70%)', opacity: 0.15 }}></div>
+        <div className="absolute w-[800px] h-[800px] -bottom-1/4 -left-1/4 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, #98f2f0 0%, transparent 70%)', opacity: 0.15 }}></div>
+      </div>
+
+      <div className="relative z-10 w-full max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 lg:px-4 py-8 lg:py-0">
+        
+        {/* Left Column: Form */}
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="w-full lg:w-1/2 flex items-center justify-center p-12"
+          transition={{ duration: 0.5 }}
+          className="w-full lg:w-1/2 flex justify-center lg:justify-end relative order-1"
         >
-        <div className="w-full max-w-md">
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-              Join Respira
-            </h1>
-            <p className="text-gray-600 dark:text-gray-400 text-base">
-              Start your journey to mindfulness and better breathing
-            </p>
-          </div>
+          <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 lg:p-10 shadow-[0_20px_40px_rgba(15,23,42,0.04)] dark:shadow-slate-900/50 border border-[#bdc9c8]/15 dark:border-slate-700 w-full max-w-[460px] mx-auto lg:mx-0">
+            {/* Header */}
+            <div className="flex flex-col space-y-2 mb-8 text-center lg:text-left">
+              <h2 className="text-3xl font-heading font-bold text-[#191c1e] dark:text-white">Create an Account</h2>
+              <div className="flex items-center justify-center lg:justify-start space-x-1">
+                <span className="text-[#3e4948] dark:text-gray-400">Already have an account?</span>
+                <Link to="/login" className="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30">Log in</Link>
+              </div>
+            </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5" autoComplete="off">
             {/* Name Input */}
-            <div>
+            <div className="relative">
+              <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 z-10" fill="currentColor" viewBox="0 0 24 24">
+                <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clipRule="evenodd" />
+              </svg>
               <input
                 type="text"
                 name="name"
                 placeholder="Full Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400"
+                className="w-full pl-12 pr-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400 relative z-0"
                 disabled={loading}
                 autoComplete="off"
                 id="register-name"
@@ -132,14 +135,18 @@ export default function Register() {
             </div>
 
             {/* Email Input */}
-            <div>
+            <div className="relative">
+              <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 z-10" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+                <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+              </svg>
               <input
                 type="email"
                 name="email"
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base bg-white dark:bg-slate-700 dark:text-white dark:placeholder-gray-400"
+                className="w-full pl-12 pr-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base bg-white dark:bg-slate-700 dark:text-white dark:placeholder-gray-400 relative z-0"
                 disabled={loading}
                 autoComplete="off"
                 id="register-email"
@@ -148,13 +155,16 @@ export default function Register() {
 
             {/* Password Input */}
             <div className="relative">
+              <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 z-10" fill="currentColor" viewBox="0 0 24 24">
+                <path fillRule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clipRule="evenodd" />
+              </svg>
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all pr-14 text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400"
+                className="w-full pl-12 pr-14 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all pr-14 text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400 relative z-0"
                 disabled={loading}
                 autoComplete="new-password"
                 id="register-password"
@@ -225,58 +235,58 @@ export default function Register() {
             Continue with Google
           </button>
 
-          {/* Login Link */}
-          <div className="mt-6 text-center">
-            <p className="text-gray-600 dark:text-gray-400 text-base">
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="text-primary font-semibold hover:text-primary-dark transition-colors"
-              >
-                Login here
-              </Link>
-            </p>
           </div>
-        </div>
         </motion.div>
 
-      {/* Right Side - Illustration */}
-      <motion.div 
-        initial={{ opacity: 0, x: 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-700 dark:to-slate-600 items-center justify-center relative overflow-hidden rounded-r-3xl"
-      >
-        {/* Decorative circles */}
-        <div className="absolute top-20 left-20 w-32 h-32 bg-green-200 rounded-full opacity-30 blur-2xl"></div>
-        <div className="absolute bottom-20 right-20 w-40 h-40 bg-green-300 rounded-full opacity-20 blur-3xl"></div>
-        
-        <div className="text-center z-10">
-          {/* Lottie Animation */}
-          <div className="mb-6 flex items-center justify-center">
-            {animationData ? (
-              <Lottie 
-                animationData={animationData} 
-                loop={true}
-                style={{ width: 320, height: 320 }}
-              />
-            ) : (
-              <div className="w-[320px] h-[320px] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-              </div>
-            )}
+        {/* Right Column: Visuals & Lottie */}
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="hidden lg:flex w-full lg:w-1/2 flex-col justify-center lg:justify-start space-y-8 order-2"
+        >
+          <div className="space-y-4 max-w-md mx-auto lg:mx-0 pr-4">
+            <h1 className="text-4xl lg:text-5xl font-heading font-bold text-gray-900 dark:text-white leading-[1.1]">
+              Begin your <span className="text-primary italic">journey.</span>
+            </h1>
+            <p className="text-gray-600 dark:text-slate-300 text-base max-w-md leading-relaxed">
+              Join thousands who have transformed their lives through mindful breathing.
+            </p>
           </div>
 
-          {/* Text */}
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-3">
-            Begin Your Journey
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-base max-w-md mx-auto px-4">
-            Join thousands who have transformed their lives through mindful breathing
-          </p>
-        </div>
-      </motion.div>
-      </motion.div>
+          <div className="relative group w-full max-w-md mx-auto lg:mx-0">
+            <div className="absolute -inset-4 bg-[#7bd5d4] opacity-20 rounded-[2.5rem] blur-2xl transition duration-1000 group-hover:duration-200 group-hover:opacity-100"></div>
+            <div className="relative rounded-[2.5rem] overflow-hidden bg-[#eceef0] dark:bg-slate-800 shadow-2xl aspect-square flex flex-col justify-center items-center p-6">
+              
+              {/* Lottie Animation */}
+              <div className="flex items-center justify-center z-10 w-full h-full">
+                {animationData ? (
+                  <Lottie 
+                    animationData={animationData} 
+                    loop={true}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                  </div>
+                )}
+              </div>
+
+              {/* Glass Effect Quote */}
+              <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl z-20 border border-white/40 dark:border-white/10 shadow-sm" style={{ backdropFilter: 'blur(20px)', background: 'rgba(255, 255, 255, 0.4)' }}>
+                <div className="flex items-center space-x-3">
+                  <div className="flex -space-x-2 shrink-0">
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-[#d8dadc]"></div>
+                    <div className="w-8 h-8 rounded-full border-2 border-white bg-[#98f2f0]"></div>
+                  </div>
+                  <span className="text-sm font-bold text-[#00504f] dark:text-[#7bd5d4] tracking-wide">"A clear mind starts with a deep breath."</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 }

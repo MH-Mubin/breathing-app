@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Profile &amp; Settings | Respira</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "on-tertiary-fixed": "#351000",
+                "on-primary-fixed-variant": "#00504f",
+                "background": "#f7f9fb",
+                "surface-variant": "#e0e3e5",
+                "primary": "#006161",
+                "surface-dim": "#d8dadc",
+                "on-error-container": "#93000a",
+                "surface-container-highest": "#e0e3e5",
+                "on-error": "#ffffff",
+                "on-secondary": "#ffffff",
+                "primary-fixed-dim": "#7bd5d4",
+                "on-tertiary": "#ffffff",
+                "on-primary-container": "#c2fffd",
+                "on-secondary-fixed-variant": "#43474b",
+                "tertiary-fixed-dim": "#ffb693",
+                "secondary-fixed": "#dfe3e7",
+                "on-primary": "#ffffff",
+                "surface-container-lowest": "#ffffff",
+                "surface": "#f7f9fb",
+                "error-container": "#ffdad6",
+                "surface-container-low": "#f2f4f6",
+                "secondary-fixed-dim": "#c3c7cb",
+                "secondary-container": "#dce0e4",
+                "surface-container": "#eceef0",
+                "tertiary": "#854524",
+                "on-secondary-container": "#5e6367",
+                "surface-tint": "#006a69",
+                "inverse-on-surface": "#eff1f3",
+                "on-primary-fixed": "#002020",
+                "on-tertiary-container": "#fff1eb",
+                "inverse-surface": "#2d3133",
+                "inverse-primary": "#7bd5d4",
+                "surface-container-high": "#e6e8ea",
+                "tertiary-fixed": "#ffdbcc",
+                "on-surface": "#191c1e",
+                "secondary": "#5a5f62",
+                "outline-variant": "#bdc9c8",
+                "on-secondary-fixed": "#171c1f",
+                "error": "#ba1a1a",
+                "surface-bright": "#f7f9fb",
+                "outline": "#6e7979",
+                "on-background": "#191c1e",
+                "on-tertiary-fixed-variant": "#713615",
+                "primary-container": "#0d7c7b",
+                "on-surface-variant": "#3e4948",
+                "primary-fixed": "#98f2f0",
+                "tertiary-container": "#a35d39"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Manrope"],
+                "label": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3, .brand-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-[#f7f9fb]/80 backdrop-blur-xl sticky top-0 z-50 border-b border-surface-container">
+<div class="flex justify-between items-center w-full px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-extrabold tracking-tighter text-[#0D7C7B] brand-font">Respira</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="text-[#6e7979] hover:text-[#0D7C7B] transition-colors font-body" href="#">Dashboard</a>
+<a class="text-[#6e7979] hover:text-[#0D7C7B] transition-colors font-body" href="#">Practice</a>
+<a class="text-[#0D7C7B] font-bold border-b-2 border-[#0D7C7B] pb-1 font-body" href="#">Profile</a>
+</nav>
+<div class="flex items-center space-x-4">
+<button class="p-2 hover:bg-[#f2f4f6]/50 rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 hover:bg-[#f2f4f6]/50 rounded-lg transition-all active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-8 py-12">
+<!-- Header Section -->
+<div class="mb-12">
+<h1 class="text-5xl font-extrabold tracking-tight text-on-surface mb-2">Settings</h1>
+<p class="text-on-surface-variant text-lg">Manage your account preferences, security, and subscription.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+<!-- Sidebar Navigation & Profile Card -->
+<aside class="lg:col-span-4 space-y-8">
+<!-- Profile Card in Sidebar -->
+<section class="bg-surface-container-lowest rounded-[1.5rem] p-6 shadow-[0_20px_40px_rgba(15,23,42,0.04)] border border-surface-container-low overflow-hidden">
+<div class="flex flex-col items-center text-center space-y-6">
+<!-- Profile Picture -->
+<div class="relative flex-shrink-0">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container shadow-xl">
+<img alt="Elena Rodriguez" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7ZUwGXlllXrXmzh7ZBhIMFSoXZPNVsKkzn280TFSO1CqNcEwGZTAQuf99Z0xCvIGKZbY97jS0vVLVVxegocveSy0BCcdebmbFBmMvHb9JgDPh-ti6ptf-zoHUT8Z7J_cBqLzqg71-8NBOUgo_4NAsDoG8-hel2TlSq3-t7p7l85PAQ4HgrpCoCJRUXeH4OAcGKkLJ_kOiQf4gNEAv80IQ1IFD4MD5ujCj-GSyTYDaWvIFOoY9K-QN7j27BC2gV0uDidKEEUSE7Ic"/>
+</div>
+<button class="absolute bottom-1 right-1 bg-primary text-white p-2 rounded-full border-2 border-white shadow-lg transition-transform hover:scale-110 active:scale-95">
+<span class="material-symbols-outlined text-[18px]" data-icon="photo_camera">photo_camera</span>
+</button>
+</div>
+<!-- User Details -->
+<div class="space-y-1">
+<h2 class="text-2xl font-extrabold text-on-surface">Elena Rodriguez</h2>
+<p class="text-on-surface-variant font-medium">elena.r@respira.app</p>
+</div>
+<!-- Stats -->
+<div class="grid grid-cols-3 gap-2 w-full pt-6 border-t border-surface-container">
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Since</p>
+<p class="text-sm font-bold text-on-surface">Mar 24</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Sessions</p>
+<p class="text-sm font-bold text-on-surface">128</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Streak</p>
+<p class="text-sm font-bold text-primary">15d</p>
+</div>
+</div>
+<!-- Achievements -->
+<div class="bg-surface-container-low p-4 rounded-2xl w-full">
+<div class="flex items-center justify-center space-x-2 mb-3">
+<span class="material-symbols-outlined text-primary text-lg" data-icon="stars">stars</span>
+<h3 class="font-bold text-on-surface uppercase text-[10px] tracking-widest">Achievements</h3>
+</div>
+<div class="flex justify-center gap-3">
+<div class="group relative">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center border border-primary/20 transition-all hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined text-xl" data-icon="eco">eco</span>
+</div>
+</div>
+<div class="w-10 h-10 bg-surface-container-highest/50 rounded-lg flex items-center justify-center border border-surface-container border-dashed">
+<span class="material-symbols-outlined text-outline/40 text-xl" data-icon="lock">lock</span>
+</div>
+<div class="w-10 h-10 bg-surface-container-highest/50 rounded-lg flex items-center justify-center border border-surface-container border-dashed">
+<span class="material-symbols-outlined text-outline/40 text-xl" data-icon="lock">lock</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Navigation Tabs -->
+<div class="space-y-2">
+<button class="w-full flex items-center space-x-3 px-6 py-4 rounded-xl bg-primary-container text-white shadow-lg shadow-primary/20 transition-all">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-bold">Account</span>
+</button>
+<button class="w-full flex items-center space-x-3 px-6 py-4 rounded-xl text-[#6e7979] hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined" data-icon="credit_card">credit_card</span>
+<span class="font-medium">Subscription</span>
+</button>
+</div>
+</aside>
+<!-- Main Content -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Personal Information -->
+<section class="bg-surface-container-lowest rounded-[1.5rem] p-8 shadow-[0_20px_40px_rgba(15,23,42,0.04)] border border-surface-container-low">
+<div class="mb-8">
+<h2 class="text-2xl font-bold text-on-surface">Personal Information</h2>
+<p class="text-on-surface-variant text-sm mt-1">Update your basic profile details.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant ml-1">Full Name</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium" type="text" value="Elena Rodriguez"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant ml-1">Email Address</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium" type="email" value="elena.r@respira.app"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant ml-1">Language</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium">
+<option>English (US)</option>
+<option>Spanish</option>
+<option>French</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant ml-1">Timezone</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium">
+<option>Pacific Time (PT)</option>
+<option>Eastern Time (ET)</option>
+<option>London (GMT)</option>
+</select>
+</div>
+</div>
+</section><section class="bg-surface-container-lowest rounded-[1.5rem] p-8 shadow-[0_20px_40px_rgba(15,23,42,0.04)] border border-surface-container-low">
+<div class="mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">settings</span>
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Preferences</h2>
+<p class="text-on-surface-variant text-sm mt-1">Personalize your app experience.</p>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Appearance -->
+<div class="flex items-center justify-between p-4 bg-surface rounded-2xl border border-surface-container-low">
+<div class="flex items-center space-x-4">
+<div class="p-3 bg-primary/10 rounded-full text-primary">
+<span class="material-symbols-outlined">dark_mode</span>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Appearance</h3>
+<p class="text-sm text-on-surface-variant">Choose your preferred theme</p>
+</div>
+</div>
+<select class="bg-surface-container-low border-none rounded-xl px-4 py-2 focus:ring-2 focus:ring-primary/20 text-on-surface font-medium text-sm">
+<option>Light</option>
+<option>Dark</option>
+<option>System</option>
+</select>
+</div>
+<!-- Notifications -->
+<div class="flex items-center justify-between p-4 bg-surface rounded-2xl border border-surface-container-low">
+<div class="flex items-center space-x-4">
+<div class="p-3 bg-primary/10 rounded-full text-primary">
+<span class="material-symbols-outlined">notifications</span>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Notifications</h3>
+<p class="text-sm text-on-surface-variant">Manage your notification settings</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+<!-- Daily Reminders -->
+<div class="flex items-center justify-between p-4 bg-surface rounded-2xl border border-surface-container-low">
+<div class="flex items-center space-x-4">
+<div class="p-3 bg-primary/10 rounded-full text-primary">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Daily Reminders</h3>
+<p class="text-sm text-on-surface-variant">Set reminders for practice sessions</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+<!-- Email Updates -->
+<div class="flex items-center justify-between p-4 bg-surface rounded-2xl border border-surface-container-low">
+<div class="flex items-center space-x-4">
+<div class="p-3 bg-primary/10 rounded-full text-primary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Email Updates</h3>
+<p class="text-sm text-on-surface-variant">Receive weekly progress reports</p>
+</div>
+</div>
+<div class="w-12 h-6 bg-surface-container-high rounded-full relative cursor-pointer">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Security Section -->
+<section class="bg-surface-container-lowest rounded-[1.5rem] p-8 shadow-[0_20px_40px_rgba(15,23,42,0.04)] border border-surface-container-low">
+<div class="mb-8">
+<h2 class="text-2xl font-bold text-on-surface">Security &amp; Privacy</h2>
+<p class="text-on-surface-variant text-sm mt-1">Manage your access and data safety.</p>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface rounded-2xl hover:bg-surface-container transition-colors cursor-pointer border border-surface-container-low">
+<div class="flex items-center space-x-4">
+<div class="p-3 bg-primary-fixed rounded-xl text-primary">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Change Password</h3>
+<p class="text-sm text-on-surface-variant">Last updated 3 months ago</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface rounded-2xl hover:bg-surface-container transition-colors cursor-pointer border border-surface-container-low">
+<div class="flex items-center space-x-4">
+<div class="p-3 bg-tertiary-fixed rounded-xl text-tertiary">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Two-Factor Authentication</h3>
+<p class="text-sm text-on-surface-variant">Highly recommended</p>
+</div>
+</div>
+<div class="flex items-center space-x-2">
+<span class="text-xs font-bold uppercase tracking-wider text-tertiary mr-2">Off</span>
+<div class="w-12 h-6 bg-surface-container-high rounded-full relative cursor-pointer">
+<div class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Notifications Section -->
+<section class="bg-surface-container-lowest rounded-[1.5rem] p-8 shadow-[0_20px_40px_rgba(15,23,42,0.04)] border border-surface-container-low">
+<div class="mb-8">
+<h2 class="text-2xl font-bold text-on-surface">Communication</h2>
+<p class="text-on-surface-variant text-sm mt-1">Control how you receive updates and alerts.</p>
+</div>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-bold text-on-surface">Email Notifications</h4>
+<p class="text-sm text-on-surface-variant">Weekly digest and practice reminders</p>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-bold text-on-surface">System Alerts</h4>
+<p class="text-sm text-on-surface-variant">Critical account and security updates</p>
+</div>
+<div class="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
+<div class="absolute right-1 top-1 w-4 h-4 bg-white rounded-full shadow-sm"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Danger Zone -->
+<section class="bg-error/5 rounded-[1.5rem] p-8 border border-error/10">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div>
+<h2 class="text-xl font-bold text-error">Deactivate Account</h2>
+<p class="text-on-surface-variant text-sm mt-1">Permanently delete your account and data. This action is irreversible.</p>
+</div>
+<button class="px-6 py-3 border-2 border-error/20 text-error font-bold rounded-xl hover:bg-error/10 transition-all active:scale-95 whitespace-nowrap">
+                            Delete Account
+                        </button>
+</div>
+</section>
+<div class="pt-6 border-t border-outline-variant/15 flex justify-end">
+<button class="px-8 py-3 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl transition-transform active:scale-95 shadow-lg shadow-primary/20">
+                        Save All Changes
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f2f4f6] py-12">
+<div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="brand-font font-bold text-[#0D7C7B]">Respira</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="text-sm text-[#6e7979] hover:text-[#0D7C7B] transition-colors underline decoration-[#0D7C7B]/30 font-body" href="#">Privacy</a>
+<a class="text-sm text-[#6e7979] hover:text-[#0D7C7B] transition-colors underline decoration-[#0D7C7B]/30 font-body" href="#">Terms</a>
+<a class="text-sm text-[#6e7979] hover:text-[#0D7C7B] transition-colors underline decoration-[#0D7C7B]/30 font-body" href="#">Support</a>
+<a class="text-sm text-[#6e7979] hover:text-[#0D7C7B] transition-colors underline decoration-[#0D7C7B]/30 font-body" href="#">Research</a>
+</div>
+<div class="text-sm text-[#6e7979] font-body">© 2024 Respira. Breathe intentionally.</div>
+</div>
+</footer>
+<!-- Mobile Navigation -->
+<div class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/90 backdrop-blur-2xl shadow-[0_-20px_40px_rgba(15,23,42,0.04)] rounded-t-[2rem] border-t border-surface-container">
+<button class="flex flex-col items-center justify-center text-[#6e7979] px-6 py-2">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Dashboard</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#6e7979] px-6 py-2">
+<span class="material-symbols-outlined" data-icon="air">air</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Practice</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-[#0D7C7B] text-white rounded-2xl px-6 py-2 transition-all duration-300 scale-90">
+<span class="material-symbols-outlined" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Profile</span>
+</button>
+</div>
+</body></html>
