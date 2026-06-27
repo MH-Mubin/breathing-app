@@ -1,10 +1,24 @@
 import axios from 'axios';
 
-// Use environment variable for API URL, fallback to relative path for development
+const normalizeBackendOrigin = (value) => value.replace(/\/api\/?$/, '').replace(/\/+$/, '');
+
+export const getBackendOrigin = () => {
+	const configured = import.meta.env.VITE_API_URL?.trim();
+
+	if (configured) {
+		return normalizeBackendOrigin(configured);
+	}
+
+	if (typeof window !== 'undefined' && window.location?.origin) {
+		return window.location.origin;
+	}
+
+	return 'http://localhost:5001';
+};
+
+// Use environment variable for API URL, fallback to same-origin for deployed builds
 // Railway: Environment variables are baked in during build time
-const baseURL = import.meta.env.VITE_API_URL 
-	? `${import.meta.env.VITE_API_URL}/api`
-	: '/api';
+const baseURL = `${getBackendOrigin()}/api`;
 
 const api = axios.create({
 	baseURL

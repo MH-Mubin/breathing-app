@@ -115,18 +115,7 @@ export default function BreathingSession() {
   const { token, user, reloadUser } = useContext(AuthContext);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [lastCategory, setLastCategory] = useState(null);
-  const [selectedPattern, setSelectedPattern] = useState(() => {
-    // Restore last-used pattern from localStorage
-    try {
-      const saved = localStorage.getItem('breathingApp_selectedPattern');
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        // Validate it matches a known pattern to avoid stale/corrupt data
-        if (parsed && parsed.name && parsed.inhale && parsed.exhale) return parsed;
-      }
-    } catch (_) {/* ignore */}
-    return null; // No pattern selected by default
-  });
+  const [selectedPattern, setSelectedPattern] = useState(null);
   const [duration, setDuration] = useState(5);
   const [running, setRunning] = useState(false);
   const [cycle, setCycle] = useState(0);
@@ -147,6 +136,14 @@ export default function BreathingSession() {
   // Ref for scrolling to goal section when Start clicked without pattern
   const goalSectionRef = useRef(null);
   const [isGoalShaking, setIsGoalShaking] = useState(false);
+
+  const getStorageKeyForUser = useCallback(() => {
+    return user?._id ? `breathingApp_selectedPattern_${user._id}` : 'breathingApp_selectedPattern_guest';
+  }, [user?._id]);
+
+  const isPatternValidForRestore = useCallback((pattern) => {
+    return Boolean(pattern && pattern.name && pattern.inhale && pattern.exhale && PatternValidator.validatePattern(pattern));
+  }, []);
 
   // Validate all patterns on component mount
   useEffect(() => {
@@ -170,12 +167,37 @@ export default function BreathingSession() {
     validateAllPatterns();
   }, []);
 
+  // Restore last-used pattern for this user only.
+  useEffect(() => {
+    // When authenticated, wait until user identity is available so we don't load guest state.
+    if (token && !user?._id) {
+      return;
+    }
+
+    try {
+      const saved = localStorage.getItem(getStorageKeyForUser());
+      if (!saved) {
+        setSelectedPattern(null);
+        return;
+      }
+
+      const parsed = JSON.parse(saved);
+      if (isPatternValidForRestore(parsed)) {
+        setSelectedPattern(parsed);
+      } else {
+        setSelectedPattern(null);
+      }
+    } catch (_) {
+      setSelectedPattern(null);
+    }
+  }, [token, user?._id, getStorageKeyForUser, isPatternValidForRestore]);
+
   // Persist selected pattern to localStorage whenever it changes
   useEffect(() => {
     if (selectedPattern) {
-      localStorage.setItem('breathingApp_selectedPattern', JSON.stringify(selectedPattern));
+      localStorage.setItem(getStorageKeyForUser(), JSON.stringify(selectedPattern));
     }
-  }, [selectedPattern]);
+  }, [selectedPattern, getStorageKeyForUser]);
 
   // Session completion effect — fires when remaining hits 0
   useEffect(() => {
@@ -500,12 +522,13 @@ export default function BreathingSession() {
               );
             }
             })() : (
-              <div className="w-full h-52 rounded-xl border-2 border-dashed border-primary/40 flex flex-col items-center justify-center gap-3 bg-primary-light/20">
-                <span className="text-4xl">🌬️</span>
-                <p className="text-primary-dark font-semibold text-base">No pattern selected</p>
-                <p className="text-gray-500 text-sm text-center px-4">
-                  Pick a goal from the <span className="text-primary font-semibold">What's your goal?</span> section →<br/>
-                  then choose a breathing pattern to begin
+              <div className="w-full h-56 rounded-xl border-2 border-dashed border-primary/60 flex flex-col items-center justify-center gap-3 bg-slate-700/85 dark:bg-slate-800/90 shadow-lg">
+                <span className="text-5xl">🌬️</span>
+                <p className="text-white font-extrabold text-base tracking-wide">No pattern selected</p>
+                <p className="text-slate-100 text-sm text-center px-4 leading-relaxed font-medium">
+                  Pick a goal from the <span className="text-primary font-bold bg-white/20 px-1 rounded">What's your goal?</span> section →<br/>
+                  then choose a breathing pattern to begin.<br/>
+                  <span className="text-cyan-100 font-semibold">If you're a beginner, start with a simple pattern like 5-2-7.</span>
                 </p>
               </div>
             )}

@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
+import { getBackendOrigin } from "../utils/api";
 
 export default function Register() {
   const { login } = useContext(AuthContext);
@@ -88,14 +89,14 @@ export default function Register() {
   };
 
   return (
-    <div className="h-[calc(100vh-80px)] w-full flex items-center justify-center relative overflow-hidden px-4 md:px-6 bg-[#f7f9fb] dark:bg-slate-900 transition-colors duration-300">
+    <div className="h-[calc(100vh-80px)] w-full flex items-start justify-center relative overflow-hidden px-4 md:px-6 pt-5 pb-3 lg:pt-6 lg:pb-4 bg-[#f7f9fb] dark:bg-slate-900 transition-colors duration-300">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute w-[1200px] h-[1200px] -top-1/4 -right-1/4 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, #98f2f0 0%, transparent 70%)', opacity: 0.15 }}></div>
         <div className="absolute w-[800px] h-[800px] -bottom-1/4 -left-1/4 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, #98f2f0 0%, transparent 70%)', opacity: 0.15 }}></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-[1100px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-12 lg:gap-16 lg:px-4 py-8 lg:py-0">
+      <div className="relative z-10 w-full max-w-[1140px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-5 lg:gap-7 lg:px-4 h-full">
         
         {/* Left Column: Form */}
         <motion.div 
@@ -104,10 +105,10 @@ export default function Register() {
           transition={{ duration: 0.5 }}
           className="w-full lg:w-1/2 flex justify-center lg:justify-end relative order-1"
         >
-          <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-8 lg:p-10 shadow-[0_20px_40px_rgba(15,23,42,0.04)] dark:shadow-slate-900/50 border border-[#bdc9c8]/15 dark:border-slate-700 w-full max-w-[460px] mx-auto lg:mx-0">
+          <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-6 lg:p-7 shadow-[0_20px_40px_rgba(15,23,42,0.04)] dark:shadow-slate-900/50 border border-[#bdc9c8]/15 dark:border-slate-700 w-full max-w-[440px] mx-auto lg:mx-0 min-h-[520px] lg:min-h-[535px] flex flex-col justify-between">
             {/* Header */}
-            <div className="flex flex-col space-y-2 mb-8 text-center lg:text-left">
-              <h2 className="text-3xl font-heading font-bold text-[#191c1e] dark:text-white">Create an Account</h2>
+            <div className="flex flex-col space-y-1.5 mb-4 text-center lg:text-left">
+              <h2 className="text-xl lg:text-2xl font-heading font-bold text-[#191c1e] dark:text-white leading-tight">Create an Account</h2>
               <div className="flex items-center justify-center lg:justify-start space-x-1">
                 <span className="text-[#3e4948] dark:text-gray-400">Already have an account?</span>
                 <Link to="/login" className="text-primary font-bold hover:underline underline-offset-4 decoration-primary/30">Log in</Link>
@@ -115,7 +116,7 @@ export default function Register() {
             </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5" autoComplete="off">
+          <form onSubmit={handleSubmit} className="space-y-3.5" autoComplete="off">
             {/* Name Input */}
             <div className="relative">
               <svg className="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500 z-10" fill="currentColor" viewBox="0 0 24 24">
@@ -127,7 +128,7 @@ export default function Register() {
                 placeholder="Full Name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full pl-12 pr-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400 relative z-0"
+                className="w-full pl-12 pr-6 py-3 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm lg:text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400 relative z-0"
                 disabled={loading}
                 autoComplete="off"
                 id="register-name"
@@ -146,7 +147,7 @@ export default function Register() {
                 placeholder="Email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-12 pr-6 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-base bg-white dark:bg-slate-700 dark:text-white dark:placeholder-gray-400 relative z-0"
+                className="w-full pl-12 pr-6 py-3 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm lg:text-base bg-white dark:bg-slate-700 dark:text-white dark:placeholder-gray-400 relative z-0"
                 disabled={loading}
                 autoComplete="off"
                 id="register-email"
@@ -164,7 +165,7 @@ export default function Register() {
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full pl-12 pr-14 py-4 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all pr-14 text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400 relative z-0"
+                className="w-full pl-12 pr-14 py-3 border border-gray-300 dark:border-slate-600 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm lg:text-base bg-white dark:bg-slate-700 text-gray-900 placeholder-gray-500 dark:text-white dark:placeholder-gray-400 relative z-0"
                 disabled={loading}
                 autoComplete="new-password"
                 id="register-password"
@@ -189,7 +190,7 @@ export default function Register() {
             </div>
 
             {/* Password hint */}
-            <p className="text-sm text-gray-500 dark:text-gray-400 px-2">
+            <p className="text-xs lg:text-sm text-gray-500 dark:text-gray-400 px-2">
               Password must be at least 6 characters
             </p>
 
@@ -197,7 +198,7 @@ export default function Register() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-black text-white py-4 rounded-full font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-base hover:bg-gray-900 hover:shadow-xl hover:scale-[1.01]"
+              className="w-full bg-black text-white py-3 rounded-full font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm lg:text-base hover:bg-gray-900 hover:shadow-xl hover:scale-[1.01]"
             >
               {loading ? (
                 <span className="flex items-center justify-center">
@@ -214,7 +215,7 @@ export default function Register() {
           </form>
 
           {/* Google Login Divider */}
-          <div className="mt-6 flex items-center justify-between">
+          <div className="mt-3 flex items-center justify-between">
             <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
             <span className="text-xs text-center text-gray-500 uppercase dark:text-gray-400">or sign up with</span>
             <span className="w-1/5 border-b dark:border-gray-600 lg:w-1/4"></span>
@@ -223,8 +224,8 @@ export default function Register() {
           {/* Google Button */}
           <button
             type="button"
-            onClick={() => window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/auth/google`}
-            className="w-full mt-6 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600 py-3 rounded-full font-semibold transition-all duration-200 text-base hover:bg-gray-50 dark:hover:bg-slate-600 shadow-sm flex items-center justify-center gap-3"
+            onClick={() => window.location.href = `${getBackendOrigin()}/api/auth/google`}
+            className="w-full mt-3 bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-200 border border-gray-300 dark:border-slate-600 py-2.5 rounded-full font-semibold transition-all duration-200 text-sm lg:text-base hover:bg-gray-50 dark:hover:bg-slate-600 shadow-sm flex items-center justify-center gap-3"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -243,20 +244,20 @@ export default function Register() {
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="hidden lg:flex w-full lg:w-1/2 flex-col justify-center lg:justify-start space-y-8 order-2"
+          className="hidden lg:flex w-full lg:w-1/2 flex-col justify-center lg:justify-start space-y-2.5 order-2"
         >
-          <div className="space-y-4 max-w-md mx-auto lg:mx-0 pr-4">
-            <h1 className="text-4xl lg:text-5xl font-heading font-bold text-gray-900 dark:text-white leading-[1.1]">
+          <div className="space-y-2 w-full max-w-[560px] mx-auto lg:mx-0 pr-0 lg:pr-1">
+            <h1 className="text-2xl lg:text-[2.15rem] font-heading font-extrabold text-gray-950 dark:text-white leading-[1.05]" style={{ textShadow: "0 1px 8px rgba(0,0,0,0.10)" }}>
               Begin your <span className="text-primary italic">journey.</span>
             </h1>
-            <p className="text-gray-600 dark:text-slate-300 text-base max-w-md leading-relaxed">
+            <p className="text-gray-700 dark:text-slate-100 text-xs lg:text-sm max-w-md leading-relaxed font-medium" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.08)" }}>
               Join thousands who have transformed their lives through mindful breathing.
             </p>
           </div>
 
-          <div className="relative group w-full max-w-md mx-auto lg:mx-0">
-            <div className="absolute -inset-4 bg-[#7bd5d4] opacity-20 rounded-[2.5rem] blur-2xl transition duration-1000 group-hover:duration-200 group-hover:opacity-100"></div>
-            <div className="relative rounded-[2.5rem] overflow-hidden bg-[#eceef0] dark:bg-slate-800 shadow-2xl aspect-square flex flex-col justify-center items-center p-6">
+          <div className="relative group w-full max-w-[620px] mx-auto lg:mx-0">
+            <div className="absolute -inset-4 bg-[#7bd5d4] opacity-20 rounded-[2.5rem] blur-2xl transition duration-1000 group-hover:duration-200 group-hover:opacity-40"></div>
+            <div className="relative rounded-[2.5rem] overflow-hidden bg-[#eceef0] dark:bg-slate-800 shadow-2xl aspect-[16/11] max-h-[350px] flex flex-col justify-center items-center p-2 lg:p-3">
               
               {/* Lottie Animation */}
               <div className="flex items-center justify-center z-10 w-full h-full">
@@ -264,7 +265,7 @@ export default function Register() {
                   <Lottie 
                     animationData={animationData} 
                     loop={true}
-                    style={{ width: '100%', height: '100%' }}
+                    style={{ width: "130%", height: "130%" }}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -273,16 +274,6 @@ export default function Register() {
                 )}
               </div>
 
-              {/* Glass Effect Quote */}
-              <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl z-20 border border-white/40 dark:border-white/10 shadow-sm" style={{ backdropFilter: 'blur(20px)', background: 'rgba(255, 255, 255, 0.4)' }}>
-                <div className="flex items-center space-x-3">
-                  <div className="flex -space-x-2 shrink-0">
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-[#d8dadc]"></div>
-                    <div className="w-8 h-8 rounded-full border-2 border-white bg-[#98f2f0]"></div>
-                  </div>
-                  <span className="text-sm font-bold text-[#00504f] dark:text-[#7bd5d4] tracking-wide">"A clear mind starts with a deep breath."</span>
-                </div>
-              </div>
             </div>
           </div>
         </motion.div>

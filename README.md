@@ -155,6 +155,9 @@ FROM_NAME=Respira Support
 
 # Frontend URL
 FRONTEND_URL=http://localhost:5175
+
+# Google OAuth callback URL
+GOOGLE_CALLBACK_URL=http://localhost:5001/api/auth/google/callback
 ```
 
 **Important:** 
@@ -175,6 +178,10 @@ VITE_API_URL=https://your-backend-url.up.railway.app
 ```
 
 **Note:** Do not include `/api` at the end - the code adds it automatically.
+
+### Google OAuth Setup
+
+Add the backend callback URL to your Google Cloud OAuth client as an authorized redirect URI. For local development, use `http://localhost:5001/api/auth/google/callback`. For production, set `GOOGLE_CALLBACK_URL` to your public backend URL and register that exact HTTPS callback URI in Google Cloud.
 
 ## 📄 License
 
