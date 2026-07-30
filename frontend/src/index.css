@@ -147,11 +147,44 @@ body {
   border-radius: 8px;
   font-weight: 500;
   transition: background 0.12s ease, transform 0.12s ease;
-  margin-left: 0.25rem;
+  white-space: nowrap;
 }
 .nav-link:hover {
-  background: var(--card);
+  background: var(--bg-light);
   transform: translateY(-1px);
+}
+
+/* Tighten the desktop links so all four still fit on small tablets */
+@media (max-width: 1023px) {
+  .nav-active,
+  .nav-link {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.9375rem;
+  }
+}
+
+/* Stacked links inside the mobile menu panel */
+.nav-active-mobile,
+.nav-link-mobile {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+}
+.nav-link-mobile {
+  color: var(--text-dark);
+  font-weight: 500;
+  transition: background 0.12s ease;
+}
+.nav-link-mobile:hover,
+.nav-link-mobile:active {
+  background: var(--bg-light);
+}
+.nav-active-mobile {
+  background: var(--primary);
+  color: var(--text-light);
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(14, 165, 164, 0.14);
 }
 
 .stat-card {
