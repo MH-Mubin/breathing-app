@@ -89,7 +89,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[calc(100dvh-80px)] w-full flex items-start justify-center relative px-4 md:px-6 py-6 lg:pt-6 lg:pb-4 bg-[#f7f9fb] dark:bg-slate-900 transition-colors duration-300">
+    <div className="min-h-[calc(100dvh-80px)] w-full flex items-center justify-center relative px-4 md:px-6 py-6 bg-[#f7f9fb] dark:bg-slate-900 transition-colors duration-300">
       {/* Background Decor */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div
