@@ -32,7 +32,7 @@ export const sendPasswordResetOTP = async (email, otp) => {
 			<body style="font-family: 'Nunito', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
 				<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
 					<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-						<h1 style="font-family: 'Poppins', sans-serif; margin: 0; font-size: 28px;">🧘 Respira</h1>
+						<h1 style="font-family: 'Poppins', sans-serif; margin: 0; font-size: 28px;">Respira</h1>
 						<p style="font-family: 'Nunito', sans-serif; margin: 10px 0 0 0; font-size: 16px;">Password Reset Request</p>
 					</div>
 					<div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
@@ -106,12 +106,12 @@ export const sendPasswordResetConfirmation = async (email) => {
 			<body style="font-family: 'Nunito', sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
 				<div style="max-width: 600px; margin: 0 auto; padding: 20px;">
 					<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-						<h1 style="font-family: 'Poppins', sans-serif; margin: 0; font-size: 28px;">🧘 Respira</h1>
+						<h1 style="font-family: 'Poppins', sans-serif; margin: 0; font-size: 28px;">Respira</h1>
 						<p style="font-family: 'Nunito', sans-serif; margin: 10px 0 0 0; font-size: 16px;">Password Reset Successful</p>
 					</div>
 					<div style="background: #f9f9f9; padding: 30px; border-radius: 0 0 10px 10px;">
 						<div style="background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; margin: 0 0 20px 0;">
-							<strong style="font-family: 'Nunito', sans-serif;">✓ Success!</strong> <span style="font-family: 'Nunito', sans-serif;">Your password has been successfully reset.</span>
+							<strong style="font-family: 'Nunito', sans-serif;">Success!</strong> <span style="font-family: 'Nunito', sans-serif;">Your password has been successfully reset.</span>
 						</div>
 						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">Hello,</p>
 						<p style="font-family: 'Nunito', sans-serif; margin: 0 0 15px 0;">This email confirms that your Respira account password was successfully changed.</p>

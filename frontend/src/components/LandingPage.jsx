@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
 import FeedbackModal from "./FeedbackModal";
+import Icon from "./Icon";
 
 export default function LandingPage() {
   const { user } = useContext(AuthContext);
@@ -46,8 +47,8 @@ export default function LandingPage() {
         <div className="absolute top-40 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000" />
         <div className="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000" />
         
-        <div className="relative max-w-7xl mx-auto px-4 py-20 md:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="relative max-w-7xl mx-auto px-4 py-14 sm:py-20 md:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-center">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
@@ -60,8 +61,9 @@ export default function LandingPage() {
                 transition={{ delay: 0.2 }}
                 className="inline-block mb-6"
               >
-                <span className="bg-gradient-to-r from-primary to-primary-dark text-white px-4 py-2 rounded-full text-sm font-heading font-semibold shadow-lg">
-                  ✨ Welcome to Respira
+                <span className="bg-gradient-to-r from-primary to-primary-dark text-white px-4 py-2 rounded-full text-sm font-heading font-semibold shadow-lg inline-flex items-center gap-2">
+                  <Icon name="sparkles" className="w-4 h-4 shrink-0" />
+                  Calm is one breath away
                 </span>
               </motion.div>
               
@@ -69,7 +71,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 leading-tight"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-heading font-bold mb-6 leading-tight"
               >
                 <span className="bg-gradient-to-r from-gray-900 via-primary to-gray-900 dark:from-white dark:via-primary dark:to-gray-300 bg-clip-text text-transparent">
                   Master Your Breath,
@@ -82,7 +84,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
-                className="text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
+                className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed"
               >
                 Discover the power of rhythmic breathing. Reduce stress, improve focus, and boost your energy with guided exercises designed for your well-being.
               </motion.p>
@@ -91,24 +93,24 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="flex flex-wrap gap-4 mb-12"
+                className="flex flex-col sm:flex-row flex-wrap gap-4 mb-12"
               >
-                <Link to="/login">
+                <Link to="/login" className="block w-full sm:w-auto">
                   <motion.button
                     whileHover={{ scale: 1.03, y: -3 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    className="bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-4 rounded-full text-lg font-heading font-semibold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
+                    className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary-dark text-white px-8 py-4 rounded-full text-lg font-heading font-semibold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
                   >
                     Get Started Free
                   </motion.button>
                 </Link>
-                <Link to="/practice">
+                <Link to="/practice" className="block w-full sm:w-auto">
                   <motion.button
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     transition={{ type: "spring", stiffness: 500, damping: 15 }}
-                    className="bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-8 py-4 rounded-full text-lg font-heading font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-gray-200 dark:border-slate-700 cursor-pointer"
+                    className="w-full sm:w-auto bg-white dark:bg-slate-800 text-gray-900 dark:text-white px-8 py-4 rounded-full text-lg font-heading font-semibold shadow-lg hover:shadow-xl transition-all border-2 border-gray-200 dark:border-slate-700 cursor-pointer"
                   >
                     Try Demo
                   </motion.button>
@@ -120,7 +122,7 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
-                className="flex flex-wrap gap-8"
+                className="flex flex-wrap gap-6 sm:gap-8"
               >
                 <div>
                   <div className="text-3xl font-bold bg-gradient-to-br from-primary to-primary-dark bg-clip-text text-transparent">10k+</div>
@@ -131,7 +133,10 @@ export default function LandingPage() {
                   <div className="text-sm text-gray-600 dark:text-gray-400">Sessions Today</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold bg-gradient-to-br from-primary to-primary-dark bg-clip-text text-transparent">4.9★</div>
+                  <div className="text-3xl font-bold bg-gradient-to-br from-primary to-primary-dark bg-clip-text text-transparent flex items-center gap-1">
+                    4.9
+                    <Icon name="star" className="w-6 h-6 text-primary fill-current shrink-0" />
+                  </div>
                   <div className="text-sm text-gray-600 dark:text-gray-400">User Rating</div>
                 </div>
               </motion.div>
@@ -176,10 +181,10 @@ export default function LandingPage() {
                 
                 {/* Floating decorative elements */}
                 {[
-                  { delay: 0, x: -60, y: -60, emoji: '✨', size: 'text-3xl' },
-                  { delay: 1, x: 60, y: -50, emoji: '💫', size: 'text-2xl' },
-                  { delay: 2, x: -50, y: 60, emoji: '🌟', size: 'text-2xl' },
-                  { delay: 1.5, x: 55, y: 55, emoji: '⭐', size: 'text-3xl' },
+                  { delay: 0, x: -60, y: -60, icon: 'sparkles', size: 'w-8 h-8' },
+                  { delay: 1, x: 60, y: -50, icon: 'star', size: 'w-6 h-6' },
+                  { delay: 2, x: -50, y: 60, icon: 'sparkles', size: 'w-6 h-6' },
+                  { delay: 1.5, x: 55, y: 55, icon: 'star', size: 'w-8 h-8' },
                 ].map((item, i) => (
                   <motion.div
                     key={i}
@@ -194,13 +199,13 @@ export default function LandingPage() {
                       delay: item.delay,
                       ease: "easeInOut",
                     }}
-                    className={`absolute ${item.size}`}
+                    className="absolute text-primary"
                     style={{
                       left: `calc(50% + ${item.x}px)`,
                       top: `calc(50% + ${item.y}px)`,
                     }}
                   >
-                    {item.emoji}
+                    <Icon name={item.icon} className={`${item.size} fill-current`} />
                   </motion.div>
                 ))}
               </div>
@@ -210,27 +215,26 @@ export default function LandingPage() {
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 px-4">
+      <section className="py-14 sm:py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <span className="text-primary font-heading font-semibold text-sm uppercase tracking-wider">Why Choose Us</span>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-gray-900 dark:text-white">Benefits of Regular Practice</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">Benefits of Regular Practice</h2>
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Experience transformative changes in your physical and mental well-being
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {[
-              { icon: "😌", title: "Reduce Stress", desc: "Lower cortisol levels and activate your body's natural relaxation response", color: "from-blue-400 to-blue-500" },
-              { icon: "🧠", title: "Improve Focus", desc: "Enhance mental clarity and concentration through mindful breathing", color: "from-purple-400 to-purple-500" },
-              { icon: "⚡", title: "Boost Energy", desc: "Increase oxygen flow and vitality with energizing breath patterns", color: "from-primary to-primary-dark" },
+              { icon: "smile", title: "Reduce Stress", desc: "Lower cortisol levels and activate your body's natural relaxation response", color: "from-blue-400 to-blue-500" },
+              { icon: "brain", title: "Improve Focus", desc: "Enhance mental clarity and concentration through mindful breathing", color: "from-purple-400 to-purple-500" },
+              { icon: "zap", title: "Boost Energy", desc: "Increase oxygen flow and vitality with energizing breath patterns", color: "from-primary to-primary-dark" },
             ].map((benefit, index) => (
               <motion.div
                 key={index}
@@ -242,12 +246,12 @@ export default function LandingPage() {
                 <motion.div
                   whileHover={{ y: -5, scale: 1.03 }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-xl hover:shadow-2xl border border-gray-100 dark:border-slate-700 relative overflow-hidden group cursor-pointer h-full"
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl hover:shadow-2xl border border-gray-100 dark:border-slate-700 relative overflow-hidden group cursor-pointer h-full"
                   style={{ transition: "box-shadow 0.2s ease" }}
                 >
                   <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${benefit.color} opacity-10 rounded-full -mr-16 -mt-16 group-hover:scale-150 transition-transform duration-500`} />
                   <div className="relative z-10">
-                    <div className="text-6xl mb-4">{benefit.icon}</div>
+                    <Icon name={benefit.icon} className="w-14 h-14 mb-4 text-primary" strokeWidth={1.5} />
                     <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">{benefit.title}</h3>
                     <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{benefit.desc}</p>
                   </div>
@@ -259,27 +263,26 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-4 bg-white dark:bg-slate-800">
+      <section className="py-14 sm:py-20 px-4 bg-white dark:bg-slate-800">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <span className="text-primary font-heading font-semibold text-sm uppercase tracking-wider">Simple Process</span>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 text-gray-900 dark:text-white">How It Works</h2>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">How It Works</h2>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative">
             {/* Connection lines for desktop */}
             <div className="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-1 bg-gradient-to-r from-primary-light via-primary to-primary-light" />
             
             {[
-              { num: "1", title: "Choose Goal & Pattern", desc: "Select from various breathing patterns designed for different goals", icon: "🎯" },
-              { num: "2", title: "Select Session Time", desc: "Customize duration to fit your schedule, from a quick pause to a deep session", icon: "⏱️" },
-              { num: "3", title: "Follow the ball movement", desc: "Sync your breath with the visual guide to maintain the perfect rhythm", icon: "👁️" },
-              { num: "4", title: "Track the progress", desc: "Monitor your journey and build consistency with detailed analytics", icon: "📊" },
+              { num: "1", title: "Choose Goal & Pattern", desc: "Select from various breathing patterns designed for different goals", icon: "target" },
+              { num: "2", title: "Select Session Time", desc: "Customize duration to fit your schedule, from a quick pause to a deep session", icon: "timer" },
+              { num: "3", title: "Follow the ball movement", desc: "Sync your breath with the visual guide to maintain the perfect rhythm", icon: "eye" },
+              { num: "4", title: "Track the progress", desc: "Monitor your journey and build consistency with detailed analytics", icon: "bar-chart" },
             ].map((step, index) => (
               <motion.div
                 key={index}
@@ -297,7 +300,7 @@ export default function LandingPage() {
                   >
                     {step.num}
                   </motion.div>
-                  <div className="text-3xl mb-4">{step.icon}</div>
+                  <Icon name={step.icon} className="w-8 h-8 mb-4 text-primary" />
                   <h3 className="text-xl font-bold mb-3 leading-tight text-gray-900 dark:text-white">{step.title}</h3>
                   <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{step.desc}</p>
                 </div>
@@ -308,43 +311,42 @@ export default function LandingPage() {
       </section>
 
       {/* What Experts Say */}
-      <section className="py-20 px-4 bg-gradient-to-br from-primary-light to-white dark:from-slate-900 dark:to-slate-800">
+      <section className="py-14 sm:py-20 px-4 bg-gradient-to-br from-primary-light to-white dark:from-slate-900 dark:to-slate-800">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-16"
+            className="text-center mb-12 sm:mb-16"
           >
-            <span className="text-primary font-heading font-semibold text-sm uppercase tracking-wider">Expert Insights</span>
-            <h2 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-gray-900 dark:text-white">What Experts Say</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">What Experts Say</h2>
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Leading health professionals on the science of breathwork
             </p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {[
               { 
                 name: "Dr. Andrew Weil", 
                 role: "Integrative Medicine Pioneer", 
                 credential: "MD, Harvard Medical School",
                 quote: "Breathing techniques are among the most powerful tools for reducing stress and anxiety. Regular practice can significantly improve both mental and physical health.",
-                icon: "🩺"
+                icon: "stethoscope"
               },
               { 
                 name: "Dr. Herbert Benson", 
                 role: "Mind-Body Medicine Expert", 
                 credential: "MD, Harvard Medical School",
                 quote: "The relaxation response triggered by controlled breathing counteracts the harmful effects of stress, lowering blood pressure and heart rate naturally.",
-                icon: "🧬"
+                icon: "dna"
               },
               { 
                 name: "Dr. James Nestor", 
                 role: "Breathing Science Author", 
                 credential: "Journalist & Researcher",
                 quote: "How we breathe matters. Proper breathing techniques can enhance athletic performance, improve sleep quality, and boost overall well-being.",
-                icon: "📚"
+                icon: "book-open"
               },
             ].map((expert, index) => (
               <motion.div
@@ -357,7 +359,7 @@ export default function LandingPage() {
                 <motion.div
                   whileHover={{ y: -5, scale: 1.03 }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-2xl border-2 border-primary dark:border-primary-dark relative overflow-hidden group cursor-pointer h-full"
+                  className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-2xl border-2 border-primary dark:border-primary-dark relative overflow-hidden group cursor-pointer h-full"
                   style={{ transition: "box-shadow 0.2s ease" }}
                 >
                   {/* Decorative gradient */}
@@ -365,7 +367,7 @@ export default function LandingPage() {
                   
                   <div className="relative z-10">
                     {/* Icon */}
-                    <div className="text-5xl mb-4">{expert.icon}</div>
+                    <Icon name={expert.icon} className="w-12 h-12 mb-4 text-primary" strokeWidth={1.5} />
                     
                     {/* Quote */}
                     <p className="text-gray-700 dark:text-gray-300 mb-6 italic leading-relaxed text-lg">
@@ -387,7 +389,7 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 px-4">
+      <section className="py-14 sm:py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -395,8 +397,8 @@ export default function LandingPage() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">What Our Users Say</h2>
-            <p className="text-xl text-gray-600 dark:text-gray-300 mb-6">Join thousands who transformed their lives</p>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">What Our Users Say</h2>
+            <p className="text-base sm:text-xl text-gray-600 dark:text-gray-300 mb-6">Join thousands who transformed their lives</p>
             
             {/* Share Feedback Button */}
             {user ? (
@@ -407,7 +409,10 @@ export default function LandingPage() {
                 onClick={() => setShowFeedbackModal(true)}
                 className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-3 rounded-full font-heading font-semibold shadow-lg hover:shadow-xl transition-all cursor-pointer"
               >
-                ✨ Share Your Experience
+                <span className="inline-flex items-center gap-2">
+                  <Icon name="sparkles" className="w-4 h-4 shrink-0" />
+                  Share Your Experience
+                </span>
               </motion.button>
             ) : (
               <Link to="/login">
@@ -417,13 +422,16 @@ export default function LandingPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   className="bg-gradient-to-r from-primary to-primary-dark text-white px-6 py-3 rounded-full font-heading font-semibold shadow-lg hover:shadow-xl transition-all cursor-pointer"
                 >
-                  ✨ Login to Share Your Experience
+                  <span className="inline-flex items-center gap-2">
+                    <Icon name="sparkles" className="w-4 h-4 shrink-0" />
+                    Login to Share Your Experience
+                  </span>
                 </motion.button>
               </Link>
             )}
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             {feedbacks.length > 0 ? (
               feedbacks.map((testimonial, index) => (
                 <motion.div
@@ -436,12 +444,16 @@ export default function LandingPage() {
                   <motion.div
                     whileHover={{ y: -5, scale: 1.03 }}
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer h-full"
+                    className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer h-full"
                     style={{ transition: "box-shadow 0.2s ease" }}
                   >
                     <div className="flex justify-center mb-4">
                       {[...Array(5)].map((_, i) => (
-                        <span key={i} className={`text-2xl ${i < testimonial.rating ? 'text-primary' : 'text-gray-300'}`}>★</span>
+                        <Icon
+                          key={i}
+                          name="star"
+                          className={`w-6 h-6 fill-current ${i < testimonial.rating ? 'text-primary' : 'text-gray-300 dark:text-slate-600'}`}
+                        />
                       ))}
                     </div>
                     <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.feedback}"</p>
@@ -474,12 +486,12 @@ export default function LandingPage() {
                   <motion.div
                     whileHover={{ y: -5, scale: 1.03 }}
                     transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                    className="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer h-full"
+                    className="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-lg hover:shadow-xl border border-gray-100 dark:border-slate-700 cursor-pointer h-full"
                     style={{ transition: "box-shadow 0.2s ease" }}
                   >
                     <div className="flex justify-center mb-4">
                       {[...Array(5)].map((_, i) => (
-                        <span key={i} className="text-primary text-2xl">★</span>
+                        <Icon key={i} name="star" className="w-6 h-6 text-primary fill-current" />
                       ))}
                     </div>
                     <p className="text-gray-600 dark:text-gray-300 mb-6 italic leading-relaxed">"{testimonial.quote}"</p>
@@ -504,30 +516,33 @@ export default function LandingPage() {
       <FeedbackModal isOpen={showFeedbackModal} onClose={() => setShowFeedbackModal(false)} />
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
+      <section className="py-14 sm:py-20 px-4">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-primary to-primary-dark dark:from-slate-800 dark:to-slate-900 border border-transparent dark:border-slate-700 rounded-3xl p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden"
+            className="bg-gradient-to-br from-primary to-primary-dark dark:from-slate-800 dark:to-slate-900 border border-transparent dark:border-slate-700 rounded-3xl p-8 sm:p-12 md:p-16 text-center text-white shadow-2xl relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full -mr-32 -mt-32" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-10 rounded-full -ml-32 -mb-32" />
             
             <div className="relative z-10">
-              <h2 className="text-4xl md:text-5xl font-heading font-bold mb-6">Ready to Start Your Journey?</h2>
-              <p className="text-xl mb-8 opacity-90">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-6">Ready to Start Your Journey?</h2>
+              <p className="text-base sm:text-xl mb-8 opacity-90">
                 Join our community and experience the transformative power of breathwork
               </p>
-              <Link to="/practice">
+              <Link to="/practice" className="inline-block w-full sm:w-auto">
                 <motion.button
                   whileHover={{ scale: 1.03, y: -3 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  className="bg-white text-primary dark:bg-primary dark:text-white dark:hover:bg-primary-dark px-10 py-5 rounded-full text-xl font-heading font-bold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
+                  className="w-full sm:w-auto bg-white text-primary dark:bg-primary dark:text-white dark:hover:bg-primary-dark px-8 sm:px-10 py-4 sm:py-5 rounded-full text-lg sm:text-xl font-heading font-bold shadow-xl hover:shadow-2xl transition-all cursor-pointer"
                 >
-                  Begin Your Practice →
+                  <span className="inline-flex items-center gap-2">
+                    Begin Your Practice
+                    <Icon name="arrow-right" className="w-5 h-5 shrink-0" />
+                  </span>
                 </motion.button>
               </Link>
             </div>

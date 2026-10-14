@@ -89,14 +89,14 @@ export default function Register() {
   };
 
   return (
-    <div className="h-[calc(100vh-80px)] w-full flex items-start justify-center relative overflow-hidden px-4 md:px-6 pt-5 pb-3 lg:pt-6 lg:pb-4 bg-[#f7f9fb] dark:bg-slate-900 transition-colors duration-300">
+    <div className="min-h-[calc(100dvh-80px)] w-full flex items-start justify-center relative px-4 md:px-6 py-6 lg:pt-6 lg:pb-4 bg-[#f7f9fb] dark:bg-slate-900 transition-colors duration-300">
       {/* Background Decor */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
         <div className="absolute w-[1200px] h-[1200px] -top-1/4 -right-1/4 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, #98f2f0 0%, transparent 70%)', opacity: 0.15 }}></div>
         <div className="absolute w-[800px] h-[800px] -bottom-1/4 -left-1/4 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, #98f2f0 0%, transparent 70%)', opacity: 0.15 }}></div>
       </div>
 
-      <div className="relative z-10 w-full max-w-[1140px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-5 lg:gap-7 lg:px-4 h-full">
+      <div className="relative z-10 w-full max-w-[1140px] mx-auto flex flex-col lg:flex-row items-center justify-center gap-5 lg:gap-7 lg:px-4 lg:h-full">
         
         {/* Left Column: Form */}
         <motion.div 
@@ -105,7 +105,7 @@ export default function Register() {
           transition={{ duration: 0.5 }}
           className="w-full lg:w-1/2 flex justify-center lg:justify-end relative order-1"
         >
-          <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-6 lg:p-7 shadow-[0_20px_40px_rgba(15,23,42,0.04)] dark:shadow-slate-900/50 border border-[#bdc9c8]/15 dark:border-slate-700 w-full max-w-[440px] mx-auto lg:mx-0 min-h-[520px] lg:min-h-[535px] flex flex-col justify-between">
+          <div className="bg-white dark:bg-slate-800 rounded-[2rem] p-5 sm:p-6 lg:p-7 shadow-[0_20px_40px_rgba(15,23,42,0.04)] dark:shadow-slate-900/50 border border-[#bdc9c8]/15 dark:border-slate-700 w-full max-w-[440px] mx-auto lg:mx-0 sm:min-h-[520px] lg:min-h-[535px] flex flex-col justify-between">
             {/* Header */}
             <div className="flex flex-col space-y-1.5 mb-4 text-center lg:text-left">
               <h2 className="text-xl lg:text-2xl font-heading font-bold text-[#191c1e] dark:text-white leading-tight">Create an Account</h2>

@@ -53,12 +53,12 @@ export default function FeedbackModal({ isOpen, onClose }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-black bg-opacity-50 overflow-y-auto">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative"
+        className="bg-white rounded-2xl shadow-2xl max-w-md w-full my-auto max-h-[calc(100dvh-2rem)] overflow-y-auto p-6 sm:p-8 relative"
       >
         {/* Close button */}
         <button
@@ -72,7 +72,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
 
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-3xl font-heading font-bold text-gray-900 mb-2">Share Your Experience</h2>
+          <h2 className="text-2xl sm:text-3xl font-heading font-bold text-gray-900 mb-2 pr-8">Share Your Experience</h2>
           <p className="text-gray-600">Help others discover the benefits of breathwork</p>
         </div>
 
@@ -82,7 +82,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
             <label className="block text-sm font-semibold text-gray-700 mb-3">
               How would you rate your experience?
             </label>
-            <div className="flex gap-2 justify-center">
+            <div className="flex gap-1 sm:gap-2 justify-center">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
                   key={star}
@@ -93,7 +93,7 @@ export default function FeedbackModal({ isOpen, onClose }) {
                   className="transition-transform hover:scale-110"
                 >
                   <svg
-                    className={`w-10 h-10 ${
+                    className={`w-8 h-8 sm:w-10 sm:h-10 ${
                       star <= (hoveredRating || rating)
                         ? "text-primary fill-current"
                         : "text-gray-300"

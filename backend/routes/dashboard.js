@@ -157,13 +157,13 @@ router.get('/insights', protect, async (req, res) => {
 		if (user.stats.streak >= 3) {
 			insights.push({
 				type: 'streak',
-				icon: '🔥',
+				icon: 'flame',
 				message: `Amazing! You're on a ${user.stats.streak}-day streak. Keep it going!`,
 			});
 		} else if (user.stats.streak === 0 && user.stats.totalSessions > 0) {
 			insights.push({
 				type: 'comeback',
-				icon: '💪',
+				icon: 'dumbbell',
 				message: "Welcome back! Start a new streak today.",
 			});
 		}
@@ -175,7 +175,7 @@ router.get('/insights', protect, async (req, res) => {
 			if (uniqueDays >= 5) {
 				insights.push({
 					type: 'consistency',
-					icon: '⭐',
+					icon: 'star',
 					message: `You practiced ${uniqueDays} out of the last 7 days. Excellent consistency!`,
 				});
 			}
@@ -187,7 +187,7 @@ router.get('/insights', protect, async (req, res) => {
 			const remaining = nextMilestone.value - user.stats.totalSessions;
 			insights.push({
 				type: 'milestone',
-				icon: '🎯',
+				icon: 'target',
 				message: `Only ${remaining} more session${remaining > 1 ? 's' : ''} until you reach ${nextMilestone.value} total sessions!`,
 			});
 		}
@@ -205,7 +205,7 @@ router.get('/insights', protect, async (req, res) => {
 				const timeOfDay = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening';
 				insights.push({
 					type: 'timing',
-					icon: '⏰',
+					icon: 'alarm-clock',
 					message: `You're most consistent in the ${timeOfDay}. That's your power hour!`,
 				});
 			}
@@ -215,7 +215,7 @@ router.get('/insights', protect, async (req, res) => {
 		if (insights.length === 0) {
 			insights.push({
 				type: 'encouragement',
-				icon: '🌟',
+				icon: 'sparkles',
 				message: "Every breath is a step toward calm. Start your practice today!",
 			});
 		}

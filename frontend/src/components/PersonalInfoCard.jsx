@@ -180,9 +180,9 @@ export default function PersonalInfoCard({ user, onUpdate }) {
     <motion.div 
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 shadow-lg hover:shadow-xl transition-shadow"
+      className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow"
     >
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
         <div className="flex items-center gap-2">
           <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -317,7 +317,7 @@ export default function PersonalInfoCard({ user, onUpdate }) {
             </div>
 
             {/* Action buttons */}
-            <div className="flex gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

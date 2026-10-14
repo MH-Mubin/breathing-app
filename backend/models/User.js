@@ -87,19 +87,19 @@ userSchema.methods.checkAchievements = function () {
 	const newAchievements = [];
 
 	const achs = [
-		{ sessions: 1, name: 'First Breath', icon: '🌱', description: 'Complete your first session' },
-		{ sessions: 5, name: 'Getting Started', icon: '🌿', description: 'Complete 5 sessions' },
-		{ sessions: 10, name: 'Dedicated', icon: '🌳', description: 'Complete 10 sessions' },
-		{ sessions: 25, name: 'Committed', icon: '🏆', description: 'Complete 25 sessions' },
-		{ sessions: 50, name: 'Breathing Master', icon: '⭐', description: 'Complete 50 sessions' },
-		{ sessions: 100, name: 'Zen Master', icon: '🧘', description: 'Complete 100 sessions' },
-		{ streak: 3, name: '3-Day Streak', icon: '🔥', description: 'Practice 3 days in a row' },
-		{ streak: 7, name: 'Week Warrior', icon: '💪', description: 'Practice 7 days in a row' },
-		{ streak: 14, name: 'Two Week Champion', icon: '🏅', description: 'Practice 14 days in a row' },
-		{ streak: 30, name: 'Monthly Meditator', icon: '🌟', description: 'Practice 30 days in a row' },
-		{ minutes: 60, name: 'Hour of Peace', icon: '⏰', description: 'Complete 60 minutes total' },
-		{ minutes: 300, name: 'Time Investment', icon: '⌛', description: 'Complete 300 minutes total' },
-		{ minutes: 1000, name: 'Dedication Master', icon: '💎', description: 'Complete 1000 minutes total' }
+		{ sessions: 1, name: 'First Breath', icon: 'sprout', description: 'Complete your first session' },
+		{ sessions: 5, name: 'Getting Started', icon: 'leaf', description: 'Complete 5 sessions' },
+		{ sessions: 10, name: 'Dedicated', icon: 'tree', description: 'Complete 10 sessions' },
+		{ sessions: 25, name: 'Committed', icon: 'trophy', description: 'Complete 25 sessions' },
+		{ sessions: 50, name: 'Breathing Master', icon: 'star', description: 'Complete 50 sessions' },
+		{ sessions: 100, name: 'Zen Master', icon: 'zen', description: 'Complete 100 sessions' },
+		{ streak: 3, name: '3-Day Streak', icon: 'flame', description: 'Practice 3 days in a row' },
+		{ streak: 7, name: 'Week Warrior', icon: 'dumbbell', description: 'Practice 7 days in a row' },
+		{ streak: 14, name: 'Two Week Champion', icon: 'medal', description: 'Practice 14 days in a row' },
+		{ streak: 30, name: 'Monthly Meditator', icon: 'sparkles', description: 'Practice 30 days in a row' },
+		{ minutes: 60, name: 'Hour of Peace', icon: 'alarm-clock', description: 'Complete 60 minutes total' },
+		{ minutes: 300, name: 'Time Investment', icon: 'hourglass', description: 'Complete 300 minutes total' },
+		{ minutes: 1000, name: 'Dedication Master', icon: 'gem', description: 'Complete 1000 minutes total' }
 	];
 
 	achs.forEach(a => {

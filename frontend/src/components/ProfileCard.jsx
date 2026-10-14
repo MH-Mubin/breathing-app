@@ -3,6 +3,7 @@ import { useContext, useMemo, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
+import Icon from "./Icon";
 
 // Resize image on a canvas and return base64 data URI
 function resizeImage(file, maxSize = 200) {
@@ -382,10 +383,14 @@ export default function ProfileCard({ user, onUpdate }) {
                     stiffness: 300,
                     damping: 15,
                   }}
-                  className="bg-primary rounded-2xl w-16 h-16 flex items-center justify-center text-3xl cursor-pointer shadow-md"
+                  className="bg-primary rounded-2xl w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center cursor-pointer shadow-md"
                   title={achievement.name || "Achievement"}
                 >
-                  {achievement.icon || "🏆"}
+                  <Icon
+                    name={achievement.icon}
+                    className="w-7 h-7 sm:w-8 sm:h-8 text-white"
+                    title={achievement.name || "Achievement"}
+                  />
                 </motion.div>
               ))
             : // Show placeholder locked achievements
@@ -398,10 +403,10 @@ export default function ProfileCard({ user, onUpdate }) {
                     stiffness: 300,
                     damping: 15,
                   }}
-                  className="bg-primary rounded-2xl w-16 h-16 flex items-center justify-center text-3xl cursor-pointer shadow-md"
+                  className="bg-primary/40 dark:bg-primary/30 rounded-2xl w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center cursor-pointer shadow-md"
                   title="Locked achievement"
                 >
-                  🏆
+                  <Icon name="trophy" className="w-7 h-7 sm:w-8 sm:h-8 text-white" title="Locked achievement" />
                 </motion.div>
               ))}
         </div>

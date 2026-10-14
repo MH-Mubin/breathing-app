@@ -4,6 +4,10 @@ export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      // Extra tier below Tailwind's `sm` for small phones (iPhone SE and down).
+      screens: {
+        xs: '420px',
+      },
       colors: {
         // Primary colors (teal-based)
         primary: {

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../utils/api';
+import Icon from './Icon';
 
 export default function DebugInfo() {
   const [backendHealth, setBackendHealth] = useState(null);
@@ -8,12 +9,12 @@ export default function DebugInfo() {
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        console.log('🔍 Testing backend connection...');
+        console.log('Testing backend connection...');
         const response = await api.get('/health');
-        console.log('✅ Backend health check:', response.data);
+        console.log('Backend health check:', response.data);
         setBackendHealth(response.data);
       } catch (err) {
-        console.error('❌ Backend health check failed:', err);
+        console.error('Backend health check failed:', err);
         setError(err.message);
       }
     };
@@ -22,8 +23,11 @@ export default function DebugInfo() {
   }, []);
 
   return (
-    <div className="fixed bottom-5 right-5 bg-white border-2 border-primary rounded-lg p-4 max-w-md shadow-lg z-[9999] text-xs font-mono">
-      <h3 className="m-0 mb-2.5 text-primary">🔧 Debug Info</h3>
+    <div className="fixed bottom-5 right-2 left-2 sm:left-auto sm:right-5 bg-white border-2 border-primary rounded-lg p-4 sm:max-w-md max-h-[60vh] overflow-y-auto shadow-lg z-[9999] text-xs font-mono">
+      <h3 className="m-0 mb-2.5 text-primary flex items-center gap-2">
+        <Icon name="wrench" className="w-4 h-4 shrink-0" />
+        Debug Info
+      </h3>
       
       <div className="mb-2.5">
         <strong>Environment:</strong>

@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
 import { PatternValidator } from "../utils/PatternValidator";
 import BreathingVisualizer from "./BreathingVisualizer";
+import Icon from "./Icon";
 
 const categories = [
   { id: "focus", name: "Focus & Concentration" },
@@ -58,57 +59,57 @@ const durations = [3, 5, 8, 10];
 // Benefits data mapped to categories
 const benefitsByCategory = {
   focus: [
-    { emoji: "🎯", title: "Boosts Clarity"},
-    { emoji: "🧠", title: "Sharpens Attention"},
-    { emoji: "💡", title: "Enhances Memory"},
-    { emoji: "🎓", title: "Steadies Thoughts"},
-    { emoji: "⚡", title: "Improves Control"},
+    { icon: "target", title: "Boosts Clarity"},
+    { icon: "brain", title: "Sharpens Attention"},
+    { icon: "lightbulb", title: "Enhances Memory"},
+    { icon: "graduation-cap", title: "Steadies Thoughts"},
+    { icon: "zap", title: "Improves Control"},
   ],
   stress: [
-    { emoji: "😌", title: "Calms Nerves"},
-    { emoji: "🧘", title: "Lowers Cortisol"},
-    { emoji: "💆", title: "Relaxes Muscles"},
-    { emoji: "🌊", title: "Eases Tension"},
-    { emoji: "☮️", title: "Stabilizes Mood"},
+    { icon: "smile", title: "Calms Nerves"},
+    { icon: "zen", title: "Lowers Cortisol"},
+    { icon: "armchair", title: "Relaxes Muscles"},
+    { icon: "waves", title: "Eases Tension"},
+    { icon: "feather", title: "Stabilizes Mood"},
   ],
   sleep: [
-    { emoji: "💤", title: "Slows Heartbeat"},
-    { emoji: "🛌", title: "Relaxes Body"},
-    { emoji: "🌙", title: "Clears Mind"},
-    { emoji: "😴", title: "Deepens Rest"},
-    { emoji: "🌟", title: "Reduces Stress"},
+    { icon: "moon-star", title: "Slows Heartbeat"},
+    { icon: "bed", title: "Relaxes Body"},
+    { icon: "moon", title: "Clears Mind"},
+    { icon: "cloud-moon", title: "Deepens Rest"},
+    { icon: "sparkles", title: "Reduces Stress"},
   ],
   energy: [
-    { emoji: "🫁", title: "Increases Oxygen"},
-    { emoji: "⚡", title: "Elevates Alertness"},
-    { emoji: "🔋", title: "Activates Body"},
-    { emoji: "💪", title: "Improves Stamina"},
-    { emoji: "☀️", title: "Reduces Fatigue"},
+    { icon: "wind", title: "Increases Oxygen"},
+    { icon: "zap", title: "Elevates Alertness"},
+    { icon: "battery-charging", title: "Activates Body"},
+    { icon: "dumbbell", title: "Improves Stamina"},
+    { icon: "sun", title: "Reduces Fatigue"},
   ],
   health: [
-    { emoji: "🫁", title: "Strengthens Lungs"},
-    { emoji: "❤️", title: "Enhances Circulation"},
-    { emoji: "🩺", title: "Supports Healing"},
-    { emoji: "⚖️", title: "Balances Breath"},
-    { emoji: "🛡️", title: "Builds Resilience"},
+    { icon: "wind", title: "Strengthens Lungs"},
+    { icon: "heart-pulse", title: "Enhances Circulation"},
+    { icon: "stethoscope", title: "Supports Healing"},
+    { icon: "scale", title: "Balances Breath"},
+    { icon: "shield", title: "Builds Resilience"},
   ],
   emotional: [
-    { emoji: "🧘‍♀️", title: "Reduces Anxiety"},
-    { emoji: "💚", title: "Steadies Emotions"},
-    { emoji: "🌈", title: "Lowers Stress"},
-    { emoji: "🎭", title: "Improves Control"},
-    { emoji: "✨", title: "Clears Thoughts"},
+    { icon: "zen", title: "Reduces Anxiety"},
+    { icon: "heart", title: "Steadies Emotions"},
+    { icon: "rainbow", title: "Lowers Stress"},
+    { icon: "drama", title: "Improves Control"},
+    { icon: "sparkles", title: "Clears Thoughts"},
   ],
 };
 
 // Preview benefits (one from each category)
 const previewBenefits = [
-  { emoji: "😌", title: "Reduces Stress"},
-  { emoji: "🎯", title: "Improves Focus"},
-  { emoji: "⚡", title: "Boosts Energy"},
-  { emoji: "💤", title: "Better Sleep"},
-  { emoji: "❤️", title: "Health & Recovery"},
-  { emoji: "🧘♀️", title: "Emotional Balance"},
+  { icon: "smile", title: "Reduces Stress"},
+  { icon: "target", title: "Improves Focus"},
+  { icon: "zap", title: "Boosts Energy"},
+  { icon: "moon-star", title: "Better Sleep"},
+  { icon: "heart", title: "Health & Recovery"},
+  { icon: "zen", title: "Emotional Balance"},
 ];
 
 export default function BreathingSession() {
@@ -219,10 +220,10 @@ export default function BreathingSession() {
 
           if (response.data.success) {
             const { streak, totalSessions, newAchievements } = response.data.data;
-            toast.success(`Session completed! 🎉 Streak: ${streak} days`);
+            toast.success(`Session completed! Streak: ${streak} days`);
             if (newAchievements && newAchievements.length > 0) {
               newAchievements.forEach(achievement => {
-                toast.success(`🏆 Achievement Unlocked: ${achievement.name}!`, { duration: 5000 });
+                toast.success(`Achievement Unlocked: ${achievement.name}!`, { duration: 5000 });
               });
             }
             setSessionId(null);
@@ -402,9 +403,9 @@ export default function BreathingSession() {
   };
 
   return (
-    <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-6 mt-4 px-2 md:px-0 md:items-start">
+    <div className="max-w-[1300px] mx-auto grid grid-cols-1 lg:grid-cols-5 gap-4 lg:gap-6 mt-4 px-3 sm:px-4 lg:px-0 lg:items-start">
       {/* Left Panel */}
-      <aside className="md:col-span-1 self-start">
+      <aside className="lg:col-span-1 self-start order-3 lg:order-1">
         {/* Streak Card - Enhanced Design (Smaller) */}
 
 
@@ -412,7 +413,7 @@ export default function BreathingSession() {
         {/* Quick Tips - Styled */}
         <div className="card p-4 mb-3 bg-gradient-to-br from-blue-50 to-white dark:from-slate-800 dark:to-slate-700 border border-blue-100 dark:border-slate-600 shadow-sm">
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-xl">💡</span>
+            <Icon name="lightbulb" className="w-5 h-5 text-blue-500 shrink-0" />
             <div className="font-bold text-gray-800 dark:text-white">Quick Tips</div>
           </div>
           <ul className="space-y-2">
@@ -440,7 +441,7 @@ export default function BreathingSession() {
                 key={index}
                 className="card p-3 mb-2 hover:shadow-md hover:border-primary transition-all duration-200 cursor-pointer flex items-center gap-3"
               >
-                <div className="text-2xl">{benefit.emoji}</div>
+                <Icon name={benefit.icon} className="w-6 h-6 text-primary shrink-0" />
                 <div className="font-semibold text-sm text-gray-800 dark:text-gray-200">{benefit.title}</div>
               </div>
             ))}
@@ -453,7 +454,7 @@ export default function BreathingSession() {
                 key={index}
                 className="card p-3 mb-2 hover:shadow-md hover:border-primary transition-all duration-200 flex items-center gap-3"
               >
-                <div className="text-2xl">{benefit.emoji}</div>
+                <Icon name={benefit.icon} className="w-6 h-6 text-primary shrink-0" />
                 <div className="font-semibold text-sm text-gray-800 dark:text-gray-200">{benefit.title}</div>
               </div>
             ))}
@@ -462,14 +463,13 @@ export default function BreathingSession() {
       </aside>
 
       {/* Center Visualizer */}
-      <section className="md:col-span-3 flex flex-col items-center justify-center self-start">
+      <section className="lg:col-span-3 flex flex-col items-center justify-center self-start order-1 lg:order-2">
         <div
-          className="card w-full p-8 md:p-12 flex flex-col items-center relative"
-          style={{ minHeight: "480px" }}
+          className="card w-full p-4 sm:p-6 lg:p-10 flex flex-col items-center relative min-h-[420px] sm:min-h-[480px]"
         >
           {/* Top Left Streak Badge */}
-          <div className="absolute top-6 left-6 flex items-center gap-2 bg-primary-light px-3 py-1.5 rounded-xl border border-primary shadow-sm">
-            <span className="text-2xl">🔥</span>
+          <div className="self-start mb-4 sm:mb-0 sm:absolute sm:top-6 sm:left-6 flex items-center gap-2 bg-primary-light px-3 py-1.5 rounded-xl border border-primary shadow-sm">
+            <Icon name="flame" className="w-6 h-6 text-primary-dark shrink-0" />
             <div className="flex flex-col">
               <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-tight">Streak</span>
               <div className="flex items-center gap-2">
@@ -487,8 +487,10 @@ export default function BreathingSession() {
             <h2 className="session-title mb-2">
               Find your rhythm, one breath at a time
             </h2>
-            <p className="text-gray-1500 text-lg font-medium animate-pulse">
-              ✨ Breathe through your chest, not the belly ✨
+            <p className="text-gray-1500 text-base sm:text-lg font-medium animate-pulse flex items-center justify-center gap-2">
+              <Icon name="sparkles" className="w-4 h-4 shrink-0" />
+              <span>Breathe through your chest, not the belly</span>
+              <Icon name="sparkles" className="w-4 h-4 shrink-0" />
             </p>
           </div>
           {selectedPattern ? (() => {
@@ -523,25 +525,28 @@ export default function BreathingSession() {
             }
             })() : (
               <div className="w-full h-56 rounded-xl border-2 border-dashed border-primary/60 flex flex-col items-center justify-center gap-3 bg-slate-700/85 dark:bg-slate-800/90 shadow-lg">
-                <span className="text-5xl">🌬️</span>
+                <Icon name="wind" className="w-12 h-12 text-primary" />
                 <p className="text-white font-extrabold text-base tracking-wide">No pattern selected</p>
                 <p className="text-slate-100 text-sm text-center px-4 leading-relaxed font-medium">
-                  Pick a goal from the <span className="text-primary font-bold bg-white/20 px-1 rounded">What's your goal?</span> section →<br/>
+                  Pick a goal from the <span className="text-primary font-bold bg-white/20 px-1 rounded">What's your goal?</span> section
+                  <Icon name="arrow-down" className="inline-block w-4 h-4 mx-1 align-text-bottom lg:hidden" />
+                  <Icon name="arrow-right" className="hidden lg:inline-block w-4 h-4 mx-1 align-text-bottom" />
+                  <br/>
                   then choose a breathing pattern to begin.<br/>
                   <span className="text-cyan-100 font-semibold">If you're a beginner, start with a simple pattern like 5-2-7.</span>
                 </p>
               </div>
             )}
 
-          <div className="flex gap-12 mt-8 mb-4 justify-center items-center">
-            <div className="text-center bg-gradient-to-br from-primary-light to-white dark:from-slate-800 dark:to-slate-700 px-6 py-3 rounded-xl shadow-sm border border-primary dark:border-primary-dark">
+          <div className="flex flex-wrap gap-4 sm:gap-8 lg:gap-12 mt-8 mb-4 justify-center items-center">
+            <div className="text-center bg-gradient-to-br from-primary-light to-white dark:from-slate-800 dark:to-slate-700 px-4 sm:px-6 py-3 rounded-xl shadow-sm border border-primary dark:border-primary-dark">
               <div className="text-xs font-medium text-white mb-1">Time Elapsed</div>
               <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {Math.floor((duration * 60 - remaining) / 60)}:
                 {Math.floor((duration * 60 - remaining) % 60).toString().padStart(2, "0")}
               </div>
             </div>
-            <div className="text-center bg-gradient-to-br from-primary-light to-white dark:from-slate-800 dark:to-slate-700 px-6 py-3 rounded-xl shadow-sm border border-primary dark:border-primary-dark">
+            <div className="text-center bg-gradient-to-br from-primary-light to-white dark:from-slate-800 dark:to-slate-700 px-4 sm:px-6 py-3 rounded-xl shadow-sm border border-primary dark:border-primary-dark">
               <div className="text-xs font-medium text-white mb-1">Time Remaining</div>
               <div className="text-2xl font-bold text-gray-800 dark:text-white">
                 {Math.floor(remaining / 60)}:
@@ -549,7 +554,7 @@ export default function BreathingSession() {
               </div>
             </div>
           </div>
-          <div className="flex gap-4 mt-2">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-2">
             {!running && !paused && (
               <button
                 className="btn-primary start-btn px-6 py-2 flex items-center gap-2 hover:shadow-lg transition-all duration-200 transform hover:scale-105 font-heading"
@@ -617,7 +622,7 @@ export default function BreathingSession() {
       </section>
 
       {/* Right Panel */}
-      <aside className="md:col-span-1 self-start">
+      <aside className="lg:col-span-1 self-start order-2 lg:order-3">
         {/* Pattern Section - Now at TOP */}
         {/* Shake keyframe injected inline so no CSS file edit needed */}
         <style>{`@keyframes goalShake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}`}</style>
@@ -636,7 +641,7 @@ export default function BreathingSession() {
           {!selectedCategory && (
             <>
               <div className="text-lg font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-                <span>🎯</span> What's your goal?
+                <Icon name="target" className="w-5 h-5 text-primary shrink-0" /> What's your goal?
               </div>
               {categories.map((cat) => (
                 <button
@@ -796,7 +801,7 @@ export default function BreathingSession() {
         {/* Duration Section */}
         <div className="card p-4 mb-4">
           <div className="text-lg font-bold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-            <span>⏱️</span> Duration
+            <Icon name="timer" className="w-5 h-5 text-primary shrink-0" /> Duration
           </div>
           
           {/* 2x2 Grid for preset durations */}

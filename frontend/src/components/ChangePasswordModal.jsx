@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../utils/api";
+import Icon from "./Icon";
 
 export default function ChangePasswordModal({ isOpen, onClose }) {
   const [formData, setFormData] = useState({
@@ -171,13 +172,13 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-70 px-4">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black bg-opacity-50 dark:bg-opacity-70 px-4 py-4 overflow-y-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-md w-full border border-transparent dark:border-slate-700"
+            className="bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-md w-full my-auto max-h-[calc(100dvh-2rem)] overflow-y-auto border border-transparent dark:border-slate-700"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b dark:border-slate-700">
@@ -210,9 +211,9 @@ export default function ChangePasswordModal({ isOpen, onClose }) {
                       initial={{ scale: 0 }}
                       animate={{ scale: 1 }}
                       transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-                      className="text-green-500 text-5xl mb-4"
+                      className="mb-4 flex justify-center"
                     >
-                      ✓
+                      <Icon name="check-circle" className="w-14 h-14 text-green-500" strokeWidth={1.5} />
                     </motion.div>
                     <h4 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Password Changed!</h4>
                     <p className="text-gray-600 dark:text-gray-300">

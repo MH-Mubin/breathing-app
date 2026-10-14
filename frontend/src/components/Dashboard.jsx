@@ -14,6 +14,7 @@ import {
 } from "recharts";
 import { AuthContext } from "../context/AuthContext";
 import api from "../utils/api";
+import Icon from "./Icon";
 
 // Tooltip component for activity heatmap
 const ActivityTooltip = ({ day, position }) => {
@@ -115,7 +116,7 @@ export default function Dashboard() {
   const COLORS = ['#0EA5A4', '#14B8B7', '#2DD4D4', '#5FDEDE', '#99E9E9'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary-light to-gray-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-8 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-primary-light to-gray-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 py-6 sm:py-8 px-3 sm:px-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -124,18 +125,21 @@ export default function Dashboard() {
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="mb-8"
         >
-          <h1 className="text-4xl md:text-5xl font-heading font-bold bg-gradient-to-r from-gray-900 to-primary-dark dark:from-white dark:to-gray-300 bg-clip-text text-transparent mb-2">
-            Welcome back, {user?.name ? (user.name.includes('@') ? user.name.split('@')[0] : user.name) : "Friend"}! 👋
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold mb-2 flex flex-wrap items-center gap-x-3">
+            <span className="bg-gradient-to-r from-gray-900 to-primary-dark dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+              Welcome back, {user?.name ? (user.name.includes('@') ? user.name.split('@')[0] : user.name) : "Friend"}!
+            </span>
+            <Icon name="hand" className="w-7 h-7 sm:w-9 sm:h-9 text-primary shrink-0" />
           </h1>
-          <p className="text-gray-600 dark:text-gray-300 text-lg">
+          <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">
             Here's your breathing journey at a glance
           </p>
         </motion.div>
 
         {/* Hero Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
           <StatCard
-            icon="🔥"
+            icon="flame"
             value={stats?.today.streak || 0}
             label="Day Streak"
             subtitle={`Best: ${stats?.allTime.longestStreak || 0} days`}
@@ -143,7 +147,7 @@ export default function Dashboard() {
             delay={0.1}
           />
           <StatCard
-            icon="🧘"
+            icon="zen"
             value={stats?.allTime.totalSessions || 0}
             label="Total Sessions"
             subtitle={`+${stats?.thisWeek.sessions || 0} this week`}
@@ -151,7 +155,7 @@ export default function Dashboard() {
             delay={0.2}
           />
           <StatCard
-            icon="⏱️"
+            icon="timer"
             value={stats?.allTime.totalMinutes || 0}
             label="Total Minutes"
             subtitle={`${stats?.allTime.avgDuration || 0} min avg`}
@@ -159,7 +163,7 @@ export default function Dashboard() {
             delay={0.3}
           />
           <StatCard
-            icon="📈"
+            icon="trending-up"
             value={stats?.allTime.weeklyAvg || 0}
             label="Weekly Average"
             subtitle="Sessions per week"
@@ -175,14 +179,14 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-            className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 border border-gray-100 dark:border-slate-700"
+            className="lg:col-span-2 bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-4 sm:p-6 border border-gray-100 dark:border-slate-700"
           >
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
-              <span className="text-3xl mr-3">📊</span>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+              <Icon name="bar-chart" className="w-7 h-7 mr-3 text-primary shrink-0" />
               Today's Overview
             </h2>
             
-            <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-2 gap-4 mb-6">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -215,7 +219,7 @@ export default function Dashboard() {
               className="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-slate-700 dark:to-slate-600 rounded-xl p-5 border border-gray-200 dark:border-slate-600"
             >
               <h3 className="font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center">
-                <span className="mr-2">📈</span>
+                <Icon name="trending-up" className="w-5 h-5 mr-2 text-primary shrink-0" />
                 This Week vs Last Week
               </h3>
               <div className="space-y-4">
@@ -247,8 +251,8 @@ export default function Dashboard() {
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-white opacity-10 rounded-full -ml-16 -mb-16" />
             
             <div className="relative z-10">
-              <h2 className="text-2xl font-bold mb-4 flex items-center">
-                <span className="mr-2">💡</span>
+              <h2 className="text-xl sm:text-2xl font-bold mb-4 flex items-center">
+                <Icon name="lightbulb" className="w-6 h-6 mr-2 shrink-0" />
                 Insights
               </h2>
               <div className="space-y-3">
@@ -261,7 +265,7 @@ export default function Dashboard() {
                     whileHover={{ scale: 1.02, x: 5 }}
                     className="bg-white bg-opacity-20 backdrop-blur-sm rounded-xl p-4 border border-white border-opacity-30 cursor-pointer"
                   >
-                    <div className="text-3xl mb-2">{insight.icon}</div>
+                    <Icon name={insight.icon} className="w-7 h-7 mb-2" fallback="sparkles" />
                     <p className="text-sm leading-relaxed">{insight.message}</p>
                   </motion.div>
                 ))}
@@ -277,14 +281,14 @@ export default function Dashboard() {
           transition={{ delay: 0.8 }}
           className="bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6 mb-8 relative"
         >
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-            <span className="text-3xl mr-3">📅</span>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+            <Icon name="calendar" className="w-7 h-7 mr-3 text-primary shrink-0" />
             1-Year Activity
           </h2>
           
           {/* GitHub-style contribution graph */}
-          <div className="w-full">
-            <div className="flex gap-1 w-full justify-between">
+          <div className="w-full overflow-x-auto pb-2 -mx-1 px-1">
+            <div className="flex gap-1 justify-between min-w-[760px]">
               {/* Group by weeks */}
               {(() => {
                 const weeks = [];
@@ -327,7 +331,7 @@ export default function Dashboard() {
             </div>
           </div>
           
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 mt-4">
             <div className="text-sm text-gray-600 dark:text-gray-400">
               {weeklyActivity.filter(d => d.active).length} days active in the last year
             </div>
@@ -358,8 +362,8 @@ export default function Dashboard() {
             transition={{ delay: 1.1 }}
             className="lg:col-span-5 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
           >
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <span className="text-3xl mr-3">📈</span>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+              <Icon name="trending-up" className="w-7 h-7 mr-3 text-primary shrink-0" />
               Weekly Trend
             </h2>
             <ResponsiveContainer width="100%" height={200}>
@@ -410,8 +414,8 @@ export default function Dashboard() {
             transition={{ delay: 1.2 }}
             className="lg:col-span-7 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
           >
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <span className="text-3xl mr-3">🏆</span>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+              <Icon name="trophy" className="w-7 h-7 mr-3 text-primary shrink-0" />
               Achievements
             </h2>
             <AchievementsCompactGrid stats={stats} />
@@ -425,8 +429,8 @@ export default function Dashboard() {
               transition={{ delay: 1.0 }}
               className="lg:col-span-12 bg-white dark:bg-slate-800 rounded-2xl shadow-lg p-6"
             >
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-                <span className="text-3xl mr-3">🎯</span>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+                <Icon name="target" className="w-7 h-7 mr-3 text-primary shrink-0" />
                 Breathing Patterns
               </h2>
               <div className="flex flex-col md:flex-row items-center gap-6">
@@ -510,7 +514,7 @@ function StatCard({ icon, value, label, subtitle, color, delay }) {
           <div className="text-xs opacity-75 text-white dark:text-gray-400">{subtitle}</div>
         </div>
         
-        <div className="text-4xl opacity-90 relative z-10">{icon}</div>
+        <Icon name={icon} className="w-10 h-10 opacity-90 relative z-10 shrink-0" fallback="sparkles" />
       </motion.div>
     </motion.div>
   );
@@ -556,21 +560,34 @@ function ComparisonBar({ label, current, previous, change }) {
   );
 }
 
+// Achievement tiers shown on the dashboard. Icon names resolve through the
+// shared Icon registry, matching the tiers the backend awards.
+const ACHIEVEMENT_TIERS = [
+  { name: 'First Breath', icon: 'sprout', requirement: 1, type: 'sessions' },
+  { name: 'Getting Started', icon: 'leaf', requirement: 5, type: 'sessions' },
+  { name: 'Dedicated', icon: 'tree', requirement: 10, type: 'sessions' },
+  { name: 'Committed', icon: 'trophy', requirement: 25, type: 'sessions' },
+  { name: '3-Day Streak', icon: 'flame', requirement: 3, type: 'streak' },
+  { name: 'Week Warrior', icon: 'dumbbell', requirement: 7, type: 'streak' },
+  { name: 'Hour of Peace', icon: 'alarm-clock', requirement: 60, type: 'minutes' },
+  { name: 'Time Investment', icon: 'hourglass', requirement: 300, type: 'minutes' },
+];
+
+function buildAchievements(stats) {
+  const progress = {
+    sessions: stats?.allTime.totalSessions || 0,
+    streak: stats?.allTime.longestStreak || 0,
+    minutes: stats?.allTime.totalMinutes || 0,
+  };
+  return ACHIEVEMENT_TIERS.map((tier) => ({ ...tier, current: progress[tier.type] || 0 }));
+}
+
 // Achievements Grid Component
 function AchievementsGrid({ stats }) {
-  const achievements = [
-    { name: 'First Breath', icon: '🌱', requirement: 1, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: 'Getting Started', icon: '🌿', requirement: 5, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: 'Dedicated', icon: '🌳', requirement: 10, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: 'Committed', icon: '🏆', requirement: 25, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: '3-Day Streak', icon: '🔥', requirement: 3, current: stats?.allTime.longestStreak || 0, type: 'streak' },
-    { name: 'Week Warrior', icon: '💪', requirement: 7, current: stats?.allTime.longestStreak || 0, type: 'streak' },
-    { name: 'Hour of Peace', icon: '⏰', requirement: 60, current: stats?.allTime.totalMinutes || 0, type: 'minutes' },
-    { name: 'Time Investment', icon: '⌛', requirement: 300, current: stats?.allTime.totalMinutes || 0, type: 'minutes' },
-  ];
+  const achievements = buildAchievements(stats);
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
       {achievements.map((achievement, index) => {
         const unlocked = achievement.current >= achievement.requirement;
         const progress = Math.min((achievement.current / achievement.requirement) * 100, 100);
@@ -591,7 +608,7 @@ function AchievementsGrid({ stats }) {
                   : 'bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-white'
               }`}
             >
-              <div className="text-4xl mb-2">{achievement.icon}</div>
+              <Icon name={achievement.icon} className="w-9 h-9 mx-auto mb-2" />
               <div className="text-sm font-semibold mb-1">{achievement.name}</div>
               {!unlocked && (
                 <div className="text-xs dark:text-gray-300">
@@ -599,7 +616,7 @@ function AchievementsGrid({ stats }) {
                 </div>
               )}
               {unlocked && (
-                <div className="absolute top-2 right-2 text-xl">✓</div>
+                <Icon name="check" className="absolute top-2 right-2 w-5 h-5" />
               )}
             </motion.div>
           </motion.div>
@@ -611,19 +628,10 @@ function AchievementsGrid({ stats }) {
 
 // Compact Achievements Grid Component (for sidebar)
 function AchievementsCompactGrid({ stats }) {
-  const achievements = [
-    { name: 'First Breath', icon: '🌱', requirement: 1, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: 'Getting Started', icon: '🌿', requirement: 5, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: 'Dedicated', icon: '🌳', requirement: 10, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: 'Committed', icon: '🏆', requirement: 25, current: stats?.allTime.totalSessions || 0, type: 'sessions' },
-    { name: '3-Day Streak', icon: '🔥', requirement: 3, current: stats?.allTime.longestStreak || 0, type: 'streak' },
-    { name: 'Week Warrior', icon: '💪', requirement: 7, current: stats?.allTime.longestStreak || 0, type: 'streak' },
-    { name: 'Hour of Peace', icon: '⏰', requirement: 60, current: stats?.allTime.totalMinutes || 0, type: 'minutes' },
-    { name: 'Time Investment', icon: '⌛', requirement: 300, current: stats?.allTime.totalMinutes || 0, type: 'minutes' },
-  ];
+  const achievements = buildAchievements(stats);
 
   return (
-    <div className="grid grid-cols-4 gap-3">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {achievements.map((achievement, index) => {
         const unlocked = achievement.current >= achievement.requirement;
 
@@ -643,7 +651,7 @@ function AchievementsCompactGrid({ stats }) {
                   : 'bg-gray-100 dark:bg-slate-700 text-gray-400 dark:text-white'
               }`}
             >
-              <div className="text-3xl mb-1">{achievement.icon}</div>
+              <Icon name={achievement.icon} className="w-7 h-7 mx-auto mb-1" />
               <div className="text-xs font-semibold mb-0.5">{achievement.name}</div>
               {!unlocked && (
                 <div className="text-[10px] dark:text-gray-300">
@@ -651,7 +659,7 @@ function AchievementsCompactGrid({ stats }) {
                 </div>
               )}
               {unlocked && (
-                <div className="absolute top-1 right-1 text-sm">✓</div>
+                <Icon name="check" className="absolute top-1 right-1 w-4 h-4" />
               )}
             </motion.div>
           </motion.div>

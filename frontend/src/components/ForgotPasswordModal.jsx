@@ -3,6 +3,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import api from "../utils/api";
+import Icon from "./Icon";
 
 export default function ForgotPasswordModal({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -163,13 +164,13 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
+        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center bg-black bg-opacity-50 px-4 py-4 overflow-y-auto">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="bg-white rounded-lg shadow-xl max-w-md w-full"
+            className="bg-white rounded-lg shadow-xl max-w-md w-full my-auto max-h-[calc(100dvh-2rem)] overflow-y-auto"
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between p-6 border-b">
@@ -309,9 +310,10 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                         type="button"
                         onClick={handleBack}
                         disabled={loading}
-                        className="btn-outline px-4 py-2 cursor-pointer"
+                        className="btn-outline px-4 py-2 cursor-pointer flex items-center justify-center gap-2"
                       >
-                        ← Back
+                        <Icon name="arrow-left" className="w-4 h-4 shrink-0" />
+                        Back
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
@@ -446,9 +448,10 @@ export default function ForgotPasswordModal({ isOpen, onClose }) {
                         type="button"
                         onClick={handleBack}
                         disabled={loading}
-                        className="btn-outline px-4 py-2 cursor-pointer"
+                        className="btn-outline px-4 py-2 cursor-pointer flex items-center justify-center gap-2"
                       >
-                        ← Back
+                        <Icon name="arrow-left" className="w-4 h-4 shrink-0" />
+                        Back
                       </motion.button>
                       <motion.button
                         whileHover={{ scale: 1.02 }}

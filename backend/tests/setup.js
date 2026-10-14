@@ -22,7 +22,7 @@ export const setupTestDB = async () => {
   // Connect to the in-memory database
   await mongoose.connect(mongoUri);
   
-  console.log('🧪 Test database connected');
+  console.log('Test database connected');
 };
 
 /**
@@ -37,7 +37,7 @@ export const teardownTestDB = async () => {
     await mongoServer.stop();
   }
   
-  console.log('🧪 Test database disconnected');
+  console.log('Test database disconnected');
 };
 
 /**

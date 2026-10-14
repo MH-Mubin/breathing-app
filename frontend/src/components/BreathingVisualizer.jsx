@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { PathCalculator } from "../utils/PathCalculator.js";
 import { PhaseManager } from "../utils/PhaseManager.js";
+import Icon from "./Icon";
 
 /**
  * Given a world-space X coordinate, find the Y coordinate on the zigzag path.
@@ -34,6 +35,10 @@ function getYOnPath(worldX, points) {
   return points[points.length - 1].y;
 }
 
+// Viewport width bounds for the scrolling breathing path.
+const MAX_VIEW_WIDTH = 700;
+const MIN_VIEW_WIDTH = 260;
+
 export default function BreathingVisualizer({
   pattern,
   running,
@@ -42,6 +47,8 @@ export default function BreathingVisualizer({
   onPhaseChange, // Prop to notify parent of phase changes (bridge phases)
   onTimeUpdate  // Called every frame with precise breathing ms elapsed
 }) {
+  const containerRef = useRef(null);
+  const [containerWidth, setContainerWidth] = useState(MAX_VIEW_WIDTH);
   const [phase, setPhase] = useState("idle");
   const [progress, setProgress] = useState(0);
   const [errorState, setErrorState] = useState(null);
@@ -67,6 +74,24 @@ export default function BreathingVisualizer({
     runningRef.current = running;
   }, [running]);
 
+  // Keep the viewport width in sync with the space actually available.
+  useLayoutEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+
+    const measure = () => setContainerWidth(node.clientWidth || MAX_VIEW_WIDTH);
+    measure();
+
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", measure);
+      return () => window.removeEventListener("resize", measure);
+    }
+
+    const observer = new ResizeObserver(measure);
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   // Memoize pattern hash for cache invalidation
   const patternHash = useMemo(() => {
     if (!pattern) return 'null';
@@ -79,12 +104,14 @@ export default function BreathingVisualizer({
     });
   }, [pattern]);
 
-  // Memoize configuration constants for performance
+  // The viewport tracks its container so the animation fits any screen; the
+  // path amplitude (height/padding) stays fixed, narrow screens simply show
+  // fewer breathing cycles at a time.
   const viewConfig = useMemo(() => ({
-    viewWidth: 700,
+    viewWidth: Math.max(MIN_VIEW_WIDTH, Math.min(MAX_VIEW_WIDTH, Math.floor(containerWidth))),
     viewHeight: 260,
     padding: 40
-  }), []);
+  }), [containerWidth]);
 
   const { viewWidth, viewHeight, padding } = viewConfig;
   const availableHeight = viewHeight - (2 * padding);
@@ -554,7 +581,7 @@ export default function BreathingVisualizer({
   }
 
   return (
-    <div className="w-full flex flex-col items-center justify-center session-visualizer">
+    <div ref={containerRef} className="w-full flex flex-col items-center justify-center session-visualizer">
       {/* Error and Warning Display */}
       {errorState && errorState.type !== 'critical_path_error' && (
         <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-yellow-800 text-sm max-w-md text-center">
@@ -570,13 +597,13 @@ export default function BreathingVisualizer({
         </div>
       )}
       
-      <div className="flex flex-col items-center justify-center mb-8 mt-12">
+      <div className="w-full flex flex-col items-center justify-center mb-8 mt-6 sm:mt-12">
         {/* Pattern badge above viewport */}
         {pattern && (
-          <div className="mb-3 px-5 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary-dark dark:text-primary-light text-base font-semibold flex items-center gap-2">
-            <span className="text-xl">🫁</span>
+          <div className="mb-3 max-w-full px-4 sm:px-5 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary-dark dark:text-primary-light text-sm sm:text-base font-semibold flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-center">
+            <Icon name="wind" className="w-5 h-5 shrink-0" />
             <span>{pattern.name}</span>
-            <span className="text-sm font-medium opacity-80">
+            <span className="text-xs sm:text-sm font-medium opacity-80">
               ({
                 {
                   focus: "Focus & Concentration",
@@ -594,6 +621,7 @@ export default function BreathingVisualizer({
           className="relative border-2 border-primary rounded-lg"
           style={{
             width: viewWidth,
+            maxWidth: "100%",
             height: viewHeight,
             padding: 0,
             overflow: "hidden",

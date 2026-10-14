@@ -117,7 +117,7 @@ export default function PreferencesCard({ user, onUpdate }) {
     <motion.div 
       whileHover={{ scale: 1.01 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-6 shadow-lg hover:shadow-xl transition-shadow"
+      className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-4 sm:p-6 shadow-lg hover:shadow-xl transition-shadow"
     >
       <div className="flex items-center gap-2 mb-6">
         <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -143,9 +143,9 @@ export default function PreferencesCard({ user, onUpdate }) {
 
       <div className="space-y-3">
         {/* Appearance (Theme) - Dropdown at top */}
-        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center justify-between gap-3 bg-gray-100 dark:bg-slate-700 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-primary rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
               </svg>
@@ -174,9 +174,9 @@ export default function PreferencesCard({ user, onUpdate }) {
         </div>
 
         {/* Notifications toggle */}
-        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center justify-between gap-3 bg-gray-100 dark:bg-slate-700 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-primary rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
@@ -196,9 +196,9 @@ export default function PreferencesCard({ user, onUpdate }) {
         </div>
 
         {/* Daily Reminders toggle */}
-        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center justify-between gap-3 bg-gray-100 dark:bg-slate-700 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-primary rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
@@ -218,9 +218,9 @@ export default function PreferencesCard({ user, onUpdate }) {
         </div>
 
         {/* Email Updates toggle */}
-        <div className="flex items-center justify-between bg-gray-100 dark:bg-slate-700 rounded-lg p-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary rounded-full w-12 h-12 flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center justify-between gap-3 bg-gray-100 dark:bg-slate-700 rounded-lg p-3 sm:p-4">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="bg-primary rounded-full w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>

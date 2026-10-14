@@ -1,15 +1,17 @@
+import Icon from "./Icon";
+
 export default function Profile() {
   return (
-    <div className="max-w-6xl mx-auto mt-8">
-      <div className="card bg-dark text-light p-8 mb-8">
+    <div className="max-w-6xl mx-auto mt-8 px-3 sm:px-4">
+      <div className="card bg-dark text-light p-5 sm:p-8 mb-8">
         <h2 className="text-2xl font-bold mb-2">Profile Settings</h2>
         <p className="mb-6 text-gray-300">
           Manage your account and preferences
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           <div className="card p-6 flex flex-col items-center">
-            <div className="rounded-full bg-primary w-20 h-20 center text-4xl mb-4">
-              👤
+            <div className="rounded-full bg-primary w-20 h-20 center mb-4">
+              <Icon name="user" className="w-10 h-10 text-white" />
             </div>
             <div className="font-semibold mb-1">Sarah Johnson</div>
             <div className="text-gray-400 text-sm mb-2">sarah.j@email.com</div>
@@ -31,15 +33,15 @@ export default function Profile() {
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="bg-primary rounded-full w-8 h-8 center text-xl"
+                    className="bg-primary rounded-full w-8 h-8 center"
                   >
-                    🏆
+                    <Icon name="trophy" className="w-4 h-4 text-white" />
                   </div>
                 ))}
               </div>
             </div>
           </div>
-          <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="card p-6 mb-4">
               <h4 className="font-semibold mb-2">Personal Information</h4>
               <div className="mb-2 text-sm">

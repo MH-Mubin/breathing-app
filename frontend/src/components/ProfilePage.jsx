@@ -6,6 +6,7 @@ import api from "../utils/api";
 import AccountSecurityCard from "./AccountSecurityCard";
 import PersonalInfoCard from "./PersonalInfoCard";
 import PreferencesCard from "./PreferencesCard";
+import Icon from "./Icon";
 import ProfileCard from "./ProfileCard";
 
 export default function ProfilePage() {
@@ -17,23 +18,23 @@ export default function ProfilePage() {
   const [error, setError] = useState(null);
 
   const fetchProfileData = async () => {
-    console.log("🔍 START: Fetching profile data...");
+    console.log("START: Fetching profile data...");
     try {
       setLoading(true);
       setError(null);
-      console.log("📡 Making API call to /user/profile");
+      console.log("Making API call to /user/profile");
       const response = await api.get("/user/profile");
-      console.log("✅ SUCCESS: Profile data received:", response.data);
-      console.log("📦 User data:", response.data.data);
+      console.log("SUCCESS: Profile data received:", response.data);
+      console.log("User data:", response.data.data);
       setProfileData(response.data.data);
-      console.log("💾 Profile data set in state successfully");
+      console.log("Profile data set in state successfully");
     } catch (err) {
-      console.error("❌ ERROR: Failed to fetch profile:", err);
+      console.error("ERROR: Failed to fetch profile:", err);
       console.error("Error response:", err.response);
       
       // Handle authentication errors
       if (err.response?.status === 401) {
-        console.log("🔒 Authentication error, logging out...");
+        console.log("Authentication error, logging out...");
         logout();
         navigate("/");
       } else {
@@ -51,22 +52,22 @@ export default function ProfilePage() {
       }
     } finally {
       setLoading(false);
-      console.log("🏁 COMPLETE: Profile fetch finished");
+      console.log("COMPLETE: Profile fetch finished");
     }
   };
 
   useEffect(() => {
-    console.log("🎯 ProfilePage mounted/updated");
+    console.log("ProfilePage mounted/updated");
     console.log("Token present:", !!token);
     
     // Redirect to login if not authenticated
     if (!token) {
-      console.log("⚠️ No token found, redirecting to home");
+      console.log("No token found, redirecting to home");
       navigate("/");
       return;
     }
 
-    console.log("✅ Token found, fetching profile data");
+    console.log("Token found, fetching profile data");
     fetchProfileData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
@@ -152,7 +153,7 @@ export default function ProfilePage() {
             className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-200 dark:border-slate-700 p-8"
           >
             <div className="text-center py-12">
-              <div className="text-red-400 text-5xl mb-4">⚠️</div>
+              <Icon name="alert-triangle" className="w-14 h-14 mx-auto text-red-400 mb-4" strokeWidth={1.5} />
               <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Error Loading Profile</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">{error}</p>
               <button 
@@ -170,14 +171,14 @@ export default function ProfilePage() {
 
   // Handle profile data updates from child components
   const handleProfileUpdate = (updatedData) => {
-    console.log("📝 Profile data updated:", updatedData);
+    console.log("Profile data updated:", updatedData);
     setProfileData(updatedData);
   };
 
-  console.log("🎨 RENDER: ProfilePage rendering, loading:", loading, "error:", !!error, "profileData:", !!profileData);
+  console.log("RENDER: ProfilePage rendering, loading:", loading, "error:", !!error, "profileData:", !!profileData);
   
   if (!profileData) {
-    console.log("⚠️ No profileData, showing fallback message");
+    console.log("No profileData, showing fallback message");
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -195,25 +196,23 @@ export default function ProfilePage() {
     );
   }
 
-  console.log("✅ ProfileData exists, rendering components");
+  console.log("ProfileData exists, rendering components");
   console.log("User name:", profileData.name);
   console.log("User email:", profileData.email);
   
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 py-8">
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column - Profile Card */}
           <div className="lg:col-span-1">
-            {console.log("🎨 Rendering ProfileCard component")}
             <ProfileCard user={profileData} onUpdate={handleProfileUpdate} />
           </div>
           
           {/* Right Column - 2 column grid */}
           <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
-              {console.log("🎨 Rendering PersonalInfoCard component")}
               <PersonalInfoCard 
                 user={profileData} 
                 onUpdate={handleProfileUpdate}
@@ -221,7 +220,6 @@ export default function ProfilePage() {
             </div>
             
             <div className="md:col-span-2">
-              {console.log("🎨 Rendering PreferencesCard component")}
               <PreferencesCard 
                 user={profileData} 
                 onUpdate={handleProfileUpdate}
@@ -229,7 +227,6 @@ export default function ProfilePage() {
             </div>
             
             <div className="md:col-span-2">
-              {console.log("🎨 Rendering AccountSecurityCard component")}
               <AccountSecurityCard />
             </div>
           </div>
